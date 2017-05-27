@@ -1,0 +1,22 @@
+#ifndef TOPSOFT_H
+#define TOPSOFT_H
+#include <QPushButton>
+#include <QLabel>
+#include <QSpacerItem>
+#include <QHBoxLayout>
+
+class Top_Soft
+{
+public:
+    Top_Soft();
+    ~Top_Soft();
+    
+private:
+    QPushButton btn_Top;
+    QLabel label_Top;
+    QSpacerItem spacer_Top;
+    QHBoxLayout hb_Top_Layout;    
+};
+
+#endif // TOPSOFT_H
+

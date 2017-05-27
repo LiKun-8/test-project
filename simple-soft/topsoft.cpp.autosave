@@ -1,0 +1,12 @@
+#include "topsoft.h"
+
+Top_Soft::Top_Soft()
+{
+    btn_Top = new QPushButton();
+    label_Top = new QLabel();
+    spacer_Top = new QSpacerItem(0,48,QSizePolicy::Expanding,QSizePolicy::Minimum);
+    hb_Top_Layout = new QHBoxLayout();
+    
+    
+    
+}
