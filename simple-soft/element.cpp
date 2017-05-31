@@ -16,31 +16,39 @@ Element::Element()
     set_BtnName("软件");
     //    QFont xx("Timer",12,QFont::Bold);
     //    btn_Name->setFont(xx);
-    btn_Start = new QPushButton();
-    btn_Start->setFixedSize(72,10);
-    btn_Start->setEnabled(false);
-    btn_Status = new QPushButton();
-    btn_Status->setFixedSize(72,24);
+
     //    btn_Image->setFlat(true);
     //    btn_Name->setFlat(true);
-    //    btn_Start->setFlat(true);
-    //    btn_Status->setFlat(true);
-
     vb_Layout->addWidget(btn_Name);
-    vb_Layout->addWidget(btn_Start);
-    vb_Layout->addWidget(btn_Status);
-    hb_Layout->addWidget(btn_Image);
-    hb_Layout->addLayout(vb_Layout);
-
     vb_Layout->setMargin(0);
-    hb_Layout->setMargin(0);
     vb_Layout->setSpacing(0);
+
+    hb_Layout->addWidget(btn_Image);
+    init();
+    hb_Layout->addLayout(vb_Layout);
+    hb_Layout->setMargin(0);
     hb_Layout->setSpacing(0);
     base_Widget->setLayout(hb_Layout);
 }
 Element::~Element()
 {
 
+}
+
+void Element::init()
+{
+//    if(type == NULL)
+    {
+        btn_Start = new QPushButton();
+    btn_Start->setFixedSize(72,10);
+    btn_Start->setEnabled(false);
+    btn_Status = new QPushButton();
+    btn_Status->setFixedSize(72,24);
+    //    btn_Start->setFlat(true);
+    //    btn_Status->setFlat(true);
+    vb_Layout->addWidget(btn_Start);
+    vb_Layout->addWidget(btn_Status);
+    }
 }
 
 void Element::set_BtnImage(QString imagePath)

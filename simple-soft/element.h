@@ -9,10 +9,11 @@
 class Element
 {
 public:
-    Element ();
+    Element();
     ~Element();
 
     QWidget *base_Widget;
+    void init();
     void set_BtnImage(QString imagePath);
     void set_BtnName(QString name);
     void set_BtnStart();

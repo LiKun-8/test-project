@@ -13,12 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp \
     element.cpp \
-    topsort.cpp
+    topsort.cpp \
+    sortwidget.cpp
 
-HEADERS  += widget.h \
+HEADERS  += \
     element.h \
-    topsort.h
+    topsort.h \
+    sortwidget.h
 
-FORMS    += widget.ui
+FORMS    +=
