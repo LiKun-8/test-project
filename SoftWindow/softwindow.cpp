@@ -2,6 +2,9 @@
 #include <QDebug>
 #include <QEvent>
 
+QMap<int,QString> cate_Map;
+QMap<int,SORTSTRUCT>  sort_Str_Map;
+
 
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
@@ -11,6 +14,9 @@ SoftWindow::SoftWindow(QWidget *parent)
     this->resize(944,600);
     hb_Layout = new QHBoxLayout();
     vb_Layout = new QVBoxLayout();
+    jsonFunc = new JSON_FUNC();
+
+    jsonFunc->set_App_name();
 
     init_Window();
 
@@ -121,34 +127,7 @@ void SoftWindow::init_Window()
     label4 = new QLabel(page_Manager);
     label4->setText("MANAGER");
 
-    int i=4;
-    sortWidget = new SortWidget[i];
-
-
-    vb_Sort_layout = new QVBoxLayout();
-    page_Sort_Widget = new QWidget();
-
-    vb_Sort_layout = new QVBoxLayout();
-    scroll = new QScrollArea(page_Sort);
-    scroll->setFrameShape(QFrame::NoFrame); //去除窗口边框
-
-    for(int i=0;i<4;i++)
-    {
-        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
-        sortWidget[i].set_Category(i);
-        vb_Sort_layout->addWidget(sortWidget[i].widget);
-    }
-
-    page_Sort_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
-    //    scroll->setWidget(page_Sort_Widget);
-    scroll->setWidget(page_Sort_Widget);
-    vb_Sort_layout->addSpacerItem(page_Sort_Spacer);
-    vb_Sort_layout->setMargin(0);
-    page_Sort_Widget->setLayout(vb_Sort_layout);
-    //垂直滚动条不可见，只能通过鼠标滑动
-    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scroll->setWidgetResizable(true);
+    create_Soft_Window();
 
     btn_Home->setFocusPolicy(Qt::NoFocus);
     btn_Manager->setFocusPolicy(Qt::NoFocus);
@@ -159,6 +138,41 @@ void SoftWindow::init_Window()
     btn_Update->setFocusPolicy(Qt::NoFocus);
     //    process->waitForFinished();
 }
+
+void SoftWindow::create_Soft_Window()
+{
+    int cate_num = jsonFunc->get_Category_Num();
+//    cate_num = jsonFunc->cate_Map.size();
+    qDebug()<<"cate_num == "<<cate_num<<endl;
+    sortWidget = new SortWidget[cate_num];
+
+    vb_Sort_layout = new QVBoxLayout();
+    page_Sort_Widget = new QWidget();
+
+    vb_Sort_layout = new QVBoxLayout();
+    scroll = new QScrollArea(page_Sort);
+    scroll->setFrameShape(QFrame::NoFrame); //去除窗口边框
+
+    for(int i=0;i<cate_num;i++)
+    {
+        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
+        sortWidget[i].set_Category(i);
+        sortWidget[i].set_Top_Name();
+        sortWidget[i].set_Element_Name();
+        vb_Sort_layout->addWidget(sortWidget[i].widget);
+    }
+
+    page_Sort_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
+    scroll->setWidget(page_Sort_Widget);
+    vb_Sort_layout->addSpacerItem(page_Sort_Spacer);
+    vb_Sort_layout->setMargin(0);
+    page_Sort_Widget->setLayout(vb_Sort_layout);
+    //滚动条不可见，只能通过鼠标滑动
+    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll->setWidgetResizable(true);
+}
+
 
 void SoftWindow::On_Btn_Home()
 {

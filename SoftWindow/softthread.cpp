@@ -4,7 +4,6 @@
 SoftThread::SoftThread()
 {
     flag = 0;
-
     this->connect(this,SIGNAL(started()),this,SLOT(sta()));
 }
 
@@ -12,18 +11,15 @@ void SoftThread::set_Element(Element *e)
 {
     element = new Element();
     element = e;
-
 }
 
 void SoftThread::run()
 {
     //    process->kill();
-    qDebug()<<"error error"<<endl;
+//    qDebug()<<"error error"<<endl;
     arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
     process = new QProcess();
-//    this->connect(process,SIGNAL(readyRead()),element,SLOT(btn_Status_Slot()));
-    this->connect(process,SIGNAL(readyRead()),this,SLOT(read_process()));
-
+//    this->connect(process,SIGNAL(readyRead()),this,SLOT(read_process()));
     process->start("curl",arg);
 }
 

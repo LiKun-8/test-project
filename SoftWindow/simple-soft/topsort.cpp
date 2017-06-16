@@ -14,7 +14,7 @@ Top_Sort::Top_Sort()
     label_Top->setContentsMargins(8,0,0,0);
 
     set_Btn_Data();
-    set_Label_Data();
+//    set_Label_Data();
 
 
     line_Top = new QLabel();
@@ -50,9 +50,9 @@ void Top_Sort::set_Btn_Data()
     btn_Top->setText("更多  >");
 }
 
-void Top_Sort::set_Label_Data()
+void Top_Sort::set_Label_Data(QString data)
 {
-    label_Top->setText("软件");
+    label_Top->setText(data);
 }
 
 void Top_Sort::set_category(int cate)

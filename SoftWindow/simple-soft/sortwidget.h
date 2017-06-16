@@ -23,6 +23,8 @@ public:
     QWidget *widget;
     int category;
     void set_Category(int cate);
+    void set_Top_Name();
+    void set_Element_Name();
 
 private:
     //每一个软件项`

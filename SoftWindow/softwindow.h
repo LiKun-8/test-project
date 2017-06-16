@@ -14,6 +14,7 @@
 #include "simple-soft/sortwidget.h"
 #include <QScrollArea>
 #include "softthread.h"
+#include "json_func.h"
 
 #include <QStringList>
 #include <QByteArray>
@@ -21,6 +22,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
+#include <QMap>
+
 
 #define HOME_PAGE 0
 #define SOFT_PAGE 1
@@ -36,6 +40,8 @@ public:
     ~SoftWindow();
     void Set_Current_Page(int page);
     void init_Window();
+    void create_Soft_Window();
+
 
 protected slots:
     void On_Btn_Home();
@@ -83,6 +89,7 @@ private:
     QSpacerItem *page_Sort_Spacer;
 
     SoftThread *softThread;
+    JSON_FUNC *jsonFunc;
 
 //    void resizeEvent(QResizeEvent *);
 //    void changeEvent(QEvent *event);

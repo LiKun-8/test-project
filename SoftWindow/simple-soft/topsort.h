@@ -19,7 +19,7 @@ public:
     //设置更多按钮文本
     void set_Btn_Data();
     //设置软件项名称
-    void set_Label_Data();
+    void set_Label_Data(QString data);
     int category;
     void set_category(int cate);
 
