@@ -21,7 +21,6 @@ public:
     explicit SortWidget(QWidget *parent = 0);
     ~SortWidget();
     QWidget *widget;
-    int category;
     void set_Category(int cate);
     void set_Top_Name();
     void set_Element_Name();
@@ -41,6 +40,9 @@ private:
     QSpacerItem *spacer;
 
     SoftThread *softThread;
+
+    int category;
+
 protected:
     //重写的窗口变化事件
     bool eventFilter(QObject *target, QEvent *event);

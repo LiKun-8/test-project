@@ -36,6 +36,9 @@ public:
 protected slots:
     void read_process();
 
+signals:
+    void curl_IsOk();
+
 private:
     int json_Flag;
     int category_Num;

@@ -110,7 +110,7 @@ void SortWidget::set_Top_Name()
 {
     if(cate_Map.isEmpty())
     {
-        qDebug()<<"the cate_Map is empty!"<<endl;
+//        qDebug()<<"the cate_Map is empty!"<<endl;
     }
 
     //    qDebug()<<"category == "<<category<<endl;
@@ -128,21 +128,19 @@ void SortWidget::set_Element_Name()
 
     if(sort_Str_Map.isEmpty())
     {
-                    qDebug()<<"the sort_str is empty!"<<endl;
-
+        qDebug()<<"the sort_str is empty!"<<endl;
     }
-
+    qDebug()<<"the  category is : "<<category<<endl;
     QMap<int,SORTSTRUCT>::iterator item = sort_Str_Map.begin();
     int i = 0;
     for(;item != sort_Str_Map.end();++item)
     {
         //        qDebug()<<"the sort_str is empty!"<<item.value().btn_name<<endl;
-
-        if(item.value().category == category)
+        if(item.value().category == (category+1))
         {
-            tt[i].set_BtnName(item.value().btn_name);
             if(i < 15)
             {
+                tt[i].set_BtnName(item.value().btn_name);
                 i++;
             }
             else

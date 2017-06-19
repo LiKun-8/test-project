@@ -104,4 +104,5 @@ void Element::btn_Status_Slot()
 void Element::set_category(int cate)
 {
     category = cate;
+    qDebug()<<"Element   category is : "<<category<<endl;
 }

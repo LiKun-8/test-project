@@ -10,22 +10,24 @@ JSON_FUNC::JSON_FUNC()
     json_Flag = 0;
     category_Num = 0;
     connect(process,SIGNAL(readyRead()),this,SLOT(read_process()));
+    connect(process,SIGNAL(readyReadStandardOutput()),this,SLOT(read_process()));
 }
 
 int JSON_FUNC::get_Category_Num()
 {
     json_Flag = CATEGORIES;
-    if(process->isOpen())
-    {
+        if(process->isOpen())
+        {
+            process->kill();
+        }
+        QStringList arg;
+        arg.clear();
         process->kill();
-    }
-    QStringList arg;
-    arg.clear();
-    arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
-    process->start("curl",arg);
-//    process->waitForReadyRead(3);
-    process->waitForFinished();
-    return category_Num;
+        arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
+        process->start("curl",arg);
+    //    process->waitForReadyRead(3);
+        process->waitForFinished();
+        return category_Num;
 }
 
 void JSON_FUNC::set_App_name()
@@ -33,17 +35,22 @@ void JSON_FUNC::set_App_name()
     qDebug()<<__FUNCTION__<<endl;
     json_Flag = PRODUCTS;
     QStringList arg;
-    arg.clear();
+//    arg.clear();
+//    process->kill();
     arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
     process->start("curl",arg);
-    process->waitForFinished();
-//    process->waitForBytesWritten();
+//    process->execute("curl",arg);
+//    process->waitForFinished();
 }
 
 
 void JSON_FUNC::read_process()
 {
-    QByteArray xx = process->readAll();
+    qDebug()<<__FUNCTION__<<endl;
+    QByteArray xx ;
+    xx += process->readAll();
+//    qDebug()<<"xxxxxxxxxxxxxxxxx   ==== "<<xx<<endl;
+
 //    qDebug()<<"jsonobject : "<<xx<<endl;
     QJsonParseError json_error;
     QJsonDocument document = QJsonDocument::fromJson(xx,&json_error);
@@ -55,6 +62,8 @@ void JSON_FUNC::read_process()
             QJsonObject obj = document.object();
             if(json_Flag == CATEGORIES)
             {
+                qDebug()<<"json_Flag == "<<json_Flag<<endl;
+
                 qDebug()<<"1"<<endl;
 
                 QString categor = "Categories";
@@ -82,7 +91,7 @@ void JSON_FUNC::read_process()
                                     if(category.isDouble())
                                     {
                                         cate = category.toInt();
-//                                        qDebug()<<"Category : "<<cate<<endl;
+                                        //                                        qDebug()<<"Category : "<<cate<<endl;
                                     }
                                 }
 
@@ -92,7 +101,7 @@ void JSON_FUNC::read_process()
                                     if(category_name.isString())
                                     {
                                         name = category_name.toString();
-//                                        qDebug()<<"category_name : "<<name<<endl;
+                                        //                                        qDebug()<<"category_name : "<<name<<endl;
                                     }
                                 }
                                 cate_Map[cate] = name;
@@ -101,8 +110,10 @@ void JSON_FUNC::read_process()
                     }
                 }
             }
+
             if(json_Flag == PRODUCTS)
             {
+                qDebug()<<"json_Flag == "<<json_Flag<<endl;
                 QString product = "products";
                 if(obj.contains(product))
                 {
@@ -127,10 +138,10 @@ void JSON_FUNC::read_process()
 
                         for(int i = 0;i < size;i++)
                         {
-                            if(i>15)
-                            {
-                                break;
-                            }
+//                            if(i>15)
+//                            {
+//                                break;
+//                            }
                             QJsonValue value = str.at(i);
 
                             if(value.isObject())
@@ -143,7 +154,7 @@ void JSON_FUNC::read_process()
                                     if(product_id.isDouble())
                                     {
                                         pro_id = product_id.toInt();
-                                        qDebug()<<"product_id : "<<pro_id<<endl;
+//                                        qDebug()<<"product_id : "<<pro_id<<endl;
                                     }
                                 }
 
@@ -153,7 +164,7 @@ void JSON_FUNC::read_process()
                                     if(release_id.isDouble())
                                     {
                                         rel_id = release_id.toInt();
-//                                        qDebug()<<"release_id : "<<rel_id<<endl;
+                                        //                                        qDebug()<<"release_id : "<<rel_id<<endl;
                                     }
                                 }
 
@@ -163,7 +174,7 @@ void JSON_FUNC::read_process()
                                     if(category_id.isDouble())
                                     {
                                         cate_id = category_id.toInt();
-//                                        qDebug()<<"category_id : "<<cate_id<<endl;
+                                        //                                        qDebug()<<"category_id : "<<cate_id<<endl;
                                     }
                                 }
 
@@ -173,7 +184,7 @@ void JSON_FUNC::read_process()
                                     if(product_name.isString())
                                     {
                                         pro_name = product_name.toString();
-//                                        qDebug()<<"product_name : "<<pro_name<<endl;
+                                        //                                        qDebug()<<"product_name : "<<pro_name<<endl;
                                         //设置软件名
 
                                     }
@@ -185,7 +196,7 @@ void JSON_FUNC::read_process()
                                     if(vendor_name.isString())
                                     {
                                         ven_name = vendor_name.toString();
-//                                        qDebug()<<"vendor_name : "<<ven_name<<endl;
+                                        //                                        qDebug()<<"vendor_name : "<<ven_name<<endl;
                                     }
                                 }
 
@@ -195,7 +206,7 @@ void JSON_FUNC::read_process()
                                     if(icon_url.isString())
                                     {
                                         ico_url = icon_url.toString();
-//                                        qDebug()<<"icon_url : "<<ico_url<<endl;
+                                        //                                        qDebug()<<"icon_url : "<<ico_url<<endl;
                                     }
                                 }
 
@@ -205,7 +216,7 @@ void JSON_FUNC::read_process()
                                     if(url.isString())
                                     {
                                         pro_url = url.toString();
-//                                        qDebug()<<"url : "<<pro_url<<endl;
+                                        //                                        qDebug()<<"url : "<<pro_url<<endl;
                                     }
                                 }
 
@@ -215,7 +226,7 @@ void JSON_FUNC::read_process()
                                     if(product_description.isString())
                                     {
                                         pro_desc = product_description.toString();
-//                                        qDebug()<<"product_description : "<<pro_desc<<endl;
+                                        //                                        qDebug()<<"product_description : "<<pro_desc<<endl;
                                     }
                                 }
 
@@ -225,7 +236,7 @@ void JSON_FUNC::read_process()
                                     if(product_grade.isDouble())
                                     {
                                         pro_cate = product_grade.toInt();
-//                                        qDebug()<<"product_grade : "<<pro_cate<<endl;
+                                        //                                        qDebug()<<"product_grade : "<<pro_cate<<endl;
                                     }
                                 }
 
@@ -235,22 +246,26 @@ void JSON_FUNC::read_process()
                                     if(grade_count.isDouble())
                                     {
                                         gra_count = grade_count.toInt();
-//                                        qDebug()<<"grade_count : "<<gra_count<<endl;
+                                        //                                        qDebug()<<"grade_count : "<<gra_count<<endl;
                                     }
                                 }
-
+//                                qDebug()<<"cate_id : "<<cate_id<<endl;
+//                                qDebug()<<"ico_url : "<<ico_url<<endl;
+//                                qDebug()<<"pro_name : "<<pro_name<<endl;
+                                sort_Str_Map.insert(pro_id,SORTSTRUCT(cate_id,ico_url,pro_name,0));
                             }
-//                            SORTSTRUCT sortstruct(cate_id,ico_url,pro_name,0);
-                            sort_Str_Map.insert(pro_id,SORTSTRUCT(cate_id,ico_url,pro_name,0));
-//                            sort_Str_Map.insert(pro_id,sortstruct);
+                            //                            SORTSTRUCT sortstruct(cate_id,ico_url,pro_name,0);
+                            //                            sort_Str_Map.insert(pro_id,sortstruct);
                         }
                     }
                 }
             }
         }
+        emit curl_IsOk();
     }
     else
     {
         qDebug()<<"json is error!!!!!!!"<<endl;
     }
 }
+

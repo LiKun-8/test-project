@@ -50,11 +50,13 @@ protected slots:
     void On_Btn_Manager();
 //    void read_process();
     void set_More_Show(int i);
+    void test_set_name();
 
 private:
 
     int history_Page;
     int now_Page;
+    int cate_num;
     QPushButton *btn_Return;
     QPushButton *btn_Next;
     QPushButton *btn_Refresh;

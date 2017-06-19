@@ -16,7 +16,6 @@ SoftWindow::SoftWindow(QWidget *parent)
     vb_Layout = new QVBoxLayout();
     jsonFunc = new JSON_FUNC();
 
-    jsonFunc->set_App_name();
 
     init_Window();
 
@@ -141,8 +140,12 @@ void SoftWindow::init_Window()
 
 void SoftWindow::create_Soft_Window()
 {
-    int cate_num = jsonFunc->get_Category_Num();
-//    cate_num = jsonFunc->cate_Map.size();
+    cate_num = jsonFunc->get_Category_Num();
+    jsonFunc->set_App_name();
+
+    connect(jsonFunc,SIGNAL(curl_IsOk()),this,SLOT(test_set_name()));
+
+
     qDebug()<<"cate_num == "<<cate_num<<endl;
     sortWidget = new SortWidget[cate_num];
 
@@ -155,12 +158,13 @@ void SoftWindow::create_Soft_Window()
 
     for(int i=0;i<cate_num;i++)
     {
-        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
+        //        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
         sortWidget[i].set_Category(i);
         sortWidget[i].set_Top_Name();
-        sortWidget[i].set_Element_Name();
+        //        sortWidget[i].set_Element_Name();
         vb_Sort_layout->addWidget(sortWidget[i].widget);
     }
+
 
     page_Sort_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
     scroll->setWidget(page_Sort_Widget);
@@ -198,7 +202,23 @@ void SoftWindow::On_Btn_Manager()
 void SoftWindow::set_More_Show(int i)
 {
     Set_Current_Page(MANAGER_PAGE);
-//    qDebug()<<"More show i == "<<i <<endl;
+    //    qDebug()<<"More show i == "<<i <<endl;
+}
+
+void SoftWindow::test_set_name()
+{
+    QMap<int,SORTSTRUCT>::iterator  it ;
+    if(sort_Str_Map.isEmpty())
+    {
+        qDebug()<<"hello++++++++++++++++++++++++++++++++++"<<endl;
+    }
+    for(it  = sort_Str_Map.begin();it != sort_Str_Map.end(); ++it)
+    {
+        //        qDebug() << it.value().btn_name << endl;
+    }
+
+    for(int i = 0;i<cate_num;i++)
+        sortWidget[i].set_Element_Name();
 }
 
 
