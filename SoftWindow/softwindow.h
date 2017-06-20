@@ -67,7 +67,7 @@ private:
 
     QStackedWidget *stw_window;
 
-    SortWidget *sortWidget;
+    SortWidget *sortWidget;//分类对象
 
     QLabel *label1;
     QLabel *label3;
@@ -90,8 +90,8 @@ private:
     QWidget *page_Sort_Widget;
     QSpacerItem *page_Sort_Spacer;
 
-    SoftThread *softThread;
-    JSON_FUNC *jsonFunc;
+    SoftThread *softThread; //分类的线程
+    JSON_FUNC *jsonFunc;//数据读取
 
 //    void resizeEvent(QResizeEvent *);
 //    void changeEvent(QEvent *event);

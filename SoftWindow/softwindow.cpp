@@ -16,9 +16,10 @@ SoftWindow::SoftWindow(QWidget *parent)
     vb_Layout = new QVBoxLayout();
     jsonFunc = new JSON_FUNC();
 
-
+    //初始化窗口
     init_Window();
 
+    //上部布局
     hb_Layout->addWidget(btn_Return);
     hb_Layout->addWidget(btn_Next);
     hb_Layout->addWidget(btn_Refresh);
@@ -32,6 +33,7 @@ SoftWindow::SoftWindow(QWidget *parent)
     hb_Layout->setSpacing(20);
     hb_Layout->setMargin(16);
 
+    //整体布局
     vb_Layout->addLayout(hb_Layout);
     vb_Layout->addWidget(stw_window);
     vb_Layout->setMargin(0);
@@ -48,6 +50,7 @@ SoftWindow::~SoftWindow()
 {
 }
 
+//跳转指定页面
 void SoftWindow::Set_Current_Page(int page)
 {
     stw_window->setCurrentIndex(page);
@@ -138,6 +141,7 @@ void SoftWindow::init_Window()
     //    process->waitForFinished();
 }
 
+//创建分类页
 void SoftWindow::create_Soft_Window()
 {
     cate_num = jsonFunc->get_Category_Num();
@@ -198,12 +202,14 @@ void SoftWindow::On_Btn_Manager()
     Set_Current_Page(MANAGER_PAGE);
 }
 
+//测试更多页面跳转
 void SoftWindow::set_More_Show(int i)
 {
     Set_Current_Page(MANAGER_PAGE);
     //    qDebug()<<"More show i == "<<i <<endl;
 }
 
+//设置每个软件的名字
 void SoftWindow::test_set_name()
 {
 
@@ -230,8 +236,7 @@ void SoftWindow::test_set_name()
     }
 }
 
-
-
+//事件处理，改变分类页面大小和位置
 bool SoftWindow::event(QEvent *event)
 {
     if(event->type() == QEvent::Resize)

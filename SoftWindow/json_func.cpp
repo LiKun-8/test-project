@@ -13,6 +13,7 @@ JSON_FUNC::JSON_FUNC()
     connect(process,SIGNAL(readyReadStandardOutput()),this,SLOT(read_process()));
 }
 
+//获取分类数目
 int JSON_FUNC::get_Category_Num()
 {
     json_Flag = CATEGORIES;
@@ -30,6 +31,7 @@ int JSON_FUNC::get_Category_Num()
     return category_Num;
 }
 
+//设置软件名字
 void JSON_FUNC::set_App_name()
 {
 //    qDebug()<<__FUNCTION__<<endl;
@@ -43,17 +45,16 @@ void JSON_FUNC::set_App_name()
     //    process->waitForFinished();
 }
 
-
+//获取数据槽函数
 void JSON_FUNC::read_process()
 {
 //    qDebug()<<__FUNCTION__<<endl;
-    QByteArray xx ;
-    xx += process->readAll();
-    //    qDebug()<<"xxxxxxxxxxxxxxxxx   ==== "<<xx<<endl;
+    QByteArray data_Read ;
+    data_Read += process->readAll();
 
-    //    qDebug()<<"jsonobject : "<<xx<<endl;
+    //    qDebug()<<"jsonobject : "<<data_Read<<endl;
     QJsonParseError json_error;
-    QJsonDocument document = QJsonDocument::fromJson(xx,&json_error);
+    QJsonDocument document = QJsonDocument::fromJson(data_Read,&json_error);
 
     if(json_error.error == QJsonParseError::NoError)
     {

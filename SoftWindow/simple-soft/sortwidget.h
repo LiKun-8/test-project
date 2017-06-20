@@ -22,10 +22,10 @@ public:
     explicit SortWidget(QWidget *parent = 0);
     ~SortWidget();
     QWidget *widget;
-    void set_Category(int cate);
-    void set_Top_Name();
-    void set_Element_Name();
-    void init_Element(int i);
+    void set_Category(int cate);//设置分类标志
+    void set_Top_Name();//设置分类项的名字
+    void set_Element_Name();//设置软件的名字
+    void init_Element(int i);//初始化软件对象
 
 private:
     //每一个软件项`
@@ -40,14 +40,12 @@ private:
     QVBoxLayout *main_Layout;
     //弹簧布局
     QSpacerItem *spacer;
-
+    //分类线程
     SoftThread *softThread;
-
+    //分类的标志
     int category;
-
-     QLabel *label;
-
-     QWidget *space_Widget;
+    //空白widget
+    QWidget *space_Widget;
 
 protected:
     //重写的窗口变化事件

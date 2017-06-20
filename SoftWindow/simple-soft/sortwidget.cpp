@@ -31,8 +31,6 @@ SortWidget::SortWidget(QWidget *parent) :
 
     connect(topsort,SIGNAL(show_All(int)),this,SLOT(send_More_Show(int)));
 
-    label = new QLabel();
-
     space_Widget = new QWidget[5];
     for(int i =0 ;i<5;i++)
     {
@@ -43,7 +41,7 @@ SortWidget::SortWidget(QWidget *parent) :
 SortWidget::~SortWidget()
 {
 }
-
+//设置分类标志
 void SortWidget::set_Category(int cate)
 {
     //    tt->set_category(cate);
@@ -51,6 +49,7 @@ void SortWidget::set_Category(int cate)
     category = cate;
 }
 
+//事件过滤器
 bool SortWidget::eventFilter(QObject *target, QEvent *event)
 {
     if(target == widget)
@@ -128,6 +127,7 @@ void SortWidget::send_More_Show(int i)
     //    qDebug()<<" More  Show  !!!!!!!"<<endl;
 }
 
+//设置分类项名字
 void SortWidget::set_Top_Name()
 {
     if(cate_Map.isEmpty())
@@ -144,6 +144,7 @@ void SortWidget::set_Top_Name()
 
 }
 
+//设置软件项名字
 void SortWidget::set_Element_Name()
 {
 
@@ -172,6 +173,7 @@ void SortWidget::set_Element_Name()
     }
 }
 
+//初始化软件项
 void SortWidget::init_Element(int i)
 {
     QMap<int,int>::iterator it = sort_Element_Num.find(category+1);

@@ -20,7 +20,9 @@ public:
     void set_Btn_Data();
     //设置软件项名称
     void set_Label_Data(QString data);
+    //分类项
     int category;
+    //设置分类项
     void set_category(int cate);
 
 private:
