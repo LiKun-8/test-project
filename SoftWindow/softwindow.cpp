@@ -4,7 +4,7 @@
 
 QMap<int,QString> cate_Map;
 QMap<int,SORTSTRUCT>  sort_Str_Map;
-
+QMap<int,int> sort_Element_Num;
 
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
@@ -145,7 +145,6 @@ void SoftWindow::create_Soft_Window()
 
     connect(jsonFunc,SIGNAL(curl_IsOk()),this,SLOT(test_set_name()));
 
-
     qDebug()<<"cate_num == "<<cate_num<<endl;
     sortWidget = new SortWidget[cate_num];
 
@@ -207,18 +206,28 @@ void SoftWindow::set_More_Show(int i)
 
 void SoftWindow::test_set_name()
 {
-    QMap<int,SORTSTRUCT>::iterator  it ;
+
     if(sort_Str_Map.isEmpty())
     {
-        qDebug()<<"hello++++++++++++++++++++++++++++++++++"<<endl;
+        qDebug()<<"sort_Str_Map is Empty!"<<endl;
     }
+
+    QMap<int,SORTSTRUCT>::iterator  it;
     for(it  = sort_Str_Map.begin();it != sort_Str_Map.end(); ++it)
     {
         //        qDebug() << it.value().btn_name << endl;
     }
 
+    QMap<int,int>::iterator item;
+    for(item = sort_Element_Num.begin();item != sort_Element_Num.end();++item)
+    {
+//        qDebug()<<"sor_element_num  ===  "<<item.value()<<endl;
+    }
     for(int i = 0;i<cate_num;i++)
+    {
+        sortWidget[i].init_Element(i);
         sortWidget[i].set_Element_Name();
+    }
 }
 
 
@@ -228,7 +237,7 @@ bool SoftWindow::event(QEvent *event)
     if(event->type() == QEvent::Resize)
     {
         scroll->setGeometry(0,0,page_Sort->size().width(),page_Sort->size().height());
-        qDebug()<<page_Sort->size().width() << "   "<<page_Sort->size().height()<<endl;
+//        qDebug()<<page_Sort->size().width() << "   "<<page_Sort->size().height()<<endl;
         stw_window->move((this->size().width()-page_Sort->size().width())/2,72);
         return true;
     }

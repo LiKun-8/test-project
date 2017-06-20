@@ -2,7 +2,7 @@
 #include <QDebug>
 extern QMap<int,QString> cate_Map;
 extern QMap<int,SORTSTRUCT> sort_Str_Map;
-
+extern QMap<int,int> sort_Element_Num;
 
 JSON_FUNC::JSON_FUNC()
 {
@@ -16,42 +16,42 @@ JSON_FUNC::JSON_FUNC()
 int JSON_FUNC::get_Category_Num()
 {
     json_Flag = CATEGORIES;
-        if(process->isOpen())
-        {
-            process->kill();
-        }
-        QStringList arg;
-        arg.clear();
+    if(process->isOpen())
+    {
         process->kill();
-        arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
-        process->start("curl",arg);
+    }
+    QStringList arg;
+    arg.clear();
+    process->kill();
+    arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
+    process->start("curl",arg);
     //    process->waitForReadyRead(3);
-        process->waitForFinished();
-        return category_Num;
+    process->waitForFinished();
+    return category_Num;
 }
 
 void JSON_FUNC::set_App_name()
 {
-    qDebug()<<__FUNCTION__<<endl;
+//    qDebug()<<__FUNCTION__<<endl;
     json_Flag = PRODUCTS;
     QStringList arg;
-//    arg.clear();
-//    process->kill();
+    //    arg.clear();
+    //    process->kill();
     arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
     process->start("curl",arg);
-//    process->execute("curl",arg);
-//    process->waitForFinished();
+    //    process->execute("curl",arg);
+    //    process->waitForFinished();
 }
 
 
 void JSON_FUNC::read_process()
 {
-    qDebug()<<__FUNCTION__<<endl;
+//    qDebug()<<__FUNCTION__<<endl;
     QByteArray xx ;
     xx += process->readAll();
-//    qDebug()<<"xxxxxxxxxxxxxxxxx   ==== "<<xx<<endl;
+    //    qDebug()<<"xxxxxxxxxxxxxxxxx   ==== "<<xx<<endl;
 
-//    qDebug()<<"jsonobject : "<<xx<<endl;
+    //    qDebug()<<"jsonobject : "<<xx<<endl;
     QJsonParseError json_error;
     QJsonDocument document = QJsonDocument::fromJson(xx,&json_error);
 
@@ -62,9 +62,9 @@ void JSON_FUNC::read_process()
             QJsonObject obj = document.object();
             if(json_Flag == CATEGORIES)
             {
-                qDebug()<<"json_Flag == "<<json_Flag<<endl;
+//                qDebug()<<"json_Flag == "<<json_Flag<<endl;
 
-                qDebug()<<"1"<<endl;
+//                qDebug()<<"1"<<endl;
 
                 QString categor = "Categories";
                 if(obj.contains(categor))
@@ -72,7 +72,7 @@ void JSON_FUNC::read_process()
                     QJsonValue test = obj.take("Categories");
                     if(test.isArray())
                     {
-                        qDebug()<<"test.type()"<<test.type()<<endl;
+//                        qDebug()<<"test.type()"<<test.type()<<endl;
                         QJsonArray str = test.toArray();
                         int size = str.size();
                         category_Num = size;
@@ -113,11 +113,11 @@ void JSON_FUNC::read_process()
 
             if(json_Flag == PRODUCTS)
             {
-                qDebug()<<"json_Flag == "<<json_Flag<<endl;
+//                qDebug()<<"json_Flag == "<<json_Flag<<endl;
                 QString product = "products";
                 if(obj.contains(product))
                 {
-                    qDebug()<<"2"<<endl;
+//                    qDebug()<<"2"<<endl;
                     QJsonValue pro = obj.take(product);
                     if(pro.isArray())
                     {
@@ -135,13 +135,13 @@ void JSON_FUNC::read_process()
                         QString ico_url;
                         QString pro_url;
                         QString pro_desc;
-
+                        QMap<int,int>::iterator it;
                         for(int i = 0;i < size;i++)
                         {
-//                            if(i>15)
-//                            {
-//                                break;
-//                            }
+                            //                            if(i>15)
+                            //                            {
+                            //                                break;
+                            //                            }
                             QJsonValue value = str.at(i);
 
                             if(value.isObject())
@@ -154,7 +154,7 @@ void JSON_FUNC::read_process()
                                     if(product_id.isDouble())
                                     {
                                         pro_id = product_id.toInt();
-//                                        qDebug()<<"product_id : "<<pro_id<<endl;
+                                        //                                        qDebug()<<"product_id : "<<pro_id<<endl;
                                     }
                                 }
 
@@ -175,6 +175,15 @@ void JSON_FUNC::read_process()
                                     {
                                         cate_id = category_id.toInt();
                                         //                                        qDebug()<<"category_id : "<<cate_id<<endl;
+                                        it = sort_Element_Num.find(cate_id);
+                                        if(it != sort_Element_Num.end())
+                                        {
+                                            sort_Element_Num[cate_id] = it.value()+1;
+                                        }
+                                        else
+                                        {
+                                            sort_Element_Num.insert(cate_id,1);
+                                        }
                                     }
                                 }
 
@@ -249,9 +258,9 @@ void JSON_FUNC::read_process()
                                         //                                        qDebug()<<"grade_count : "<<gra_count<<endl;
                                     }
                                 }
-//                                qDebug()<<"cate_id : "<<cate_id<<endl;
-//                                qDebug()<<"ico_url : "<<ico_url<<endl;
-//                                qDebug()<<"pro_name : "<<pro_name<<endl;
+                                //                                qDebug()<<"cate_id : "<<cate_id<<endl;
+                                //                                qDebug()<<"ico_url : "<<ico_url<<endl;
+                                //                                qDebug()<<"pro_name : "<<pro_name<<endl;
                                 sort_Str_Map.insert(pro_id,SORTSTRUCT(cate_id,ico_url,pro_name,0));
                             }
                             //                            SORTSTRUCT sortstruct(cate_id,ico_url,pro_name,0);

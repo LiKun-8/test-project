@@ -7,7 +7,8 @@
 #define MARGIN 32;
 #define SPACING 192;
 #include "../softthread.h"
-
+#include <QLabel>
+#include <QWidget>
 
 namespace Ui {
 class Widget;
@@ -24,6 +25,7 @@ public:
     void set_Category(int cate);
     void set_Top_Name();
     void set_Element_Name();
+    void init_Element(int i);
 
 private:
     //每一个软件项`
@@ -42,6 +44,10 @@ private:
     SoftThread *softThread;
 
     int category;
+
+     QLabel *label;
+
+     QWidget *space_Widget;
 
 protected:
     //重写的窗口变化事件
