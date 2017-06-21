@@ -15,6 +15,7 @@
 #include <QScrollArea>
 #include "softthread.h"
 #include "json_func.h"
+#include "more-page/showmore.h"
 
 #include <QStringList>
 #include <QByteArray>
@@ -30,6 +31,7 @@
 #define SOFT_PAGE 1
 #define UPDATE_PAGE 2
 #define MANAGER_PAGE 3
+#define MORE_PAGE 4
 
 class SoftWindow : public QWidget
 {
@@ -40,7 +42,6 @@ public:
     ~SoftWindow();
     void Set_Current_Page(int page);
     void init_Window();
-    void create_Soft_Window();
 
 
 protected slots:
@@ -57,6 +58,7 @@ private:
     int history_Page;
     int now_Page;
     int cate_num;
+//    int m_nCategerNumber;
     QPushButton *btn_Return;
     QPushButton *btn_Next;
     QPushButton *btn_Refresh;
@@ -75,10 +77,13 @@ private:
 
     QLineEdit *line_Search;
     QScrollArea  *scroll;
+    QScrollArea  *scroll_More;
     QGridLayout *main_Layout;
     QVBoxLayout *vb_Layout;
     QHBoxLayout *hb_Layout;
     QVBoxLayout *vb_Sort_layout;
+    QVBoxLayout *vb_Sort_layout_More;
+
 
     QSpacerItem *left_Space;
     QSpacerItem *right_Space;
@@ -88,10 +93,18 @@ private:
     QWidget *page_Update;
     QWidget *page_Manager;
     QWidget *page_Sort_Widget;
+    QWidget *page_More_Widget;
+    QWidget *page_More;
     QSpacerItem *page_Sort_Spacer;
+    QSpacerItem *page_More_Spacer;
 
     SoftThread *softThread; //分类的线程
     JSON_FUNC *jsonFunc;//数据读取
+
+    ShowMore *moreSortWidget;
+
+    void create_Soft_Window();
+    void create_More_window();
 
 //    void resizeEvent(QResizeEvent *);
 //    void changeEvent(QEvent *event);

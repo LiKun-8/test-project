@@ -126,7 +126,7 @@ void JSON_FUNC::read_process()
                         int size = str.size();
                         QJsonValue category_id ;
 
-                        int pro_id;
+                        int l_nProductId;
                         int rel_id;
                         int cate_id;
                         int pro_cate;
@@ -139,10 +139,6 @@ void JSON_FUNC::read_process()
                         QMap<int,int>::iterator it;
                         for(int i = 0;i < size;i++)
                         {
-                            //                            if(i>15)
-                            //                            {
-                            //                                break;
-                            //                            }
                             QJsonValue value = str.at(i);
 
                             if(value.isObject())
@@ -154,8 +150,8 @@ void JSON_FUNC::read_process()
                                     QJsonValue product_id = obj2.take("product_id");
                                     if(product_id.isDouble())
                                     {
-                                        pro_id = product_id.toInt();
-                                        //                                        qDebug()<<"product_id : "<<pro_id<<endl;
+                                        l_nProductId = product_id.toInt();
+                                        //                                        qDebug()<<"product_id : "<<l_nProductId<<endl;
                                     }
                                 }
 
@@ -194,9 +190,6 @@ void JSON_FUNC::read_process()
                                     if(product_name.isString())
                                     {
                                         pro_name = product_name.toString();
-                                        //                                        qDebug()<<"product_name : "<<pro_name<<endl;
-                                        //设置软件名
-
                                     }
                                 }
 
@@ -262,20 +255,16 @@ void JSON_FUNC::read_process()
                                 //                                qDebug()<<"cate_id : "<<cate_id<<endl;
                                 //                                qDebug()<<"ico_url : "<<ico_url<<endl;
                                 //                                qDebug()<<"pro_name : "<<pro_name<<endl;
-                                sort_Str_Map.insert(pro_id,SORTSTRUCT(cate_id,ico_url,pro_name,0));
+                                sort_Str_Map.insert(l_nProductId,SORTSTRUCT(cate_id,ico_url,pro_name,0));
                             }
                             //                            SORTSTRUCT sortstruct(cate_id,ico_url,pro_name,0);
-                            //                            sort_Str_Map.insert(pro_id,sortstruct);
+                            //                            sort_Str_Map.insert(l_nProductId,sortstruct);
                         }
                     }
                 }
             }
         }
         emit curl_IsOk();
-    }
-    else
-    {
-        qDebug()<<"json is error!!!!!!!"<<endl;
     }
 }
 

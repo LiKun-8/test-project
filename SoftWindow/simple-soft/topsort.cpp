@@ -60,6 +60,11 @@ void Top_Sort::set_category(int cate)
     category = cate;
 }
 
+void Top_Sort::set_Topbtn_Hide()
+{
+    btn_Top->hide();
+}
+
 void Top_Sort::send_Slot_Btn()
 {
     emit show_All(category);

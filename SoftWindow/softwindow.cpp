@@ -54,16 +54,17 @@ SoftWindow::~SoftWindow()
 void SoftWindow::Set_Current_Page(int page)
 {
     stw_window->setCurrentIndex(page);
-    //    qDebug()<<stw_window->size().width()<<"***"<<stw_window->size().height()<<endl;
-    //        qDebug()<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
-    //    qDebug()<<page_Home->size().width()<<"***"<<page_Home->size().height()<<endl;
-    //        qDebug()<<page_Sort->size().width()<<"***"<<page_Sort->size().height()<<endl;
-    //    qDebug()<<page_Update->size().width()<<"***"<<page_Update->size().height()<<endl;
-    //    qDebug()<<page_Manager->size().width()<<"***"<<page_Manager->size().height()<<endl;
-    //        qDebug()<<this->size().width()<<"***"<<this->size().height()<<endl;
-    //    qDebug()<<"sortWidget[1] == "<<sortWidget[1].widget->size().width()<<sortWidget[1].widget->size().height()<<endl;
-    //        qDebug()<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
+/*        qDebug()<<stw_window->size().width()<<"***"<<stw_window->size().height()<<endl;
+            qDebug()<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
+        qDebug()<<page_Home->size().width()<<"***"<<page_Home->size().height()<<endl;
+            qDebug()<<page_Sort->size().width()<<"***"<<page_Sort->size().height()<<endl;
+        qDebug()<<page_Update->size().width()<<"***"<<page_Update->size().height()<<endl;
+        qDebug()<<page_Manager->size().width()<<"***"<<page_Manager->size().height()<<endl;
+            qDebug()<<this->size().width()<<"***"<<this->size().height()<<endl;
+        qDebug()<<"sortWidget[1] == "<<sortWidget[1].widget->size().width()<<sortWidget[1].widget->size().height()<<endl;
+            qDebug()<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;*/
     scroll->setGeometry(0,0,page_Sort->size().width(),page_Sort->size().height());
+    scroll_More->setGeometry(0,0,page_More->size().width(),page_More->size().height());
     //        scroll->setGeometry(0,0,this->size().width(),this->size().height());
 }
 
@@ -117,11 +118,13 @@ void SoftWindow::init_Window()
     //    page_Sort->setAcceptDrops();
     page_Update = new QWidget();
     page_Manager = new QWidget();
+    page_More = new QWidget();
 
     stw_window->addWidget(page_Home);
     stw_window->addWidget(page_Sort);
     stw_window->addWidget(page_Update);
     stw_window->addWidget(page_Manager);
+    stw_window->addWidget(page_More);
     label1 = new QLabel(page_Home);
     label1->setText("HOME");
     label3 = new QLabel(page_Update);
@@ -130,6 +133,8 @@ void SoftWindow::init_Window()
     label4->setText("MANAGER");
 
     create_Soft_Window();
+
+    create_More_window();
 
     btn_Home->setFocusPolicy(Qt::NoFocus);
     btn_Manager->setFocusPolicy(Qt::NoFocus);
@@ -149,9 +154,7 @@ void SoftWindow::create_Soft_Window()
 
     connect(jsonFunc,SIGNAL(curl_IsOk()),this,SLOT(test_set_name()));
 
-    qDebug()<<"cate_num == "<<cate_num<<endl;
     sortWidget = new SortWidget[cate_num];
-
     vb_Sort_layout = new QVBoxLayout();
     page_Sort_Widget = new QWidget();
 
@@ -161,10 +164,9 @@ void SoftWindow::create_Soft_Window()
 
     for(int i=0;i<cate_num;i++)
     {
-        //        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
+        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
         sortWidget[i].set_Category(i);
         sortWidget[i].set_Top_Name();
-        //        sortWidget[i].set_Element_Name();
         vb_Sort_layout->addWidget(sortWidget[i].widget);
     }
 
@@ -178,6 +180,32 @@ void SoftWindow::create_Soft_Window()
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setWidgetResizable(true);
+}
+
+void SoftWindow::create_More_window()
+{
+    moreSortWidget = new ShowMore();
+
+    vb_Sort_layout_More = new QVBoxLayout();
+    page_More_Widget = new QWidget();
+
+    vb_Sort_layout_More = new QVBoxLayout();
+    scroll_More = new QScrollArea(page_More);
+    scroll_More->setFrameShape(QFrame::NoFrame); //去除窗口边框
+
+//    moreSortWidget->set_Category(1);
+//    moreSortWidget->set_Top_Name();
+    vb_Sort_layout_More->addWidget(moreSortWidget->more_Widget);
+
+    page_More_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
+    scroll_More->setWidget(page_More_Widget);
+    vb_Sort_layout_More->addSpacerItem(page_More_Spacer);
+    vb_Sort_layout_More->setMargin(0);
+    page_More_Widget->setLayout(vb_Sort_layout_More);
+    //滚动条不可见，只能通过鼠标滑动
+    scroll_More->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll_More->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll_More->setWidgetResizable(true);
 }
 
 
@@ -205,8 +233,12 @@ void SoftWindow::On_Btn_Manager()
 //测试更多页面跳转
 void SoftWindow::set_More_Show(int i)
 {
-    Set_Current_Page(MANAGER_PAGE);
-    //    qDebug()<<"More show i == "<<i <<endl;
+//    qDebug()<<page_Sort->size()<<endl;
+    Set_Current_Page(MORE_PAGE);
+    moreSortWidget->set_Top_Name(i);
+    moreSortWidget->set_Element_Name(i);
+    stw_window->move((this->size().width()-page_More->size().width())/2,72);
+
 }
 
 //设置每个软件的名字
@@ -242,10 +274,11 @@ bool SoftWindow::event(QEvent *event)
     if(event->type() == QEvent::Resize)
     {
         scroll->setGeometry(0,0,page_Sort->size().width(),page_Sort->size().height());
-//        qDebug()<<page_Sort->size().width() << "   "<<page_Sort->size().height()<<endl;
-        stw_window->move((this->size().width()-page_Sort->size().width())/2,72);
+        scroll_More->setGeometry(0,0,page_More->size().width(),page_More->size().height());
+        stw_window->move((this->size().width()-stw_window->size().width())/2,72);
         return true;
     }
+
     return QWidget::event(event);
 }
 

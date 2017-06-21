@@ -24,6 +24,7 @@ public:
     int category;
     //设置分类项
     void set_category(int cate);
+    void set_Topbtn_Hide();
 
 private:
     //更多按钮

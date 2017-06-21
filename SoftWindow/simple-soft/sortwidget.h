@@ -7,12 +7,9 @@
 #define MARGIN 32;
 #define SPACING 192;
 #include "../softthread.h"
-#include <QLabel>
 #include <QWidget>
+#include <QLayoutItem>
 
-namespace Ui {
-class Widget;
-}
 
 class SortWidget : public QWidget
 {
@@ -47,6 +44,8 @@ private:
     //空白widget
     QWidget *space_Widget;
 
+    int index;
+    QLayoutItem *child;
 protected:
     //重写的窗口变化事件
     bool eventFilter(QObject *target, QEvent *event);
