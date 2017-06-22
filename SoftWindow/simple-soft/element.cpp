@@ -41,14 +41,14 @@ Element::~Element()
 
 void Element::init()
 {
-    btn_Start = new QPushButton();
-    btn_Start->setFixedSize(72,10);
-    btn_Start->setEnabled(false);
+    btn_star = new QPushButton();
+    btn_star->setFixedSize(72,10);
+    btn_star->setEnabled(false);
     btn_Status = new MyButton();
     btn_Status->setFixedSize(72,24);
-    //    btn_Start->setFlat(true);
-    //    btn_Status->setFlat(true);
-    vb_Layout->addWidget(btn_Start);
+    //    btn_star->setFlat(true);
+//        btn_Status->setFlat(true);
+    vb_Layout->addWidget(btn_star);
     vb_Layout->addWidget(btn_Status);
     set_BtnStatus("download");
     connect(btn_Status,SIGNAL(clicked(bool)),this,SLOT(btn_Status_Slot()));
@@ -56,7 +56,7 @@ void Element::init()
     //去除矩形虚线框
     btn_Name->setFocusPolicy(Qt::NoFocus);
     btn_Image->setFocusPolicy(Qt::NoFocus);
-    btn_Start->setFocusPolicy(Qt::NoFocus);
+    btn_star->setFocusPolicy(Qt::NoFocus);
     btn_Status->setFocusPolicy(Qt::NoFocus);
 }
 

@@ -18,6 +18,7 @@ SortWidget::SortWidget(QWidget *parent) :
 
     grid_Layout = new QGridLayout();
     grid_Layout->setSpacing(24);
+    grid_Layout->setContentsMargins(16,0,16,0);
 
     main_Layout = new QVBoxLayout();
     main_Layout->addWidget(topsort->widget);
@@ -84,7 +85,7 @@ bool SortWidget::eventFilter(QObject *target, QEvent *event)
 
             if(!grid_Layout->isEmpty())
             {
-                //清不清空都一样，只是对现有的控件进行排序
+                //现有的控件不必清空,只是对现有的控件进行排序
                 //                for(int i=0;i<demo_Element.size();i++)
                 //                {
                 //                    while((child = grid_Layout->takeAt(0))!=0)
@@ -173,52 +174,33 @@ void SortWidget::set_Top_Name()
 //设置软件项名字
 void SortWidget::set_Element_Name()
 {
-
     if(sort_Str_Map.isEmpty())
     {
         qDebug()<<"the sort_str is empty!"<<endl;
     }
-    //    qDebug()<<"the  category is : "<<category<<endl;
+
     QMap<int,SORTSTRUCT>::iterator item = sort_Str_Map.begin();
-    int i = 0;
-    for(;item != sort_Str_Map.end();++item)
+    for(int i = 0;item != sort_Str_Map.end() && i<18 ; ++item)
     {
         //        qDebug()<<"the sort_str is empty!"<<item.value().btn_name<<endl;
         if(item.value().category == (category+1))
         {
-            //            if(i < 18)
-            {
-                tt[i].set_BtnName(item.value().btn_name);
-                i++;
-            }
-            //            else
-            //            {
-            //                break;
-            //            }
+            tt[i].set_BtnName(item.value().btn_name);
+            i++;
         }
     }
 }
 
 //初始化软件项
-void SortWidget::init_Element(int i)
+void SortWidget::init_Element()
 {
     QMap<int,int>::iterator it = sort_Element_Num.find(category+1);
     tt = new Element[it.value()];
-    //    if(it.value()<=15)
-    //    {
-    for(int i=0;i<it.value();i++)
+
+    for(int i=0 ; i<it.value() && i<18 ; i++)
     {
         demo_Element.append(tt[i].base_Widget);
     }
-    //    }
-    //    else
-    //    {
-    //        for(int i = 0; i<18;i++)
-    //        {
-    //            demo_Element.append(tt[i].base_Widget);
-    //        }
-    //    }
-
 }
 
 

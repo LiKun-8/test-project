@@ -2,22 +2,22 @@
 #include <QDebug>
 #include <QEvent>
 
-QMap<int,QString> cate_Map;
-QMap<int,SORTSTRUCT>  sort_Str_Map;
-QMap<int,int> sort_Element_Num;
+extern QMap<int,QString> cate_Map;
+extern QMap<int,SORTSTRUCT>  sort_Str_Map;
+extern QMap<int,int> sort_Element_Num;
 
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
 {
     history_Page = 0;
     now_Page = 0;
-    this->resize(944,600);
+    this->resize(940,640);
     hb_Layout = new QHBoxLayout();
     vb_Layout = new QVBoxLayout();
     jsonFunc = new JSON_FUNC();
 
     //初始化窗口
-    init_Window();
+    init_Main_Window();
 
     //上部布局
     hb_Layout->addWidget(btn_Return);
@@ -54,21 +54,11 @@ SoftWindow::~SoftWindow()
 void SoftWindow::Set_Current_Page(int page)
 {
     stw_window->setCurrentIndex(page);
-/*        qDebug()<<stw_window->size().width()<<"***"<<stw_window->size().height()<<endl;
-            qDebug()<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
-        qDebug()<<page_Home->size().width()<<"***"<<page_Home->size().height()<<endl;
-            qDebug()<<page_Sort->size().width()<<"***"<<page_Sort->size().height()<<endl;
-        qDebug()<<page_Update->size().width()<<"***"<<page_Update->size().height()<<endl;
-        qDebug()<<page_Manager->size().width()<<"***"<<page_Manager->size().height()<<endl;
-            qDebug()<<this->size().width()<<"***"<<this->size().height()<<endl;
-        qDebug()<<"sortWidget[1] == "<<sortWidget[1].widget->size().width()<<sortWidget[1].widget->size().height()<<endl;
-            qDebug()<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;*/
     scroll->setGeometry(0,0,page_Sort->size().width(),page_Sort->size().height());
     scroll_More->setGeometry(0,0,page_More->size().width(),page_More->size().height());
-    //        scroll->setGeometry(0,0,this->size().width(),this->size().height());
 }
 
-void SoftWindow::init_Window()
+void SoftWindow::init_Main_Window()
 {
     btn_Return = new QPushButton();
     btn_Return->setStyleSheet("background-image:url(:/image/return.png);");
@@ -185,16 +175,11 @@ void SoftWindow::create_Soft_Window()
 void SoftWindow::create_More_window()
 {
     moreSortWidget = new ShowMore();
-
-    vb_Sort_layout_More = new QVBoxLayout();
     page_More_Widget = new QWidget();
 
     vb_Sort_layout_More = new QVBoxLayout();
     scroll_More = new QScrollArea(page_More);
     scroll_More->setFrameShape(QFrame::NoFrame); //去除窗口边框
-
-//    moreSortWidget->set_Category(1);
-//    moreSortWidget->set_Top_Name();
     vb_Sort_layout_More->addWidget(moreSortWidget->more_Widget);
 
     page_More_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
@@ -263,7 +248,7 @@ void SoftWindow::test_set_name()
     }
     for(int i = 0;i<cate_num;i++)
     {
-        sortWidget[i].init_Element(i);
+        sortWidget[i].init_Element();
         sortWidget[i].set_Element_Name();
     }
 }

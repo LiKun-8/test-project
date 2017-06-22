@@ -18,6 +18,7 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
     ele_Layout->setSpacing(24);
     more_Widget->setMinimumSize(640,0);
     more_Widget->installEventFilter(this);
+    ele_Layout->setContentsMargins(16,0,16,0);
 
     int test = 0;
     for(int i = 0;i<36;i++)

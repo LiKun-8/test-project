@@ -1,8 +1,9 @@
 #include "json_func.h"
 #include <QDebug>
-extern QMap<int,QString> cate_Map;
-extern QMap<int,SORTSTRUCT> sort_Str_Map;
-extern QMap<int,int> sort_Element_Num;
+
+QMap<int,QString> cate_Map;
+QMap<int,SORTSTRUCT> sort_Str_Map;
+QMap<int,int> sort_Element_Num;
 
 JSON_FUNC::JSON_FUNC()
 {
@@ -10,23 +11,21 @@ JSON_FUNC::JSON_FUNC()
     json_Flag = 0;
     category_Num = 0;
     connect(process,SIGNAL(readyRead()),this,SLOT(read_process()));
-    connect(process,SIGNAL(readyReadStandardOutput()),this,SLOT(read_process()));
 }
 
 //获取分类数目
 int JSON_FUNC::get_Category_Num()
 {
     json_Flag = CATEGORIES;
+
     if(process->isOpen())
     {
         process->kill();
     }
+
     QStringList arg;
-    arg.clear();
-    process->kill();
     arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
     process->start("curl",arg);
-    //    process->waitForReadyRead(3);
     process->waitForFinished();
     return category_Num;
 }
@@ -36,23 +35,23 @@ void JSON_FUNC::set_App_name()
 {
 //    qDebug()<<__FUNCTION__<<endl;
     json_Flag = PRODUCTS;
+
+    if(process->isOpen())
+    {
+        process->kill();
+    }
+
     QStringList arg;
-    //    arg.clear();
-    //    process->kill();
     arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
     process->start("curl",arg);
-    //    process->execute("curl",arg);
-    //    process->waitForFinished();
 }
 
 //获取数据槽函数
 void JSON_FUNC::read_process()
 {
-//    qDebug()<<__FUNCTION__<<endl;
     QByteArray data_Read ;
     data_Read += process->readAll();
 
-    //    qDebug()<<"jsonobject : "<<data_Read<<endl;
     QJsonParseError json_error;
     QJsonDocument document = QJsonDocument::fromJson(data_Read,&json_error);
 
@@ -63,10 +62,6 @@ void JSON_FUNC::read_process()
             QJsonObject obj = document.object();
             if(json_Flag == CATEGORIES)
             {
-//                qDebug()<<"json_Flag == "<<json_Flag<<endl;
-
-//                qDebug()<<"1"<<endl;
-
                 QString categor = "Categories";
                 if(obj.contains(categor))
                 {
@@ -92,7 +87,6 @@ void JSON_FUNC::read_process()
                                     if(category.isDouble())
                                     {
                                         cate = category.toInt();
-                                        //                                        qDebug()<<"Category : "<<cate<<endl;
                                     }
                                 }
 
@@ -102,7 +96,6 @@ void JSON_FUNC::read_process()
                                     if(category_name.isString())
                                     {
                                         name = category_name.toString();
-                                        //                                        qDebug()<<"category_name : "<<name<<endl;
                                     }
                                 }
                                 cate_Map[cate] = name;
@@ -114,11 +107,9 @@ void JSON_FUNC::read_process()
 
             if(json_Flag == PRODUCTS)
             {
-//                qDebug()<<"json_Flag == "<<json_Flag<<endl;
                 QString product = "products";
                 if(obj.contains(product))
                 {
-//                    qDebug()<<"2"<<endl;
                     QJsonValue pro = obj.take(product);
                     if(pro.isArray())
                     {
@@ -257,8 +248,6 @@ void JSON_FUNC::read_process()
                                 //                                qDebug()<<"pro_name : "<<pro_name<<endl;
                                 sort_Str_Map.insert(l_nProductId,SORTSTRUCT(cate_id,ico_url,pro_name,0));
                             }
-                            //                            SORTSTRUCT sortstruct(cate_id,ico_url,pro_name,0);
-                            //                            sort_Str_Map.insert(l_nProductId,sortstruct);
                         }
                     }
                 }

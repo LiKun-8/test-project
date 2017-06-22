@@ -2,8 +2,8 @@
 #define SHOWMORE_H
 
 #include <QWidget>
-#include "../simple-soft/sortwidget.h"
-#include "../simple-soft/topsort.h"
+#include "sortwidget.h"
+#include "topsort.h"
 
 class ShowMore : public QWidget
 {

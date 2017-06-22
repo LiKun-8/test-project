@@ -18,13 +18,11 @@ Top_Sort::Top_Sort()
 
 
     line_Top = new QLabel();
-    line_Top = new QLabel();
     line_Top->setStyleSheet("border-top-width: 1px;border-style: solid;border-top-color: rgb(220, 220, 220);");
     line_Top->setMaximumHeight(32);
 
     //美化布局
     hb_Top_Layout = new QHBoxLayout();
-    hb_Top_Layout->setContentsMargins(16,0,16,0);
     hb_Top_Layout->addWidget(label_Top);
     hb_Top_Layout->addSpacerItem(spacer_Top);
     hb_Top_Layout->addWidget(btn_Top);
@@ -34,9 +32,14 @@ Top_Sort::Top_Sort()
     vb_Top_Layout->setMargin(0);
     vb_Top_Layout->addLayout(hb_Top_Layout);
     vb_Top_Layout->addWidget(line_Top);
+    vb_Top_Layout->setContentsMargins(16,0,16,0);
+
     widget->setLayout(vb_Top_Layout);
     widget->setMaximumHeight(48);
     btn_Top->setFocusPolicy(Qt::NoFocus);
+    btn_Top->setMaximumWidth(48);
+    btn_Top->setStyleSheet("text-align: right;");//设置按钮文字显示位置
+    btn_Top->setStyleSheet("background-color: rgb(255, 128, 64);");//设置按钮背景颜色
     connect(btn_Top,SIGNAL(clicked(bool)),this,SLOT(send_Slot_Btn()));
 }
 

@@ -31,7 +31,7 @@ private slots:
 private:
     QPushButton *btn_Image;
     QPushButton *btn_Name;
-    QPushButton *btn_Start;
+    QPushButton *btn_star;
     MyButton *btn_Status;//自定义的按钮
     QVBoxLayout *vb_Layout;
     QHBoxLayout *hb_Layout;

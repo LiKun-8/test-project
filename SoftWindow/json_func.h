@@ -18,9 +18,9 @@ struct SORTSTRUCT{
     int category;
     QString btn_image;
     QString btn_name;
-    int btn_start;
-    SORTSTRUCT(int a,const QString & b,const QString & c,int d):
-        category(a),btn_image(b),btn_name(c),btn_start(d){}
+    int btn_star;
+    SORTSTRUCT(int cate,const QString & image,const QString & name,int star):
+        category(cate),btn_image(image),btn_name(name),btn_star(star){}
 };
 
 

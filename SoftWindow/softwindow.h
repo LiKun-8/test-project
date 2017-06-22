@@ -15,7 +15,7 @@
 #include <QScrollArea>
 #include "softthread.h"
 #include "json_func.h"
-#include "more-page/showmore.h"
+#include "simple-soft/showmore.h"
 
 #include <QStringList>
 #include <QByteArray>
@@ -41,7 +41,7 @@ public:
     SoftWindow(QWidget *parent = 0);
     ~SoftWindow();
     void Set_Current_Page(int page);
-    void init_Window();
+    void init_Main_Window();
 
 
 protected slots:
