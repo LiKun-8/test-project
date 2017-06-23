@@ -1,5 +1,5 @@
-#ifndef SHOWMORE_H
-#define SHOWMORE_H
+#ifndef SHOWMOREH
+#define SHOWMOREH
 
 #include <QWidget>
 #include "sortwidget.h"
@@ -10,17 +10,17 @@ class ShowMore : public QWidget
     Q_OBJECT
 public:
     explicit ShowMore(QWidget *parent = 0);
-    QWidget *more_Widget;
-    void set_Element_Name(int category);
-    void set_Top_Name(int category);
+    QWidget *moreWidget;
+    void setElementName(int category);
+    void setTopName(int category);
 private:
-    Top_Sort *more_TopSort;
+    TopSort *moreTopSort;
     QVBoxLayout *mainLayout;
-    Element *more_Element;
-    QGridLayout *ele_Layout;
+    Element *moreElement;
+    QGridLayout *eleLayout;
     bool eventFilter(QObject *watched, QEvent *event);
-    QWidget  *space_Widget;
-    int category_Flag;
+    QWidget  *spaceWidget;
+    int categoryFlag;
 };
 
-#endif // SHOWMORE_H
+#endif // SHOWMOREH

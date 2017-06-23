@@ -2,48 +2,48 @@
 #include <QDebug>
 #include <QEvent>
 
-extern QMap<int,QString> cate_Map;
-extern QMap<int,SORTSTRUCT>  sort_Str_Map;
-extern QMap<int,int> sort_Element_Num;
+extern QMap<int,QString> cateMap;
+extern QMap<int,SORTSTRUCT>  sortStrMap;
+extern QMap<int,int> sortElementNum;
 
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
 {
-    history_Page = 0;
-    now_Page = 0;
+    historyPage = 0;
+    nowPage = 0;
     this->resize(940,640);
-    hb_Layout = new QHBoxLayout();
-    vb_Layout = new QVBoxLayout();
-    jsonFunc = new JSON_FUNC();
+    hbLayout = new QHBoxLayout();
+    vbLayout = new QVBoxLayout();
+    jsonFunc = new JSONFUNC();
 
     //初始化窗口
-    init_Main_Window();
+    initMainWindow();
 
     //上部布局
-    hb_Layout->addWidget(btn_Return);
-    hb_Layout->addWidget(btn_Next);
-    hb_Layout->addWidget(btn_Refresh);
-    hb_Layout->addSpacerItem(left_Space);
-    hb_Layout->addWidget(btn_Home);
-    hb_Layout->addWidget(btn_Sort);
-    hb_Layout->addWidget(btn_Update);
-    hb_Layout->addWidget(btn_Manager);
-    hb_Layout->addSpacerItem(right_Space);\
-    hb_Layout->addWidget(line_Search);
-    hb_Layout->setSpacing(20);
-    hb_Layout->setMargin(16);
+    hbLayout->addWidget(btnReturn);
+    hbLayout->addWidget(btnNext);
+    hbLayout->addWidget(btnRefresh);
+    hbLayout->addSpacerItem(leftSpace);
+    hbLayout->addWidget(btnHome);
+    hbLayout->addWidget(btnSort);
+    hbLayout->addWidget(btnUpdate);
+    hbLayout->addWidget(btnManager);
+    hbLayout->addSpacerItem(rightSpace);\
+    hbLayout->addWidget(lineSearch);
+    hbLayout->setSpacing(20);
+    hbLayout->setMargin(16);
 
     //整体布局
-    vb_Layout->addLayout(hb_Layout);
-    vb_Layout->addWidget(stw_window);
-    vb_Layout->setMargin(0);
-    vb_Layout->setSpacing(0);
-    this->setLayout(vb_Layout);
+    vbLayout->addLayout(hbLayout);
+    vbLayout->addWidget(stwwindow);
+    vbLayout->setMargin(0);
+    vbLayout->setSpacing(0);
+    this->setLayout(vbLayout);
 
-    connect(btn_Home,SIGNAL(clicked(bool)),this,SLOT(On_Btn_Home()));
-    connect(btn_Sort,SIGNAL(clicked(bool)),this,SLOT(On_Btn_Sort()));
-    connect(btn_Update,SIGNAL(clicked(bool)),this,SLOT(On_Btn_Update()));
-    connect(btn_Manager,SIGNAL(clicked(bool)),this,SLOT(On_Btn_Manager()));
+    connect(btnHome,SIGNAL(clicked(bool)),this,SLOT(OnBtnHome()));
+    connect(btnSort,SIGNAL(clicked(bool)),this,SLOT(OnBtnSort()));
+    connect(btnUpdate,SIGNAL(clicked(bool)),this,SLOT(OnBtnUpdate()));
+    connect(btnManager,SIGNAL(clicked(bool)),this,SLOT(OnBtnManager()));
 }
 
 SoftWindow::~SoftWindow()
@@ -51,205 +51,205 @@ SoftWindow::~SoftWindow()
 }
 
 //跳转指定页面
-void SoftWindow::Set_Current_Page(int page)
+void SoftWindow::SetCurrentPage(int page)
 {
-    stw_window->setCurrentIndex(page);
-    scroll->setGeometry(0,0,page_Sort->size().width(),page_Sort->size().height());
-    scroll_More->setGeometry(0,0,page_More->size().width(),page_More->size().height());
+    stwwindow->setCurrentIndex(page);
+    scroll->setGeometry(0,0,pageSort->size().width(),pageSort->size().height());
+    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
 }
 
-void SoftWindow::init_Main_Window()
+void SoftWindow::initMainWindow()
 {
-    btn_Return = new QPushButton();
-    btn_Return->setStyleSheet("background-image:url(:/image/return.png);");
-    btn_Return->setFixedSize(36,36);
-    btn_Next = new QPushButton();
-    btn_Next->setStyleSheet("background-image:url(:/image/next.png);");
-    btn_Next->setFixedSize(36,36);
-    btn_Refresh = new QPushButton();
-    btn_Refresh->setStyleSheet("background-image:url(:/image/refresh.png);");
-    btn_Refresh->setFixedSize(36,36);
-    btn_Home = new QPushButton();
-    btn_Home->setText("HOME");
-    btn_Home->setFixedSize(80,24);
-    btn_Sort = new QPushButton();
-    btn_Sort->setText("SORT");
-    btn_Sort->setFixedSize(80,24);
-    btn_Update = new QPushButton();
-    btn_Update->setText("UPDATE");
-    btn_Update->setFixedSize(80,24);
-    btn_Manager = new QPushButton();
-    btn_Manager->setText("MANAGER");
-    btn_Manager->setFixedSize(80,24);
+    btnReturn = new QPushButton();
+    btnReturn->setStyleSheet("background-image:url(:/image/return.png);");
+    btnReturn->setFixedSize(36,36);
+    btnNext = new QPushButton();
+    btnNext->setStyleSheet("background-image:url(:/image/next.png);");
+    btnNext->setFixedSize(36,36);
+    btnRefresh = new QPushButton();
+    btnRefresh->setStyleSheet("background-image:url(:/image/refresh.png);");
+    btnRefresh->setFixedSize(36,36);
+    btnHome = new QPushButton();
+    btnHome->setText("HOME");
+    btnHome->setFixedSize(80,24);
+    btnSort = new QPushButton();
+    btnSort->setText("CLASS");
+    btnSort->setFixedSize(80,24);
+    btnUpdate = new QPushButton();
+    btnUpdate->setText("UPDATE");
+    btnUpdate->setFixedSize(80,24);
+    btnManager = new QPushButton();
+    btnManager->setText("MANAGER");
+    btnManager->setFixedSize(80,24);
 
-    //    btn_Manager->setStyleSheet("QPushButton{"
+    //    btnManager->setStyleSheet("QPushButton{"
     //                               "border:3px  ;"//solid black
     //                               "border-radius:5px}");
-    btn_Return->setFlat(true);
-    btn_Next->setFlat(true);
-    btn_Refresh->setFlat(true);
-    btn_Home->setFlat(true);
-    btn_Sort->setFlat(true);
-    btn_Update->setFlat(true);
-    btn_Manager->setFlat(true);
+    btnReturn->setFlat(true);
+    btnNext->setFlat(true);
+    btnRefresh->setFlat(true);
+    btnHome->setFlat(true);
+    btnSort->setFlat(true);
+    btnUpdate->setFlat(true);
+    btnManager->setFlat(true);
 
-    left_Space = new QSpacerItem(24, 24,QSizePolicy::Expanding);
-    right_Space = new QSpacerItem(24,48,QSizePolicy::Expanding,QSizePolicy::Minimum);
+    leftSpace = new QSpacerItem(24, 24,QSizePolicy::Expanding);
+    rightSpace = new QSpacerItem(24,48,QSizePolicy::Expanding,QSizePolicy::Minimum);
 
-    line_Search = new QLineEdit();
-    line_Search->setFixedSize(160,24);
-    line_Search->setPlaceholderText("please input txt");
+    lineSearch = new QLineEdit();
+    lineSearch->setFixedSize(160,24);
+    lineSearch->setPlaceholderText("please input txt");
 
-    stw_window = new QStackedWidget(this);
-    stw_window->setMaximumWidth(1200);
+    stwwindow = new QStackedWidget(this);
+    stwwindow->setMaximumWidth(1200);
 
-    page_Home = new QWidget();
-    page_Sort = new QWidget();
-    //    page_Sort->setAcceptDrops();
-    page_Update = new QWidget();
-    page_Manager = new QWidget();
-    page_More = new QWidget();
+    pageHome = new QWidget();
+    pageSort = new QWidget();
+    //    pageSort->setAcceptDrops();
+    pageUpdate = new QWidget();
+    pageManager = new QWidget();
+    pageMore = new QWidget();
 
-    stw_window->addWidget(page_Home);
-    stw_window->addWidget(page_Sort);
-    stw_window->addWidget(page_Update);
-    stw_window->addWidget(page_Manager);
-    stw_window->addWidget(page_More);
-    label1 = new QLabel(page_Home);
+    stwwindow->addWidget(pageHome);
+    stwwindow->addWidget(pageSort);
+    stwwindow->addWidget(pageUpdate);
+    stwwindow->addWidget(pageManager);
+    stwwindow->addWidget(pageMore);
+    label1 = new QLabel(pageHome);
     label1->setText("HOME");
-    label3 = new QLabel(page_Update);
+    label3 = new QLabel(pageUpdate);
     label3->setText("UPDATE");
-    label4 = new QLabel(page_Manager);
+    label4 = new QLabel(pageManager);
     label4->setText("MANAGER");
 
-    create_Soft_Window();
+    createClassWindow();
 
-    create_More_window();
+    createMorewindow();
 
-    btn_Home->setFocusPolicy(Qt::NoFocus);
-    btn_Manager->setFocusPolicy(Qt::NoFocus);
-    btn_Next->setFocusPolicy(Qt::NoFocus);
-    btn_Refresh->setFocusPolicy(Qt::NoFocus);
-    btn_Return->setFocusPolicy(Qt::NoFocus);
-    btn_Sort->setFocusPolicy(Qt::NoFocus);
-    btn_Update->setFocusPolicy(Qt::NoFocus);
+    btnHome->setFocusPolicy(Qt::NoFocus);
+    btnManager->setFocusPolicy(Qt::NoFocus);
+    btnNext->setFocusPolicy(Qt::NoFocus);
+    btnRefresh->setFocusPolicy(Qt::NoFocus);
+    btnReturn->setFocusPolicy(Qt::NoFocus);
+    btnSort->setFocusPolicy(Qt::NoFocus);
+    btnUpdate->setFocusPolicy(Qt::NoFocus);
     //    process->waitForFinished();
 }
 
 //创建分类页
-void SoftWindow::create_Soft_Window()
+void SoftWindow::createClassWindow()
 {
-    cate_num = jsonFunc->get_Category_Num();
-    jsonFunc->set_App_name();
+    catenum = jsonFunc->getCategoryNum();
+    jsonFunc->setAppname();
 
-    connect(jsonFunc,SIGNAL(curl_IsOk()),this,SLOT(test_set_name()));
+    connect(jsonFunc,SIGNAL(curlIsOk()),this,SLOT(testsetname()));
 
-    sortWidget = new SortWidget[cate_num];
-    vb_Sort_layout = new QVBoxLayout();
-    page_Sort_Widget = new QWidget();
+    sortWidget = new SortWidget[catenum];
+    vbSortlayout = new QVBoxLayout();
+    pageSortWidget = new QWidget();
 
-    vb_Sort_layout = new QVBoxLayout();
-    scroll = new QScrollArea(page_Sort);
+    vbSortlayout = new QVBoxLayout();
+    scroll = new QScrollArea(pageSort);
     scroll->setFrameShape(QFrame::NoFrame); //去除窗口边框
 
-    for(int i=0;i<cate_num;i++)
+    for(int i=0;i<catenum;i++)
     {
-        connect(&sortWidget[i],SIGNAL(more_Show(int)),this,SLOT(set_More_Show(int)));
-        sortWidget[i].set_Category(i);
-        sortWidget[i].set_Top_Name();
-        vb_Sort_layout->addWidget(sortWidget[i].widget);
+        connect(&sortWidget[i],SIGNAL(moreShow(int)),this,SLOT(setMoreShow(int)));
+        sortWidget[i].setCategory(i);
+        sortWidget[i].setTopName();
+        vbSortlayout->addWidget(sortWidget[i].widget);
     }
 
 
-    page_Sort_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
-    scroll->setWidget(page_Sort_Widget);
-    vb_Sort_layout->addSpacerItem(page_Sort_Spacer);
-    vb_Sort_layout->setMargin(0);
-    page_Sort_Widget->setLayout(vb_Sort_layout);
+    pageSortSpacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
+    scroll->setWidget(pageSortWidget);
+    vbSortlayout->addSpacerItem(pageSortSpacer);
+    vbSortlayout->setMargin(0);
+    pageSortWidget->setLayout(vbSortlayout);
     //滚动条不可见，只能通过鼠标滑动
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setWidgetResizable(true);
 }
 
-void SoftWindow::create_More_window()
+void SoftWindow::createMorewindow()
 {
     moreSortWidget = new ShowMore();
-    page_More_Widget = new QWidget();
+    pageMoreWidget = new QWidget();
 
-    vb_Sort_layout_More = new QVBoxLayout();
-    scroll_More = new QScrollArea(page_More);
-    scroll_More->setFrameShape(QFrame::NoFrame); //去除窗口边框
-    vb_Sort_layout_More->addWidget(moreSortWidget->more_Widget);
+    vbSortlayoutMore = new QVBoxLayout();
+    scrollMore = new QScrollArea(pageMore);
+    scrollMore->setFrameShape(QFrame::NoFrame); //去除窗口边框
+    vbSortlayoutMore->addWidget(moreSortWidget->moreWidget);
 
-    page_More_Spacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
-    scroll_More->setWidget(page_More_Widget);
-    vb_Sort_layout_More->addSpacerItem(page_More_Spacer);
-    vb_Sort_layout_More->setMargin(0);
-    page_More_Widget->setLayout(vb_Sort_layout_More);
+    pageMoreSpacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
+    scrollMore->setWidget(pageMoreWidget);
+    vbSortlayoutMore->addSpacerItem(pageMoreSpacer);
+    vbSortlayoutMore->setMargin(0);
+    pageMoreWidget->setLayout(vbSortlayoutMore);
     //滚动条不可见，只能通过鼠标滑动
-    scroll_More->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scroll_More->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scroll_More->setWidgetResizable(true);
+    scrollMore->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollMore->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollMore->setWidgetResizable(true);
 }
 
 
-void SoftWindow::On_Btn_Home()
+void SoftWindow::OnBtnHome()
 {
-    Set_Current_Page(HOME_PAGE);
+    SetCurrentPage(HOMEPAGE);
 }
 
-void SoftWindow::On_Btn_Sort()
+void SoftWindow::OnBtnSort()
 {
-    Set_Current_Page(SOFT_PAGE);
-    stw_window->move((this->size().width()-page_Sort->size().width())/2,72);
+    SetCurrentPage(CLASSPAGE);
+    stwwindow->move((this->size().width()-pageSort->size().width())/2,72);
 }
 
-void SoftWindow::On_Btn_Update()
+void SoftWindow::OnBtnUpdate()
 {
-    Set_Current_Page(UPDATE_PAGE);
+    SetCurrentPage(UPDATEPAGE);
 }
 
-void SoftWindow::On_Btn_Manager()
+void SoftWindow::OnBtnManager()
 {
-    Set_Current_Page(MANAGER_PAGE);
+    SetCurrentPage(MANAGERPAGE);
 }
 
 //测试更多页面跳转
-void SoftWindow::set_More_Show(int i)
+void SoftWindow::setMoreShow(int i)
 {
-//    qDebug()<<page_Sort->size()<<endl;
-    Set_Current_Page(MORE_PAGE);
-    moreSortWidget->set_Top_Name(i);
-    moreSortWidget->set_Element_Name(i);
-    stw_window->move((this->size().width()-page_More->size().width())/2,72);
+//    qDebug()<<pageSort->size()<<endl;
+    SetCurrentPage(MOREPAGE);
+    moreSortWidget->setTopName(i);
+    moreSortWidget->setElementName(i);
+    stwwindow->move((this->size().width()-pageMore->size().width())/2,72);
 
 }
 
 //设置每个软件的名字
-void SoftWindow::test_set_name()
+void SoftWindow::testsetname()
 {
-
-    if(sort_Str_Map.isEmpty())
+    qDebug()<<__FUNCTION__<<endl;
+    if(sortStrMap.isEmpty())
     {
-        qDebug()<<"sort_Str_Map is Empty!"<<endl;
+        qDebug()<<"sortStrMap is Empty!"<<endl;
     }
 
     QMap<int,SORTSTRUCT>::iterator  it;
-    for(it  = sort_Str_Map.begin();it != sort_Str_Map.end(); ++it)
+    for(it  = sortStrMap.begin();it != sortStrMap.end(); ++it)
     {
-        //        qDebug() << it.value().btn_name << endl;
+                qDebug() << it.value().btnname << endl;
     }
 
     QMap<int,int>::iterator item;
-    for(item = sort_Element_Num.begin();item != sort_Element_Num.end();++item)
+    for(item = sortElementNum.begin();item != sortElementNum.end();++item)
     {
-//        qDebug()<<"sor_element_num  ===  "<<item.value()<<endl;
+//        qDebug()<<"sorelementnum  ===  "<<item.value()<<endl;
     }
-    for(int i = 0;i<cate_num;i++)
+    for(int i = 0;i<catenum;i++)
     {
-        sortWidget[i].init_Element();
-        sortWidget[i].set_Element_Name();
+        sortWidget[i].initElement();
+        sortWidget[i].setElementName();
     }
 }
 
@@ -258,9 +258,9 @@ bool SoftWindow::event(QEvent *event)
 {
     if(event->type() == QEvent::Resize)
     {
-        scroll->setGeometry(0,0,page_Sort->size().width(),page_Sort->size().height());
-        scroll_More->setGeometry(0,0,page_More->size().width(),page_More->size().height());
-        stw_window->move((this->size().width()-stw_window->size().width())/2,72);
+        scroll->setGeometry(0,0,pageSort->size().width(),pageSort->size().height());
+        scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
+        stwwindow->move((this->size().width()-stwwindow->size().width())/2,72);
         return true;
     }
 

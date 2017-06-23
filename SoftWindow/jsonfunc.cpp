@@ -1,22 +1,22 @@
-#include "json_func.h"
+#include "jsonfunc.h"
 #include <QDebug>
 
-QMap<int,QString> cate_Map;
-QMap<int,SORTSTRUCT> sort_Str_Map;
-QMap<int,int> sort_Element_Num;
+QMap<int,QString> cateMap;
+QMap<int,SORTSTRUCT> sortStrMap;
+QMap<int,int> sortElementNum;
 
-JSON_FUNC::JSON_FUNC()
+JSONFUNC::JSONFUNC()
 {
     process = new QProcess;
-    json_Flag = 0;
-    category_Num = 0;
-    connect(process,SIGNAL(readyRead()),this,SLOT(read_process()));
+    jsonFlag = 0;
+    categoryNum = 0;
+    connect(process,SIGNAL(readyRead()),this,SLOT(readprocess()));
 }
 
 //获取分类数目
-int JSON_FUNC::get_Category_Num()
+int JSONFUNC::getCategoryNum()
 {
-    json_Flag = CATEGORIES;
+    jsonFlag = CATEGORIES;
 
     if(process->isOpen())
     {
@@ -27,14 +27,14 @@ int JSON_FUNC::get_Category_Num()
     arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
     process->start("curl",arg);
     process->waitForFinished();
-    return category_Num;
+    return categoryNum;
 }
 
 //设置软件名字
-void JSON_FUNC::set_App_name()
+void JSONFUNC::setAppname()
 {
-//    qDebug()<<__FUNCTION__<<endl;
-    json_Flag = PRODUCTS;
+//    qDebug()<<FUNCTION<<endl;
+    jsonFlag = PRODUCTS;
 
     if(process->isOpen())
     {
@@ -47,20 +47,20 @@ void JSON_FUNC::set_App_name()
 }
 
 //获取数据槽函数
-void JSON_FUNC::read_process()
+void JSONFUNC::readprocess()
 {
-    QByteArray data_Read ;
-    data_Read += process->readAll();
+    QByteArray dataRead ;
+    dataRead += process->readAll();
 
-    QJsonParseError json_error;
-    QJsonDocument document = QJsonDocument::fromJson(data_Read,&json_error);
+    QJsonParseError jsonerror;
+    QJsonDocument document = QJsonDocument::fromJson(dataRead,&jsonerror);
 
-    if(json_error.error == QJsonParseError::NoError)
+    if(jsonerror.error == QJsonParseError::NoError)
     {
         if(document.isObject())
         {
             QJsonObject obj = document.object();
-            if(json_Flag == CATEGORIES)
+            if(jsonFlag == CATEGORIES)
             {
                 QString categor = "Categories";
                 if(obj.contains(categor))
@@ -71,7 +71,7 @@ void JSON_FUNC::read_process()
 //                        qDebug()<<"test.type()"<<test.type()<<endl;
                         QJsonArray str = test.toArray();
                         int size = str.size();
-                        category_Num = size;
+                        categoryNum = size;
 
                         for(int i = 0;i < size;i++ )
                         {
@@ -92,20 +92,20 @@ void JSON_FUNC::read_process()
 
                                 if(obj2.contains("category_name"))
                                 {
-                                    QJsonValue category_name = obj2.take("category_name");
-                                    if(category_name.isString())
+                                    QJsonValue categoryname = obj2.take("category_name");
+                                    if(categoryname.isString())
                                     {
-                                        name = category_name.toString();
+                                        name = categoryname.toString();
                                     }
                                 }
-                                cate_Map[cate] = name;
+                                cateMap[cate] = name;
                             }
                         }
                     }
                 }
             }
 
-            if(json_Flag == PRODUCTS)
+            if(jsonFlag == PRODUCTS)
             {
                 QString product = "products";
                 if(obj.contains(product))
@@ -115,18 +115,18 @@ void JSON_FUNC::read_process()
                     {
                         QJsonArray str = pro.toArray();
                         int size = str.size();
-                        QJsonValue category_id ;
+                        QJsonValue categoryid ;
 
-                        int l_nProductId;
-                        int rel_id;
-                        int cate_id;
-                        int pro_cate;
-                        int gra_count;
-                        QString pro_name;
-                        QString ven_name;
-                        QString ico_url;
-                        QString pro_url;
-                        QString pro_desc;
+                        int lnProductId;
+                        int relid;
+                        int cateid;
+                        int procate;
+                        int gracount;
+                        QString proname;
+                        QString venname;
+                        QString icourl;
+                        QString prourl;
+                        QString prodesc;
                         QMap<int,int>::iterator it;
                         for(int i = 0;i < size;i++)
                         {
@@ -138,69 +138,69 @@ void JSON_FUNC::read_process()
 
                                 if(obj2.contains("product_id"))
                                 {
-                                    QJsonValue product_id = obj2.take("product_id");
-                                    if(product_id.isDouble())
+                                    QJsonValue productid = obj2.take("product_id");
+                                    if(productid.isDouble())
                                     {
-                                        l_nProductId = product_id.toInt();
-                                        //                                        qDebug()<<"product_id : "<<l_nProductId<<endl;
+                                        lnProductId = productid.toInt();
+                                        //                                        qDebug()<<"productid : "<<lnProductId<<endl;
                                     }
                                 }
 
                                 if(obj2.contains("release_id"))
                                 {
-                                    QJsonValue release_id = obj2.take("release_id");
-                                    if(release_id.isDouble())
+                                    QJsonValue releaseid = obj2.take("release_id");
+                                    if(releaseid.isDouble())
                                     {
-                                        rel_id = release_id.toInt();
-                                        //                                        qDebug()<<"release_id : "<<rel_id<<endl;
+                                        relid = releaseid.toInt();
+                                        //                                        qDebug()<<"releaseid : "<<relid<<endl;
                                     }
                                 }
 
                                 if(obj2.contains("category_id"))
                                 {
-                                    category_id = obj2.take("category_id");
-                                    if(category_id.isDouble())
+                                    categoryid = obj2.take("category_id");
+                                    if(categoryid.isDouble())
                                     {
-                                        cate_id = category_id.toInt();
-                                        //                                        qDebug()<<"category_id : "<<cate_id<<endl;
-                                        it = sort_Element_Num.find(cate_id);
-                                        if(it != sort_Element_Num.end())
+                                        cateid = categoryid.toInt();
+                                        //                                        qDebug()<<"categoryid : "<<cateid<<endl;
+                                        it = sortElementNum.find(cateid);
+                                        if(it != sortElementNum.end())
                                         {
-                                            sort_Element_Num[cate_id] = it.value()+1;
+                                            sortElementNum[cateid] = it.value()+1;
                                         }
                                         else
                                         {
-                                            sort_Element_Num.insert(cate_id,1);
+                                            sortElementNum.insert(cateid,1);
                                         }
                                     }
                                 }
 
                                 if(obj2.contains("product_name"))
                                 {
-                                    QJsonValue product_name = obj2.take("product_name");
-                                    if(product_name.isString())
+                                    QJsonValue productname = obj2.take("product_name");
+                                    if(productname.isString())
                                     {
-                                        pro_name = product_name.toString();
+                                        proname = productname.toString();
                                     }
                                 }
 
                                 if(obj2.contains("vendor_name"))
                                 {
-                                    QJsonValue vendor_name = obj2.take("vendor_name");
-                                    if(vendor_name.isString())
+                                    QJsonValue vendorname = obj2.take("vendor_name");
+                                    if(vendorname.isString())
                                     {
-                                        ven_name = vendor_name.toString();
-                                        //                                        qDebug()<<"vendor_name : "<<ven_name<<endl;
+                                        venname = vendorname.toString();
+                                        //                                        qDebug()<<"vendorname : "<<venname<<endl;
                                     }
                                 }
 
                                 if(obj2.contains("icon_url"))
                                 {
-                                    QJsonValue icon_url = obj2.take("icon_url");
-                                    if(icon_url.isString())
+                                    QJsonValue iconurl = obj2.take("icon_url");
+                                    if(iconurl.isString())
                                     {
-                                        ico_url = icon_url.toString();
-                                        qDebug()<<"icon_url : "<<ico_url<<endl;
+                                        icourl = iconurl.toString();
+                                        qDebug()<<"icon_url : "<<icourl<<endl;
                                     }
                                 }
 
@@ -209,51 +209,54 @@ void JSON_FUNC::read_process()
                                     QJsonValue url = obj2.take("url");
                                     if(url.isString())
                                     {
-                                        pro_url = url.toString();
-                                        //                                        qDebug()<<"url : "<<pro_url<<endl;
+                                        prourl = url.toString();
+                                        //                                        qDebug()<<"url : "<<prourl<<endl;
                                     }
                                 }
 
                                 if(obj2.contains("product_description"))
                                 {
-                                    QJsonValue product_description = obj2.take("product_description");
-                                    if(product_description.isString())
+                                    QJsonValue productdescription = obj2.take("product_description");
+                                    if(productdescription.isString())
                                     {
-                                        pro_desc = product_description.toString();
-                                        //                                        qDebug()<<"product_description : "<<pro_desc<<endl;
+                                        prodesc = productdescription.toString();
+                                        //                                        qDebug()<<"productdescription : "<<prodesc<<endl;
                                     }
                                 }
 
                                 if(obj2.contains("product_grade"))
                                 {
-                                    QJsonValue product_grade = obj2.take("product_grade");
-                                    if(product_grade.isDouble())
+                                    QJsonValue productgrade = obj2.take("product_grade");
+                                    if(productgrade.isDouble())
                                     {
-                                        pro_cate = product_grade.toInt();
-                                        //                                        qDebug()<<"product_grade : "<<pro_cate<<endl;
+                                        procate = productgrade.toInt();
+                                        //                                        qDebug()<<"productgrade : "<<procate<<endl;
                                     }
                                 }
 
                                 if(obj2.contains("grade_count"))
                                 {
-                                    QJsonValue grade_count = obj2.take("grade_count");
-                                    if(grade_count.isDouble())
+                                    QJsonValue gradecount = obj2.take("grade_count");
+                                    if(gradecount.isDouble())
                                     {
-                                        gra_count = grade_count.toInt();
-                                        //                                        qDebug()<<"grade_count : "<<gra_count<<endl;
+                                        gracount = gradecount.toInt();
+                                        //                                        qDebug()<<"gradecount : "<<gracount<<endl;
                                     }
                                 }
-                                //                                qDebug()<<"cate_id : "<<cate_id<<endl;
-                                //                                qDebug()<<"ico_url : "<<ico_url<<endl;
-                                //                                qDebug()<<"pro_name : "<<pro_name<<endl;
-                                sort_Str_Map.insert(l_nProductId,SORTSTRUCT(cate_id,ico_url,pro_name,0));
+                                                                qDebug()<<"cateid : "<<cateid<<endl;
+                                                                qDebug()<<"icourl : "<<icourl<<endl;
+                                                                qDebug()<<"proname : "<<proname<<endl;
+                                sortStrMap.insert(lnProductId,SORTSTRUCT(cateid,icourl,proname,0));
                             }
                         }
                     }
                 }
             }
         }
-        emit curl_IsOk();
+        emit curlIsOk();
+    }
+    else {
+        qDebug()<<"json is error"<<endl;
     }
 }
 

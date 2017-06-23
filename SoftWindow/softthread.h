@@ -1,5 +1,5 @@
-#ifndef SOFTTHREAD_H
-#define SOFTTHREAD_H
+#ifndef SOFTTHREADH
+#define SOFTTHREADH
 
 #include <QObject>
 #include "simple-soft/element.h"
@@ -17,7 +17,7 @@ class SoftThread : public QThread
 
 public:
     SoftThread();
-    void set_Element(Element *e);
+    void setElement(Element *e);
 
 //protected:
     void run();
@@ -29,8 +29,8 @@ private:
     QStringList arg;
 
 protected slots:
-    void read_process();
+    void readprocess();
     void sta();
 };
 
-#endif // SOFTTHREAD_H
+#endif // SOFTTHREADH

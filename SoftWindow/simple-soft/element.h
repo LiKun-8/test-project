@@ -1,5 +1,5 @@
-#ifndef ELEMENT_H
-#define ELEMENT_H
+#ifndef ELEMENTH
+#define ELEMENTH
 #include <QWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -15,27 +15,27 @@ public:
     Element();
     ~Element();
 
-    QWidget *base_Widget;
+    QWidget *baseWidget;
     void init();//初始化布局
-    void set_BtnImage(const QString& imagePath);//设置应用图标
-    void set_BtnName(const QString& name);//设置应用名字
-    void set_BtnStart();//设置应用评分
-    void set_BtnStatus(const QString& status);//设置应用状态
-    void set_Button(bool);
+    void setBtnImage(const QString& imagePath);//设置应用图标
+    void setBtnName(const QString& name);//设置应用名字
+    void setBtnStart();//设置应用评分
+    void setBtnStatus(const QString& status);//设置应用状态
+    void setButton(bool);
     int category;//应用的分类
-    void set_category(const int& cate);//设置应用分类
+    void setcategory(const int& cate);//设置应用分类
 
 private slots:
-    void btn_Status_Slot();
+    void btnStatusSlot();
 
 private:
-    QPushButton *btn_Image;
-    QPushButton *btn_Name;
-    QPushButton *btn_star;
-    MyButton *btn_Status;//自定义的按钮
-    QVBoxLayout *vb_Layout;
-    QHBoxLayout *hb_Layout;
+    QPushButton *btnImage;
+    QPushButton *btnName;
+    QPushButton *btnstar;
+    MyButton *btnStatus;//自定义的按钮
+    QVBoxLayout *vbLayout;
+    QHBoxLayout *hbLayout;
 };
 
-#endif // ELEMENT_H
+#endif // ELEMENTH
 

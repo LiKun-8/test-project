@@ -7,7 +7,7 @@ SoftThread::SoftThread()
     this->connect(this,SIGNAL(started()),this,SLOT(sta()));
 }
 
-void SoftThread::set_Element(Element *e)
+void SoftThread::setElement(Element *e)
 {
     element = new Element();
     element = e;
@@ -19,19 +19,19 @@ void SoftThread::run()
 //    qDebug()<<"error error"<<endl;
     arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
     process = new QProcess();
-//    this->connect(process,SIGNAL(readyRead()),this,SLOT(read_process()));
+//    this->connect(process,SIGNAL(readyRead()),this,SLOT(readprocess()));
     process->start("curl",arg);
 }
 
-void SoftThread::read_process()
+void SoftThread::readprocess()
 {
-    element[0].set_BtnName("xxxxx");
+    element[0].setBtnName("xxxxx");
     QByteArray xx = process->readAll();
     qDebug()<<"jsonobject : "<<xx<<endl;
-    QJsonParseError json_error;
-    QJsonDocument document = QJsonDocument::fromJson(xx,&json_error);
+    QJsonParseError jsonerror;
+    QJsonDocument document = QJsonDocument::fromJson(xx,&jsonerror);
 
-    if(json_error.error == QJsonParseError::NoError)
+    if(jsonerror.error == QJsonParseError::NoError)
     {
         if(document.isObject())
         {
@@ -56,9 +56,9 @@ void SoftThread::read_process()
             //                        if(value.isObject())
             //                        {
             //                            QJsonObject obj2 = value.toObject();
-            //                            if(obj2.contains("category_id"))
+            //                            if(obj2.contains("categoryid"))
             //                            {
-            //                                QJsonValue category = obj2.take("category_id");
+            //                                QJsonValue category = obj2.take("categoryid");
             //                                if(category.isDouble())
             //                                {
             //                                    int cate = category.toInt();
@@ -66,13 +66,13 @@ void SoftThread::read_process()
             //                                }
             //                            }
 
-            //                            if(obj2.contains("category_name"))
+            //                            if(obj2.contains("categoryname"))
             //                            {
-            //                                QJsonValue category_name = obj2.take("category_name");
-            //                                if(category_name.isString())
+            //                                QJsonValue categoryname = obj2.take("categoryname");
+            //                                if(categoryname.isString())
             //                                {
-            //                                    QString name = category_name.toString();
-            //                                    qDebug()<<"category_name : "<<name<<endl;
+            //                                    QString name = categoryname.toString();
+            //                                    qDebug()<<"categoryname : "<<name<<endl;
             //                                }
             //                            }
             //                        }
@@ -88,7 +88,7 @@ void SoftThread::read_process()
                 {
                     QJsonArray str = pro.toArray();
                     int size = str.size();
-                    QJsonValue category_id ;
+                    QJsonValue categoryid ;
 
                     for(int i = 0;i < size;i++)
                     {
@@ -96,112 +96,112 @@ void SoftThread::read_process()
                         if(value.isObject())
                         {
                             QJsonObject obj2 = value.toObject();
-                            if(obj2.contains("product_id"))
+                            if(obj2.contains("productid"))
                             {
-                                QJsonValue category = obj2.take("product_id");
+                                QJsonValue category = obj2.take("productid");
                                 if(category.isDouble())
                                 {
                                     int cate = category.toInt();
-                                    qDebug()<<"product_id : "<<cate<<endl;
+                                    qDebug()<<"productid : "<<cate<<endl;
                                 }
                             }
 
-                            if(obj2.contains("release_id"))
+                            if(obj2.contains("releaseid"))
                             {
-                                QJsonValue category_name = obj2.take("release_id");
-                                if(category_name.isDouble())
+                                QJsonValue categoryname = obj2.take("releaseid");
+                                if(categoryname.isDouble())
                                 {
-                                    int cate = category_name.toInt();
-                                    qDebug()<<"release_id : "<<cate<<endl;
+                                    int cate = categoryname.toInt();
+                                    qDebug()<<"releaseid : "<<cate<<endl;
                                 }
                             }
 
-                            if(obj2.contains("category_id"))
+                            if(obj2.contains("categoryid"))
                             {
-                                category_id = obj2.take("category_id");
-                                if(category_id.isDouble())
+                                categoryid = obj2.take("categoryid");
+                                if(categoryid.isDouble())
                                 {
-                                    int cate = category_id.toInt();
-                                    qDebug()<<"category_id : "<<cate<<endl;
+                                    int cate = categoryid.toInt();
+                                    qDebug()<<"categoryid : "<<cate<<endl;
                                 }
                             }
 
-                            if(obj2.contains("product_name"))
+                            if(obj2.contains("productname"))
                             {
-                                QJsonValue pro_name = obj2.take("product_name");
-                                if(pro_name.isString())
+                                QJsonValue proname = obj2.take("productname");
+                                if(proname.isString())
                                 {
-                                    QString name = pro_name.toString();
-                                    qDebug()<<"product_name : "<<name<<endl;
+                                    QString name = proname.toString();
+                                    qDebug()<<"productname : "<<name<<endl;
                                     //设置软件名
-                                    if(category_id == (element->category+5))
+                                    if(categoryid == (element->category+5))
                                     {
                                         if(flag >= 15)
                                             break;
-                                        element[flag].set_BtnName(name);
+                                        element[flag].setBtnName(name);
                                         flag++;
                                     }
 
                                 }
                             }
 
-                            if(obj2.contains("vendor_name"))
+                            if(obj2.contains("vendorname"))
                             {
-                                QJsonValue category_name = obj2.take("vendor_name");
-                                if(category_name.isString())
+                                QJsonValue categoryname = obj2.take("vendorname");
+                                if(categoryname.isString())
                                 {
-                                    QString name = category_name.toString();
-                                    qDebug()<<"vendor_name : "<<name<<endl;
+                                    QString name = categoryname.toString();
+                                    qDebug()<<"vendorname : "<<name<<endl;
                                 }
                             }
 
-                            if(obj2.contains("icon_url"))
+                            if(obj2.contains("iconurl"))
                             {
-                                QJsonValue category_name = obj2.take("icon_url");
-                                if(category_name.isString())
+                                QJsonValue categoryname = obj2.take("iconurl");
+                                if(categoryname.isString())
                                 {
-                                    QString name = category_name.toString();
-                                    qDebug()<<"icon_url : "<<name<<endl;
+                                    QString name = categoryname.toString();
+                                    qDebug()<<"iconurl : "<<name<<endl;
                                 }
                             }
 
                             if(obj2.contains("url"))
                             {
-                                QJsonValue category_name = obj2.take("url");
-                                if(category_name.isString())
+                                QJsonValue categoryname = obj2.take("url");
+                                if(categoryname.isString())
                                 {
-                                    QString name = category_name.toString();
+                                    QString name = categoryname.toString();
                                     qDebug()<<"url : "<<name<<endl;
                                 }
                             }
 
-                            if(obj2.contains("product_description"))
+                            if(obj2.contains("productdescription"))
                             {
-                                QJsonValue category_name = obj2.take("product_description");
-                                if(category_name.isString())
+                                QJsonValue categoryname = obj2.take("productdescription");
+                                if(categoryname.isString())
                                 {
-                                    QString name = category_name.toString();
-                                    qDebug()<<"product_description : "<<name<<endl;
+                                    QString name = categoryname.toString();
+                                    qDebug()<<"productdescription : "<<name<<endl;
                                 }
                             }
 
-                            if(obj2.contains("product_grade"))
+                            if(obj2.contains("productgrade"))
                             {
-                                QJsonValue category = obj2.take("product_grade");
+                                QJsonValue category = obj2.take("productgrade");
                                 if(category.isDouble())
                                 {
                                     int cate = category.toInt();
-                                    qDebug()<<"product_grade : "<<cate<<endl;
+                                    qDebug()<<"productgrade : "<<cate<<endl;
                                 }
                             }
 
-                            if(obj2.contains("grade_count"))
+                            if(obj2.contains("gradecount"))
                             {
-                                QJsonValue category = obj2.take("grade_count");
+                                QJsonValue category = obj2.take("gradecount");
                                 if(category.isDouble())
                                 {
                                     int cate = category.toInt();
-                                    qDebug()<<"grade_count : "<<cate<<endl;
+                                    qDebug()<<"gradecount : "<<cate<<endl;
                                 }
                             }
 

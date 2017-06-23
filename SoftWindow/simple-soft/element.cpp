@@ -4,35 +4,35 @@
 
 Element::Element()
 {
-    base_Widget = new QWidget();
-    base_Widget->setFixedSize(144,74);
+    baseWidget = new QWidget();
+    baseWidget->setFixedSize(144,74);
 
-    vb_Layout = new QVBoxLayout();
-    hb_Layout = new QHBoxLayout();
+    vbLayout = new QVBoxLayout();
+    hbLayout = new QHBoxLayout();
 
-    btn_Image = new QPushButton();
-    btn_Image->setFixedSize(64,64);
-//    btn_Image->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
-//    set_BtnImage("/home/lk/qt-project/SoftWindow/image/gift.png");
-    set_BtnImage("/usr/share/zenmap/pixmaps/zenmap.png");
-    btn_Name = new QPushButton();
-    btn_Name->setFixedSize(72,22);
-    btn_Name->setStyleSheet("text-align: left;");//设置按钮文字显示位置-左对齐
+    btnImage = new QPushButton();
+    btnImage->setFixedSize(64,64);
+//    btnImage->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
+//    setBtnImage("/home/lk/qt-project/SoftWindow/image/gift.png");
+    setBtnImage("/usr/share/zenmap/pixmaps/zenmap.png");
+    btnName = new QPushButton();
+    btnName->setFixedSize(72,22);
+    btnName->setStyleSheet("text-align: left;");//设置按钮文字显示位置-左对齐
 
     //    QFont xx("Timer",12,QFont::Bold);
-    //    btn_Name->setFont(xx);
-    btn_Image->setFlat(true);
-    btn_Name->setFlat(true);
-    vb_Layout->addWidget(btn_Name);
-    vb_Layout->setMargin(0);
-    vb_Layout->setSpacing(0);
+    //    btnName->setFont(xx);
+    btnImage->setFlat(true);
+    btnName->setFlat(true);
+    vbLayout->addWidget(btnName);
+    vbLayout->setMargin(0);
+    vbLayout->setSpacing(0);
 
-    hb_Layout->addWidget(btn_Image);
+    hbLayout->addWidget(btnImage);
     init();
-    hb_Layout->addLayout(vb_Layout);
-    hb_Layout->setMargin(0);
-    hb_Layout->setSpacing(0);
-    base_Widget->setLayout(hb_Layout);
+    hbLayout->addLayout(vbLayout);
+    hbLayout->setMargin(0);
+    hbLayout->setSpacing(0);
+    baseWidget->setLayout(hbLayout);
 }
 
 Element::~Element()
@@ -42,70 +42,70 @@ Element::~Element()
 
 void Element::init()
 {
-    btn_star = new QPushButton();
-    btn_star->setFixedSize(72,10);
-    btn_star->setEnabled(false);
-    btn_Status = new MyButton();
-    btn_Status->setFixedSize(72,24);
-    //    btn_star->setFlat(true);
-//        btn_Status->setFlat(true);
-    vb_Layout->addWidget(btn_star);
-    vb_Layout->addWidget(btn_Status);
-    set_BtnStatus("download");
-    connect(btn_Status,SIGNAL(clicked(bool)),this,SLOT(btn_Status_Slot()));
+    btnstar = new QPushButton();
+    btnstar->setFixedSize(72,10);
+    btnstar->setEnabled(false);
+    btnStatus = new MyButton();
+    btnStatus->setFixedSize(72,24);
+    //    btnstar->setFlat(true);
+//        btnStatus->setFlat(true);
+    vbLayout->addWidget(btnstar);
+    vbLayout->addWidget(btnStatus);
+    setBtnStatus("download");
+    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(btnStatusSlot()));
 
     //去除矩形虚线框
-    btn_Name->setFocusPolicy(Qt::NoFocus);
-    btn_Image->setFocusPolicy(Qt::NoFocus);
-    btn_star->setFocusPolicy(Qt::NoFocus);
-    btn_Status->setFocusPolicy(Qt::NoFocus);
-    btn_Status->setCursor(Qt::PointingHandCursor);
-    btn_Name->setCursor(Qt::PointingHandCursor);
-    btn_Image->setCursor(Qt::PointingHandCursor);
+    btnName->setFocusPolicy(Qt::NoFocus);
+    btnImage->setFocusPolicy(Qt::NoFocus);
+    btnstar->setFocusPolicy(Qt::NoFocus);
+    btnStatus->setFocusPolicy(Qt::NoFocus);
+    btnStatus->setCursor(Qt::PointingHandCursor);
+    btnName->setCursor(Qt::PointingHandCursor);
+    btnImage->setCursor(Qt::PointingHandCursor);
 }
 
-void Element::set_BtnImage(const QString &imagePath)
+void Element::setBtnImage(const QString &imagePath)
 {
     QPixmap pix = QPixmap(imagePath);
-    btn_Image->setIcon(pix);
-    btn_Image->setIconSize(pix.size());
-//    btn_Image->setStyleSheet(imagePath);
+    btnImage->setIcon(pix);
+    btnImage->setIconSize(pix.size());
+//    btnImage->setStyleSheet(imagePath);
 }
 
-void Element::set_BtnName(const QString &name)
+void Element::setBtnName(const QString &name)
 {
     //使文本生成省略号(...)
-    QFontMetrics metrice(btn_Name->font());
-    QString nameText = metrice.elidedText(name,Qt::ElideRight,btn_Name->width());
-    btn_Name->setText(nameText);
-    btn_Name->setToolTip(name);
+    QFontMetrics metrice(btnName->font());
+    QString nameText = metrice.elidedText(name,Qt::ElideRight,btnName->width());
+    btnName->setText(nameText);
+    btnName->setToolTip(name);
 }
 
-void Element::set_BtnStart()
+void Element::setBtnStart()
 {
 
 }
 
-void Element::set_BtnStatus(const QString &status)
+void Element::setBtnStatus(const QString &status)
 {
-    btn_Status->setText(status);
-    btn_Status->setToolTip(status);
+    btnStatus->setText(status);
+    btnStatus->setToolTip(status);
 }
 
-void Element::set_Button(bool)
+void Element::setButton(bool)
 {
 
 }
 
-void Element::btn_Status_Slot()
+void Element::btnStatusSlot()
 {
-    btn_Status->setText("NULL");
-    btn_Status->setEnabled(false);
+    btnStatus->setText("NULL");
+    btnStatus->setEnabled(false);
 //    qDebug()<<"btn  status slot"<<endl;
-    btn_Status->setToolTip(btn_Status->text());
+    btnStatus->setToolTip(btnStatus->text());
 }
 
-void Element::set_category(const int &cate)
+void Element::setcategory(const int &cate)
 {
     category = cate;
     qDebug()<<"Element   category is : "<<category<<endl;

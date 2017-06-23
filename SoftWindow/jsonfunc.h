@@ -1,5 +1,5 @@
-#ifndef JSON_FUNC_H
-#define JSON_FUNC_H
+#ifndef JSONFUNCH
+#define JSONFUNCH
 
 #include <QObject>
 #include <QProcess>
@@ -16,36 +16,36 @@
 
 struct SORTSTRUCT{
     int category;
-    QString btn_image;
-    QString btn_name;
-    int btn_star;
+    QString btnimage;
+    QString btnname;
+    int btnstar;
     SORTSTRUCT(int cate,const QString & image,const QString & name,int star):
-        category(cate),btn_image(image),btn_name(name),btn_star(star){}
+        category(cate),btnimage(image),btnname(name),btnstar(star){}
 };
 
 
-class JSON_FUNC : public QObject
+class JSONFUNC : public QObject
 {
     Q_OBJECT
 
 public:
-    JSON_FUNC();
-    int get_Category_Num();
-    void set_App_name();
+    JSONFUNC();
+    int getCategoryNum();
+    void setAppname();
 
 protected slots:
-    void read_process();
+    void readprocess();
 
 signals:
-    void curl_IsOk();
+    void curlIsOk();
 
 private:
-    int json_Flag;
-    int category_Num;
+    int jsonFlag;
+    int categoryNum;
     QProcess *process ;
     int flag;
 //    QStringList arg;
 
 };
 
-#endif // JSON_FUNC_H
+#endif // JSONFUNCH

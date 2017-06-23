@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     simple-soft/topsort.cpp \
     simple-soft/mybutton.cpp \
     softthread.cpp \
-    json_func.cpp
+    simple-soft/showmore.cpp \
+    jsonfunc.cpp
 
 HEADERS  += softwindow.h \
     simple-soft/element.h \
@@ -27,7 +28,8 @@ HEADERS  += softwindow.h \
     simple-soft/topsort.h \
     simple-soft/mybutton.h \
     softthread.h \
-    json_func.h
+    simple-soft/showmore.h \
+    jsonfunc.h
 
 RESOURCES += \
     iamge.qrc

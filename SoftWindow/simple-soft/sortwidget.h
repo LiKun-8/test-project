@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef WIDGETH
+#define WIDGETH
 #include <QMainWindow>
 #include "element.h"
 #include "topsort.h"
@@ -19,22 +19,22 @@ public:
     explicit SortWidget(QWidget *parent = 0);
     ~SortWidget();
     QWidget *widget;
-    void set_Category(const int& cate);//设置分类标志
-    void set_Top_Name();//设置分类项的名字
-    void set_Element_Name();//设置软件的名字
-    void init_Element();//初始化软件对象
+    void setCategory(const int& cate);//设置分类标志
+    void setTopName();//设置分类项的名字
+    void setElementName();//设置软件的名字
+    void initElement();//初始化软件对象
 
 private:
     //每一个软件项`
     Element *tt;
     //每个分类项的顶部
-    Top_Sort *topsort;
+    TopSort *topsort;
     //软件项布局
-    QGridLayout *grid_Layout;
+    QGridLayout *gridLayout;
     //软件项的列表
-    QVector<QWidget *> demo_Element;
+    QVector<QWidget *> demoElement;
     //主布局
-    QVBoxLayout *main_Layout;
+    QVBoxLayout *mainLayout;
     //弹簧布局
     QSpacerItem *spacer;
     //分类线程
@@ -42,7 +42,7 @@ private:
     //分类的标志
     int category;
     //空白widget
-    QWidget *space_Widget;
+    QWidget *spaceWidget;
 
     int index;
     QLayoutItem *child;
@@ -51,10 +51,10 @@ protected:
     bool eventFilter(QObject *target, QEvent *event);
 
 signals:
-    void more_Show(int);
+    void moreShow(int);
 
 protected slots:
-    void send_More_Show(int i);
+    void sendMoreShow(int i);
 };
 
-#endif // WIDGET_H
+#endif // WIDGETH

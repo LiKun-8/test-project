@@ -1,5 +1,5 @@
-#ifndef TOPSORT_H
-#define TOPSORT_H
+#ifndef TOPSORTH
+#define TOPSORTH
 #include <QPushButton>
 #include <QLabel>
 #include <QSpacerItem>
@@ -7,44 +7,44 @@
 #include <QWidget>
 #include <QObject>
 
-class Top_Sort:public QObject
+class TopSort:public QObject
 {
     Q_OBJECT
 
 public:
-    Top_Sort();
-    ~Top_Sort();
+    TopSort();
+    ~TopSort();
     //布局窗口
     QWidget *widget;
     //设置更多按钮文本
-    void set_Btn_Data();
+    void setBtnData();
     //设置软件项名称
-    void set_Label_Data(QString data);
+    void setLabelData(QString data);
     //分类项
     int category;
     //设置分类项
-    void set_category(int cate);
-    void set_Topbtn_Hide();
+    void setcategory(int cate);
+    void setTopbtnHide();
 
 private:
     //更多按钮
-    QPushButton *btn_Top;
+    QPushButton *btnTop;
     //软件项名称
-    QLabel *label_Top;
+    QLabel *labelTop;
     //横线
-    QLabel *line_Top;
+    QLabel *lineTop;
     //弹簧布局
-    QSpacerItem *spacer_Top;
+    QSpacerItem *spacerTop;
     //布局
-    QHBoxLayout *hb_Top_Layout;
-    QVBoxLayout *vb_Top_Layout;
+    QHBoxLayout *hbTopLayout;
+    QVBoxLayout *vbTopLayout;
 
 signals:
-    void show_All(int i);
+    void showAll(int i);
 
 protected slots:
-    void send_Slot_Btn();
+    void sendSlotBtn();
 };
 
-#endif // TOPSORT_H
+#endif // TOPSORTH
 

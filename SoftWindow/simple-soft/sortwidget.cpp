@@ -3,36 +3,36 @@
 #include <QDebug>
 #include <QSpacerItem>
 #include <QEvent>
-#include "json_func.h"
+#include "jsonfunc.h"
 
-extern QMap<int,QString> cate_Map;
-extern QMap<int,SORTSTRUCT>  sort_Str_Map;
-extern QMap<int,int> sort_Element_Num;
+extern QMap<int,QString> cateMap;
+extern QMap<int,SORTSTRUCT>  sortStrMap;
+extern QMap<int,int> sortElementNum;
 
 SortWidget::SortWidget(QWidget *parent) :
     QWidget(parent)
 {
     widget = new QWidget();
     widget->setMinimumSize(640,0);
-    topsort = new Top_Sort();
+    topsort = new TopSort();
 
-    grid_Layout = new QGridLayout();
-    grid_Layout->setSpacing(24);
-    grid_Layout->setContentsMargins(16,0,16,0);
+    gridLayout = new QGridLayout();
+    gridLayout->setSpacing(24);
+    gridLayout->setContentsMargins(16,0,16,0);
 
-    main_Layout = new QVBoxLayout();
-    main_Layout->addWidget(topsort->widget);
-    main_Layout->addLayout(grid_Layout);
+    mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(topsort->widget);
+    mainLayout->addLayout(gridLayout);
 
-    widget->setLayout(main_Layout);
+    widget->setLayout(mainLayout);
     widget->installEventFilter(this);
 
-    connect(topsort,SIGNAL(show_All(int)),this,SLOT(send_More_Show(int)));
+    connect(topsort,SIGNAL(showAll(int)),this,SLOT(sendMoreShow(int)));
 
-    space_Widget = new QWidget[5];
+    spaceWidget = new QWidget[5];
     for(int i =0 ;i<5;i++)
     {
-        space_Widget[i].setFixedSize(144,74);
+        spaceWidget[i].setFixedSize(144,74);
     }
 }
 
@@ -40,10 +40,10 @@ SortWidget::~SortWidget()
 {
 }
 //设置分类标志
-void SortWidget::set_Category(const int &cate)
+void SortWidget::setCategory(const int &cate)
 {
-    //    tt->set_category(cate);
-    topsort->set_category(cate);
+    //    tt->setcategory(cate);
+    topsort->setcategory(cate);
     category = cate;
 }
 
@@ -54,23 +54,23 @@ bool SortWidget::eventFilter(QObject *target, QEvent *event)
     {
         if(event->type() == QEvent::Resize)
         {
-            int num_Element =0;
+            int numElement =0;
             int column = (widget->size().width()+48)/192;
             int row;
             //            qDebug()<<"column 1  ==  "<<column<<endl;
 
-            if(demo_Element.isEmpty())
+            if(demoElement.isEmpty())
             {
                 return true;
             }
 
-            if(demo_Element.size()%column == 0)
+            if(demoElement.size()%column == 0)
             {
-                row  = (demo_Element.size()/column);
+                row  = (demoElement.size()/column);
             }
             else
             {
-                row  = (demo_Element.size()/column)+1;
+                row  = (demoElement.size()/column)+1;
             }
 
             if(row > 3)
@@ -83,21 +83,21 @@ bool SortWidget::eventFilter(QObject *target, QEvent *event)
                 qDebug()<<"column or row is error!"<<endl;
             }
 
-            if(!grid_Layout->isEmpty())
+            if(!gridLayout->isEmpty())
             {
                 //现有的控件不必清空,只是对现有的控件进行排序
-                //                for(int i=0;i<demo_Element.size();i++)
+                //                for(int i=0;i<demoElement.size();i++)
                 //                {
-                //                    while((child = grid_Layout->takeAt(0))!=0)
+                //                    while((child = gridLayout->takeAt(0))!=0)
                 //                        delete child;
-                //                    grid_Layout->removeWidget(demo_Element.at(i));
+                //                    gridLayout->removeWidget(demoElement.at(i));
 
                 //                }
 
                 //空Widget每次都要清空
                 for(int i = 0;i < column;i++)
                 {
-                    grid_Layout->removeWidget(&space_Widget[i]);
+                    gridLayout->removeWidget(&spaceWidget[i]);
                 }
 
             }
@@ -108,11 +108,11 @@ bool SortWidget::eventFilter(QObject *target, QEvent *event)
                 for(int j=0;j<column;j++)
                 {
 
-                    grid_Layout->addWidget(demo_Element.at(num_Element),i,j,1,1,Qt::AlignLeft);
+                    gridLayout->addWidget(demoElement.at(numElement),i,j,1,1,Qt::AlignLeft);
 
-                    if(num_Element<demo_Element.size()-1)
+                    if(numElement<demoElement.size()-1)
                     {
-                        num_Element++;
+                        numElement++;
                     }
                     else
                     {
@@ -122,24 +122,24 @@ bool SortWidget::eventFilter(QObject *target, QEvent *event)
             }
 
             //为不够一行的软件类添加空控件，使布局好看
-            for(int i = 0;i<(column - demo_Element.size());i++)
+            for(int i = 0;i<(column - demoElement.size());i++)
             {
-                grid_Layout->addWidget(&space_Widget[i],0,demo_Element.size()+i,1,1,Qt::AlignLeft);
+                gridLayout->addWidget(&spaceWidget[i],0,demoElement.size()+i,1,1,Qt::AlignLeft);
             }
 
             //隐藏多余的控件
-            if(demo_Element.size()>=(row*column) && column > 3)
+            if(demoElement.size()>=(row*column) && column > 3)
             {
 
-                for(int i = (row*column);i<demo_Element.size();i++)
+                for(int i = (row*column);i<demoElement.size();i++)
                 {
 
-                    demo_Element.at(i)->hide();
+                    demoElement.at(i)->hide();
                 }
                 for(int i = 0;i<(row*column);i++)
                 {
 
-                    demo_Element.at(i)->show();
+                    demoElement.at(i)->show();
                 }
             }
         }
@@ -148,58 +148,58 @@ bool SortWidget::eventFilter(QObject *target, QEvent *event)
     return QWidget::eventFilter(target,event);
 }
 
-void SortWidget::send_More_Show(int i)
+void SortWidget::sendMoreShow(int i)
 {
-    emit more_Show(i);
+    emit moreShow(i);
     //    qDebug()<<" More  Show  !!!!!!!"<<endl;
 }
 
 //设置分类项名字
-void SortWidget::set_Top_Name()
+void SortWidget::setTopName()
 {
-    if(cate_Map.isEmpty())
+    if(cateMap.isEmpty())
     {
-        qDebug()<<"the cate_Map is empty!"<<endl;
+        qDebug()<<"the cateMap is empty!"<<endl;
     }
 
-    if(cate_Map.contains(category+1))
+    if(cateMap.contains(category+1))
     {
-        QMap<int,QString>::iterator it = cate_Map.find(category+1);
-        topsort->set_Label_Data(it.value());
+        QMap<int,QString>::iterator it = cateMap.find(category+1);
+        topsort->setLabelData(it.value());
         //        qDebug()<<"the it.value is : "<<it.value()<<endl;
     }
 
 }
 
 //设置软件项名字
-void SortWidget::set_Element_Name()
+void SortWidget::setElementName()
 {
-    if(sort_Str_Map.isEmpty())
+    if(sortStrMap.isEmpty())
     {
-        qDebug()<<"the sort_str is empty!"<<endl;
+        qDebug()<<"the sortstr is empty!"<<endl;
     }
 
-    QMap<int,SORTSTRUCT>::iterator item = sort_Str_Map.begin();
-    for(int i = 0;item != sort_Str_Map.end() && i<18 ; ++item)
+    QMap<int,SORTSTRUCT>::iterator item = sortStrMap.begin();
+    for(int i = 0;item != sortStrMap.end() && i<18 ; ++item)
     {
-        //        qDebug()<<"the sort_str is empty!"<<item.value().btn_name<<endl;
+        //        qDebug()<<"the sortstr is empty!"<<item.value().btnname<<endl;
         if(item.value().category == (category+1))
         {
-            tt[i].set_BtnName(item.value().btn_name);
+            tt[i].setBtnName(item.value().btnname);
             i++;
         }
     }
 }
 
 //初始化软件项
-void SortWidget::init_Element()
+void SortWidget::initElement()
 {
-    QMap<int,int>::iterator it = sort_Element_Num.find(category+1);
+    QMap<int,int>::iterator it = sortElementNum.find(category+1);
     tt = new Element[it.value()];
 
     for(int i=0 ; i<it.value() && i<18 ; i++)
     {
-        demo_Element.append(tt[i].base_Widget);
+        demoElement.append(tt[i].baseWidget);
     }
 }
 
