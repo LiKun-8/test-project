@@ -13,7 +13,8 @@ Element::Element()
     btn_Image = new QPushButton();
     btn_Image->setFixedSize(64,64);
 //    btn_Image->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
-    set_BtnImage("/home/lk/qt-project/SoftWindow/image/gift.png");
+//    set_BtnImage("/home/lk/qt-project/SoftWindow/image/gift.png");
+    set_BtnImage("/usr/share/zenmap/pixmaps/zenmap.png");
     btn_Name = new QPushButton();
     btn_Name->setFixedSize(72,22);
     btn_Name->setStyleSheet("text-align: left;");//设置按钮文字显示位置-左对齐
@@ -58,9 +59,12 @@ void Element::init()
     btn_Image->setFocusPolicy(Qt::NoFocus);
     btn_star->setFocusPolicy(Qt::NoFocus);
     btn_Status->setFocusPolicy(Qt::NoFocus);
+    btn_Status->setCursor(Qt::PointingHandCursor);
+    btn_Name->setCursor(Qt::PointingHandCursor);
+    btn_Image->setCursor(Qt::PointingHandCursor);
 }
 
-void Element::set_BtnImage(QString imagePath)
+void Element::set_BtnImage(const QString &imagePath)
 {
     QPixmap pix = QPixmap(imagePath);
     btn_Image->setIcon(pix);
@@ -68,7 +72,7 @@ void Element::set_BtnImage(QString imagePath)
 //    btn_Image->setStyleSheet(imagePath);
 }
 
-void Element::set_BtnName(QString name)
+void Element::set_BtnName(const QString &name)
 {
     //使文本生成省略号(...)
     QFontMetrics metrice(btn_Name->font());
@@ -82,7 +86,7 @@ void Element::set_BtnStart()
 
 }
 
-void Element::set_BtnStatus(QString status)
+void Element::set_BtnStatus(const QString &status)
 {
     btn_Status->setText(status);
     btn_Status->setToolTip(status);
@@ -101,7 +105,7 @@ void Element::btn_Status_Slot()
     btn_Status->setToolTip(btn_Status->text());
 }
 
-void Element::set_category(int cate)
+void Element::set_category(const int &cate)
 {
     category = cate;
     qDebug()<<"Element   category is : "<<category<<endl;

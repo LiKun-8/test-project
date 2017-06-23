@@ -40,7 +40,7 @@ SortWidget::~SortWidget()
 {
 }
 //设置分类标志
-void SortWidget::set_Category(int cate)
+void SortWidget::set_Category(const int &cate)
 {
     //    tt->set_category(cate);
     topsort->set_category(cate);

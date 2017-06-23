@@ -40,6 +40,7 @@ Top_Sort::Top_Sort()
     btn_Top->setMaximumWidth(48);
     btn_Top->setStyleSheet("text-align: right;");//设置按钮文字显示位置
     btn_Top->setStyleSheet("background-color: rgb(255, 128, 64);");//设置按钮背景颜色
+    btn_Top->setCursor(Qt::PointingHandCursor);
     connect(btn_Top,SIGNAL(clicked(bool)),this,SLOT(send_Slot_Btn()));
 }
 

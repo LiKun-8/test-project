@@ -39,6 +39,7 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
         }
 
     }
+
     category_Flag = -1;
     space_Widget = new QWidget[5];
     mainLayout->addWidget(more_TopSort->widget);

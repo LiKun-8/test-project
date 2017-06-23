@@ -200,7 +200,7 @@ void JSON_FUNC::read_process()
                                     if(icon_url.isString())
                                     {
                                         ico_url = icon_url.toString();
-                                        //                                        qDebug()<<"icon_url : "<<ico_url<<endl;
+                                        qDebug()<<"icon_url : "<<ico_url<<endl;
                                     }
                                 }
 

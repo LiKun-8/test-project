@@ -19,7 +19,7 @@ public:
     explicit SortWidget(QWidget *parent = 0);
     ~SortWidget();
     QWidget *widget;
-    void set_Category(int cate);//设置分类标志
+    void set_Category(const int& cate);//设置分类标志
     void set_Top_Name();//设置分类项的名字
     void set_Element_Name();//设置软件的名字
     void init_Element();//初始化软件对象
