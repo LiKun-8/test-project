@@ -14,15 +14,18 @@
 #define PRODUCT     2
 #define PRODUCTS    3
 
-struct SORTSTRUCT{
+struct CLASSSTRUCT{
     int category;
     QString btnimage;
     QString btnname;
     int btnstar;
-    SORTSTRUCT(int cate,const QString & image,const QString & name,int star):
+    CLASSSTRUCT(int cate,const QString & image,const QString & name,int star):
         category(cate),btnimage(image),btnname(name),btnstar(star){}
 };
 
+typedef QMap<int,QString> CATEGORYMAP;
+typedef QMap<int,CLASSSTRUCT> CLASSSTRUCTMAP;
+typedef QMap<int,int> ELEMENTNUMBERMAP;
 
 class JSONFUNC : public QObject
 {
@@ -30,14 +33,17 @@ class JSONFUNC : public QObject
 
 public:
     JSONFUNC();
-    int getCategoryNum();
-    void setAppname();
+    int GetCategoryNum();
+    void SetAppname();
+    CATEGORYMAP cateMap;
+    CLASSSTRUCTMAP classStrMap;
+    ELEMENTNUMBERMAP classElementNumMap;
 
 protected slots:
-    void readprocess();
+    void ReadProcess();
 
 signals:
-    void curlIsOk();
+    void CurlIsOk();
 
 private:
     int jsonFlag;

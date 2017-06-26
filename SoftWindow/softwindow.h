@@ -11,7 +11,7 @@
 #include <QSpacerItem>
 #include <QWidget>
 #include <QLineEdit>
-#include "simple-soft/sortwidget.h"
+#include "simple-soft/classwidget.h"
 #include <QScrollArea>
 #include "softthread.h"
 #include "jsonfunc.h"
@@ -41,7 +41,7 @@ public:
     SoftWindow(QWidget *parent = 0);
     ~SoftWindow();
     void SetCurrentPage(int page);
-    void initMainWindow();
+    void InitMainWindow();
 
 
 protected slots:
@@ -49,16 +49,14 @@ protected slots:
     void OnBtnSort();
     void OnBtnUpdate();
     void OnBtnManager();
-//    void readprocess();
-    void setMoreShow(int i);
-    void testsetname();
+    void SetMoreShow(const int i);
+    void SetClassElementName();
 
 private:
 
     int historyPage;
     int nowPage;
     int catenum;
-//    int mnCategerNumber;
     QPushButton *btnReturn;
     QPushButton *btnNext;
     QPushButton *btnRefresh;
@@ -68,46 +66,41 @@ private:
     QPushButton *btnManager;
 
     QStackedWidget *stwwindow;
-
-    SortWidget *sortWidget;//分类对象
+    ClassWidget *classWidget;//分类对象
 
     QLabel *label1;
     QLabel *label3;
     QLabel *label4;
 
     QLineEdit *lineSearch;
-    QScrollArea  *scroll;
+    QScrollArea  *scrollClass;
     QScrollArea  *scrollMore;
     QGridLayout *mainLayout;
     QVBoxLayout *vbLayout;
     QHBoxLayout *hbLayout;
-    QVBoxLayout *vbSortlayout;
-    QVBoxLayout *vbSortlayoutMore;
+    QVBoxLayout *vbClasslayout;
+    QVBoxLayout *vbClasslayoutMore;
 
 
     QSpacerItem *leftSpace;
     QSpacerItem *rightSpace;
 
     QWidget *pageHome;
-    QWidget *pageSort;
+    QWidget *pageClass;
     QWidget *pageUpdate;
     QWidget *pageManager;
-    QWidget *pageSortWidget;
+    QWidget *pageClassWidget;
     QWidget *pageMoreWidget;
     QWidget *pageMore;
-    QSpacerItem *pageSortSpacer;
+    QSpacerItem *pageClassSpacer;
     QSpacerItem *pageMoreSpacer;
 
     SoftThread *softThread; //分类的线程
     JSONFUNC *jsonFunc;//数据读取
+    ShowMore *moreClassWidget;
 
-    ShowMore *moreSortWidget;
-
-    void createClassWindow();
-    void createMorewindow();
-
-//    void resizeEvent(QResizeEvent *);
-//    void changeEvent(QEvent *event);
+    void CreateClassWindow();
+    void CreateMorewindow();
     bool event(QEvent *event);
 };
 

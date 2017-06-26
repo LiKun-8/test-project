@@ -5,7 +5,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
-#include "mybutton.h"
+#include "custombutton.h"
 
 class Element:public QObject
 {
@@ -16,23 +16,23 @@ public:
     ~Element();
 
     QWidget *baseWidget;
-    void init();//初始化布局
-    void setBtnImage(const QString& imagePath);//设置应用图标
-    void setBtnName(const QString& name);//设置应用名字
-    void setBtnStart();//设置应用评分
-    void setBtnStatus(const QString& status);//设置应用状态
-    void setButton(bool);
+    void Init();//初始化布局
+    void SetBtnImage(QString imagePath);//设置应用图标
+    void SetBtnName(QString name);//设置应用名字
+    void SetBtnStart();//设置应用评分
+    void SetBtnStatus(QString status);//设置应用状态
+    void SetButton(bool);
     int category;//应用的分类
-    void setcategory(const int& cate);//设置应用分类
+    void Setcategory(int cate);//设置应用分类
 
 private slots:
-    void btnStatusSlot();
+    void BtnStatusSlot();
 
 private:
     QPushButton *btnImage;
     QPushButton *btnName;
     QPushButton *btnstar;
-    MyButton *btnStatus;//自定义的按钮
+    CustomButton *btnStatus;//自定义的按钮
     QVBoxLayout *vbLayout;
     QHBoxLayout *hbLayout;
 };

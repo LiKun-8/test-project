@@ -25,7 +25,7 @@ void SoftThread::run()
 
 void SoftThread::readprocess()
 {
-    element[0].setBtnName("xxxxx");
+    element[0].SetBtnName("xxxxx");
     QByteArray xx = process->readAll();
     qDebug()<<"jsonobject : "<<xx<<endl;
     QJsonParseError jsonerror;
@@ -138,7 +138,7 @@ void SoftThread::readprocess()
                                     {
                                         if(flag >= 15)
                                             break;
-                                        element[flag].setBtnName(name);
+                                        element[flag].SetBtnName(name);
                                         flag++;
                                     }
 

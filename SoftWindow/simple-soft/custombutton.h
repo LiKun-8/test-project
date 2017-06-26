@@ -1,14 +1,14 @@
-#ifndef MYBUTTON_H
-#define MYBUTTON_H
+#ifndef CUSTOMBUTTON_H
+#define CUSTOMBUTTON_H
 
 #include <QPushButton>
 #include <QEvent>
 
-class MyButton:public QPushButton
+class CustomButton:public QPushButton
 {
 public:
-    MyButton();
-    ~MyButton();
+    CustomButton();
+    ~CustomButton();
 
 private:
     virtual void enterEvent(QEvent*);

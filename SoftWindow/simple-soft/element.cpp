@@ -13,8 +13,6 @@ Element::Element()
     btnImage = new QPushButton();
     btnImage->setFixedSize(64,64);
 //    btnImage->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
-//    setBtnImage("/home/lk/qt-project/SoftWindow/image/gift.png");
-    setBtnImage("/usr/share/zenmap/pixmaps/zenmap.png");
     btnName = new QPushButton();
     btnName->setFixedSize(72,22);
     btnName->setStyleSheet("text-align: left;");//设置按钮文字显示位置-左对齐
@@ -28,7 +26,7 @@ Element::Element()
     vbLayout->setSpacing(0);
 
     hbLayout->addWidget(btnImage);
-    init();
+    Init();
     hbLayout->addLayout(vbLayout);
     hbLayout->setMargin(0);
     hbLayout->setSpacing(0);
@@ -40,19 +38,19 @@ Element::~Element()
 
 }
 
-void Element::init()
+void Element::Init()
 {
     btnstar = new QPushButton();
     btnstar->setFixedSize(72,10);
     btnstar->setEnabled(false);
-    btnStatus = new MyButton();
+    btnStatus = new CustomButton();
     btnStatus->setFixedSize(72,24);
     //    btnstar->setFlat(true);
 //        btnStatus->setFlat(true);
     vbLayout->addWidget(btnstar);
     vbLayout->addWidget(btnStatus);
-    setBtnStatus("download");
-    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(btnStatusSlot()));
+    SetBtnStatus("download");
+    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(BtnStatusSlot()));
 
     //去除矩形虚线框
     btnName->setFocusPolicy(Qt::NoFocus);
@@ -64,7 +62,7 @@ void Element::init()
     btnImage->setCursor(Qt::PointingHandCursor);
 }
 
-void Element::setBtnImage(const QString &imagePath)
+void Element::SetBtnImage(QString imagePath)
 {
     QPixmap pix = QPixmap(imagePath);
     btnImage->setIcon(pix);
@@ -72,7 +70,7 @@ void Element::setBtnImage(const QString &imagePath)
 //    btnImage->setStyleSheet(imagePath);
 }
 
-void Element::setBtnName(const QString &name)
+void Element::SetBtnName(QString name)
 {
     //使文本生成省略号(...)
     QFontMetrics metrice(btnName->font());
@@ -81,32 +79,30 @@ void Element::setBtnName(const QString &name)
     btnName->setToolTip(name);
 }
 
-void Element::setBtnStart()
+void Element::SetBtnStart()
 {
 
 }
 
-void Element::setBtnStatus(const QString &status)
+void Element::SetBtnStatus(QString status)
 {
     btnStatus->setText(status);
     btnStatus->setToolTip(status);
 }
 
-void Element::setButton(bool)
+void Element::SetButton(bool)
 {
 
 }
 
-void Element::btnStatusSlot()
+void Element::BtnStatusSlot()
 {
     btnStatus->setText("NULL");
     btnStatus->setEnabled(false);
-//    qDebug()<<"btn  status slot"<<endl;
     btnStatus->setToolTip(btnStatus->text());
 }
 
-void Element::setcategory(const int &cate)
+void Element::Setcategory(int cate)
 {
     category = cate;
-    qDebug()<<"Element   category is : "<<category<<endl;
 }

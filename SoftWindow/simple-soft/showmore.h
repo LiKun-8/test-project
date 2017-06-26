@@ -2,25 +2,33 @@
 #define SHOWMOREH
 
 #include <QWidget>
-#include "sortwidget.h"
-#include "topsort.h"
+#include "classwidget.h"
+#include "classtop.h"
+#include "jsonfunc.h"
 
 class ShowMore : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit ShowMore(QWidget *parent = 0);
     QWidget *moreWidget;
-    void setElementName(int category);
-    void setTopName(int category);
+    void SetElementName(int category,const CLASSSTRUCTMAP &classStruct);
+    void SetTopName(int category,const CATEGORYMAP &cateGoryMap);
+    void SetElementNum(const ELEMENTNUMBERMAP &elementNum);
+    void SetElementImage(int category,const CLASSSTRUCTMAP &classStructMap);
+
 private:
-    TopSort *moreTopSort;
+    ClassTop *moreClassTop;
     QVBoxLayout *mainLayout;
     Element *moreElement;
     QGridLayout *eleLayout;
-    bool eventFilter(QObject *watched, QEvent *event);
     QWidget  *spaceWidget;
+    JSONFUNC *jsonFunc;
+
+    bool eventFilter(QObject *watched, QEvent *event);
     int categoryFlag;
+    int elementNumber;
 };
 
 #endif // SHOWMOREH

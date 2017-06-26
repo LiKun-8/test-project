@@ -1,5 +1,5 @@
-#ifndef TOPSORTH
-#define TOPSORTH
+#ifndef CLASSTOP
+#define CLASSTOP
 #include <QPushButton>
 #include <QLabel>
 #include <QSpacerItem>
@@ -7,13 +7,13 @@
 #include <QWidget>
 #include <QObject>
 
-class TopSort:public QObject
+class ClassTop:public QObject
 {
     Q_OBJECT
 
 public:
-    TopSort();
-    ~TopSort();
+    ClassTop();
+    ~ClassTop();
     //布局窗口
     QWidget *widget;
     //设置更多按钮文本
@@ -46,5 +46,5 @@ protected slots:
     void sendSlotBtn();
 };
 
-#endif // TOPSORTH
+#endif // CLASSTOP
 

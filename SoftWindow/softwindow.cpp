@@ -2,22 +2,22 @@
 #include <QDebug>
 #include <QEvent>
 
-extern QMap<int,QString> cateMap;
-extern QMap<int,SORTSTRUCT>  sortStrMap;
-extern QMap<int,int> sortElementNum;
+//extern QMap<int,QString> cateMap;
+//extern QMap<int,SORTSTRUCT>  sortStrMap;
+//extern QMap<int,int> sortElementNum;
 
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
 {
     historyPage = 0;
     nowPage = 0;
-    this->resize(940,640);
+    this->resize(960,640);
     hbLayout = new QHBoxLayout();
     vbLayout = new QVBoxLayout();
     jsonFunc = new JSONFUNC();
 
     //初始化窗口
-    initMainWindow();
+    InitMainWindow();
 
     //上部布局
     hbLayout->addWidget(btnReturn);
@@ -54,12 +54,14 @@ SoftWindow::~SoftWindow()
 void SoftWindow::SetCurrentPage(int page)
 {
     stwwindow->setCurrentIndex(page);
-    scroll->setGeometry(0,0,pageSort->size().width(),pageSort->size().height());
+    scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
     scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
 }
 
-void SoftWindow::initMainWindow()
+void SoftWindow::InitMainWindow()
 {
+    jsonFunc = new JSONFUNC();
+
     btnReturn = new QPushButton();
     btnReturn->setStyleSheet("background-image:url(:/image/return.png);");
     btnReturn->setFixedSize(36,36);
@@ -104,14 +106,14 @@ void SoftWindow::initMainWindow()
     stwwindow->setMaximumWidth(1200);
 
     pageHome = new QWidget();
-    pageSort = new QWidget();
-    //    pageSort->setAcceptDrops();
+    pageClass = new QWidget();
+    //    pageClass->setAcceptDrops();
     pageUpdate = new QWidget();
     pageManager = new QWidget();
     pageMore = new QWidget();
 
     stwwindow->addWidget(pageHome);
-    stwwindow->addWidget(pageSort);
+    stwwindow->addWidget(pageClass);
     stwwindow->addWidget(pageUpdate);
     stwwindow->addWidget(pageManager);
     stwwindow->addWidget(pageMore);
@@ -122,9 +124,8 @@ void SoftWindow::initMainWindow()
     label4 = new QLabel(pageManager);
     label4->setText("MANAGER");
 
-    createClassWindow();
-
-    createMorewindow();
+    CreateClassWindow();
+    CreateMorewindow();
 
     btnHome->setFocusPolicy(Qt::NoFocus);
     btnManager->setFocusPolicy(Qt::NoFocus);
@@ -133,60 +134,57 @@ void SoftWindow::initMainWindow()
     btnReturn->setFocusPolicy(Qt::NoFocus);
     btnSort->setFocusPolicy(Qt::NoFocus);
     btnUpdate->setFocusPolicy(Qt::NoFocus);
-    //    process->waitForFinished();
 }
 
 //创建分类页
-void SoftWindow::createClassWindow()
+void SoftWindow::CreateClassWindow()
 {
-    catenum = jsonFunc->getCategoryNum();
-    jsonFunc->setAppname();
+    catenum = jsonFunc->GetCategoryNum();
+    jsonFunc->SetAppname();
+    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()));
 
-    connect(jsonFunc,SIGNAL(curlIsOk()),this,SLOT(testsetname()));
+    classWidget = new ClassWidget[catenum];
+    vbClasslayout = new QVBoxLayout();
+    pageClassWidget = new QWidget();
 
-    sortWidget = new SortWidget[catenum];
-    vbSortlayout = new QVBoxLayout();
-    pageSortWidget = new QWidget();
-
-    vbSortlayout = new QVBoxLayout();
-    scroll = new QScrollArea(pageSort);
-    scroll->setFrameShape(QFrame::NoFrame); //去除窗口边框
+    vbClasslayout = new QVBoxLayout();
+    scrollClass = new QScrollArea(pageClass);
+    scrollClass->setFrameShape(QFrame::NoFrame); //去除窗口边框
 
     for(int i=0;i<catenum;i++)
     {
-        connect(&sortWidget[i],SIGNAL(moreShow(int)),this,SLOT(setMoreShow(int)));
-        sortWidget[i].setCategory(i);
-        sortWidget[i].setTopName();
-        vbSortlayout->addWidget(sortWidget[i].widget);
+        connect(&classWidget[i],SIGNAL(moreShow(int)),this,SLOT(SetMoreShow(int)));
+        classWidget[i].SetCategory(i);
+        classWidget[i].SetTopName(jsonFunc->cateMap);
+        vbClasslayout->addWidget(classWidget[i].widget);
     }
 
-
-    pageSortSpacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
-    scroll->setWidget(pageSortWidget);
-    vbSortlayout->addSpacerItem(pageSortSpacer);
-    vbSortlayout->setMargin(0);
-    pageSortWidget->setLayout(vbSortlayout);
+    pageClassSpacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
+    scrollClass->setWidget(pageClassWidget);
+    vbClasslayout->addSpacerItem(pageClassSpacer);
+    vbClasslayout->setMargin(0);
+    pageClassWidget->setLayout(vbClasslayout);
     //滚动条不可见，只能通过鼠标滑动
-    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scroll->setWidgetResizable(true);
+    scrollClass->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollClass->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollClass->setWidgetResizable(true);
 }
 
-void SoftWindow::createMorewindow()
+void SoftWindow::CreateMorewindow()
 {
-    moreSortWidget = new ShowMore();
+    moreClassWidget = new ShowMore();
     pageMoreWidget = new QWidget();
 
-    vbSortlayoutMore = new QVBoxLayout();
+    vbClasslayoutMore = new QVBoxLayout();
     scrollMore = new QScrollArea(pageMore);
     scrollMore->setFrameShape(QFrame::NoFrame); //去除窗口边框
-    vbSortlayoutMore->addWidget(moreSortWidget->moreWidget);
+    vbClasslayoutMore->addWidget(moreClassWidget->moreWidget);
 
     pageMoreSpacer =new QSpacerItem(24,24,QSizePolicy::Minimum,QSizePolicy::Expanding);
     scrollMore->setWidget(pageMoreWidget);
-    vbSortlayoutMore->addSpacerItem(pageMoreSpacer);
-    vbSortlayoutMore->setMargin(0);
-    pageMoreWidget->setLayout(vbSortlayoutMore);
+    vbClasslayoutMore->addSpacerItem(pageMoreSpacer);
+    vbClasslayoutMore->setMargin(0);
+    pageMoreWidget->setLayout(vbClasslayoutMore);
     //滚动条不可见，只能通过鼠标滑动
     scrollMore->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollMore->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -202,7 +200,7 @@ void SoftWindow::OnBtnHome()
 void SoftWindow::OnBtnSort()
 {
     SetCurrentPage(CLASSPAGE);
-    stwwindow->move((this->size().width()-pageSort->size().width())/2,72);
+    stwwindow->move((this->size().width()-pageClass->size().width())/2,72);
 }
 
 void SoftWindow::OnBtnUpdate()
@@ -216,40 +214,32 @@ void SoftWindow::OnBtnManager()
 }
 
 //测试更多页面跳转
-void SoftWindow::setMoreShow(int i)
+void SoftWindow::SetMoreShow(const int i)
 {
-//    qDebug()<<pageSort->size()<<endl;
+//    qDebug()<<pageClass->size()<<endl;
     SetCurrentPage(MOREPAGE);
-    moreSortWidget->setTopName(i);
-    moreSortWidget->setElementName(i);
+    moreClassWidget->SetTopName(i,jsonFunc->cateMap);
+    moreClassWidget->SetElementNum(jsonFunc->classElementNumMap);
+    moreClassWidget->SetElementName(i,jsonFunc->classStrMap);
+    moreClassWidget->SetElementImage(i,jsonFunc->classStrMap);
     stwwindow->move((this->size().width()-pageMore->size().width())/2,72);
 
 }
 
-//设置每个软件的名字
-void SoftWindow::testsetname()
+//设置分类软件的属性
+void SoftWindow::SetClassElementName()
 {
-    qDebug()<<__FUNCTION__<<endl;
-    if(sortStrMap.isEmpty())
+//    qDebug()<<__FUNCTION__<<endl;
+    if(jsonFunc->classStrMap.isEmpty())
     {
-        qDebug()<<"sortStrMap is Empty!"<<endl;
+        qDebug()<<"classStrMap is Empty!"<<endl;
     }
 
-    QMap<int,SORTSTRUCT>::iterator  it;
-    for(it  = sortStrMap.begin();it != sortStrMap.end(); ++it)
-    {
-                qDebug() << it.value().btnname << endl;
-    }
-
-    QMap<int,int>::iterator item;
-    for(item = sortElementNum.begin();item != sortElementNum.end();++item)
-    {
-//        qDebug()<<"sorelementnum  ===  "<<item.value()<<endl;
-    }
     for(int i = 0;i<catenum;i++)
     {
-        sortWidget[i].initElement();
-        sortWidget[i].setElementName();
+        classWidget[i].InitElement(jsonFunc->classElementNumMap);
+        classWidget[i].SetElementName(jsonFunc->classStrMap);
+        classWidget[i].SetElementImage(jsonFunc->classStrMap);
     }
 }
 
@@ -258,7 +248,7 @@ bool SoftWindow::event(QEvent *event)
 {
     if(event->type() == QEvent::Resize)
     {
-        scroll->setGeometry(0,0,pageSort->size().width(),pageSort->size().height());
+        scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
         scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
         stwwindow->move((this->size().width()-stwwindow->size().width())/2,72);
         return true;

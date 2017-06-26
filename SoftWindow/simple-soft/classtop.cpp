@@ -1,7 +1,7 @@
-#include "topsort.h"
+#include "classtop.h"
 #include <QDebug>
 
-TopSort::TopSort()
+ClassTop::ClassTop()
 {
     category = 0;
     widget = new QWidget();
@@ -44,32 +44,32 @@ TopSort::TopSort()
     connect(btnTop,SIGNAL(clicked(bool)),this,SLOT(sendSlotBtn()));
 }
 
-TopSort::~TopSort()
+ClassTop::~ClassTop()
 {
 
 }
 
-void TopSort::setBtnData()
+void ClassTop::setBtnData()
 {
     btnTop->setText("更多  >");
 }
 
-void TopSort::setLabelData(QString data)
+void ClassTop::setLabelData(QString data)
 {
     labelTop->setText(data);
 }
 
-void TopSort::setcategory(int cate)
+void ClassTop::setcategory(int cate)
 {
     category = cate;
 }
 
-void TopSort::setTopbtnHide()
+void ClassTop::setTopbtnHide()
 {
     btnTop->hide();
 }
 
-void TopSort::sendSlotBtn()
+void ClassTop::sendSlotBtn()
 {
     emit showAll(category);
 //    qDebug()<<"top sort  show all!"<<endl;

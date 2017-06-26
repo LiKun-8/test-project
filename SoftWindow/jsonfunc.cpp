@@ -1,20 +1,20 @@
 #include "jsonfunc.h"
 #include <QDebug>
 
-QMap<int,QString> cateMap;
-QMap<int,SORTSTRUCT> sortStrMap;
-QMap<int,int> sortElementNum;
+//QMap<int,QString> cateMap;
+//QMap<int,SORTSTRUCT> classStrMap;
+//QMap<int,int> classElementNum;
 
 JSONFUNC::JSONFUNC()
 {
     process = new QProcess;
     jsonFlag = 0;
     categoryNum = 0;
-    connect(process,SIGNAL(readyRead()),this,SLOT(readprocess()));
+    connect(process,SIGNAL(readyRead()),this,SLOT(ReadProcess()));
 }
 
 //获取分类数目
-int JSONFUNC::getCategoryNum()
+int JSONFUNC::GetCategoryNum()
 {
     jsonFlag = CATEGORIES;
 
@@ -31,7 +31,7 @@ int JSONFUNC::getCategoryNum()
 }
 
 //设置软件名字
-void JSONFUNC::setAppname()
+void JSONFUNC::SetAppname()
 {
 //    qDebug()<<FUNCTION<<endl;
     jsonFlag = PRODUCTS;
@@ -47,7 +47,7 @@ void JSONFUNC::setAppname()
 }
 
 //获取数据槽函数
-void JSONFUNC::readprocess()
+void JSONFUNC::ReadProcess()
 {
     QByteArray dataRead ;
     dataRead += process->readAll();
@@ -163,14 +163,14 @@ void JSONFUNC::readprocess()
                                     {
                                         cateid = categoryid.toInt();
                                         //                                        qDebug()<<"categoryid : "<<cateid<<endl;
-                                        it = sortElementNum.find(cateid);
-                                        if(it != sortElementNum.end())
+                                        it = classElementNumMap.find(cateid);
+                                        if(it != classElementNumMap.end())
                                         {
-                                            sortElementNum[cateid] = it.value()+1;
+                                            classElementNumMap[cateid] = it.value()+1;
                                         }
                                         else
                                         {
-                                            sortElementNum.insert(cateid,1);
+                                            classElementNumMap.insert(cateid,1);
                                         }
                                     }
                                 }
@@ -200,7 +200,7 @@ void JSONFUNC::readprocess()
                                     if(iconurl.isString())
                                     {
                                         icourl = iconurl.toString();
-                                        qDebug()<<"icon_url : "<<icourl<<endl;
+//                                        qDebug()<<"icon_url : "<<icourl<<endl;
                                     }
                                 }
 
@@ -243,17 +243,17 @@ void JSONFUNC::readprocess()
                                         //                                        qDebug()<<"gradecount : "<<gracount<<endl;
                                     }
                                 }
-                                                                qDebug()<<"cateid : "<<cateid<<endl;
-                                                                qDebug()<<"icourl : "<<icourl<<endl;
-                                                                qDebug()<<"proname : "<<proname<<endl;
-                                sortStrMap.insert(lnProductId,SORTSTRUCT(cateid,icourl,proname,0));
+//                                                                qDebug()<<"cateid : "<<cateid<<endl;
+//                                                                qDebug()<<"icourl : "<<icourl<<endl;
+//                                                                qDebug()<<"proname : "<<proname<<endl;
+                                classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
                             }
                         }
                     }
                 }
             }
         }
-        emit curlIsOk();
+        emit CurlIsOk();
     }
     else {
         qDebug()<<"json is error"<<endl;

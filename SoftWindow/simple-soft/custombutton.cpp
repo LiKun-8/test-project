@@ -1,22 +1,22 @@
-#include "mybutton.h"
+#include "custombutton.h"
 #include <QDebug>
 #include <QToolTip>
-MyButton::MyButton()
+CustomButton::CustomButton()
 {
 
 }
 
-MyButton::~MyButton()
+CustomButton::~CustomButton()
 {
 
 }
 
-void MyButton::enterEvent(QEvent *)
+void CustomButton::enterEvent(QEvent *)
 {
     setStyleSheet("QPushButton{background: dodgerblue;}");
 }
 
-void MyButton::leaveEvent(QEvent *)
+void CustomButton::leaveEvent(QEvent *)
 {
     setStyleSheet("QPushButton{background: none;}");
 }

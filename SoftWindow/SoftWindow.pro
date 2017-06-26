@@ -15,21 +15,21 @@ TEMPLATE = app
 SOURCES += main.cpp\
         softwindow.cpp \
     simple-soft/element.cpp \
-    simple-soft/sortwidget.cpp \
-    simple-soft/topsort.cpp \
-    simple-soft/mybutton.cpp \
     softthread.cpp \
     simple-soft/showmore.cpp \
-    jsonfunc.cpp
+    jsonfunc.cpp \
+    simple-soft/classtop.cpp \
+    simple-soft/custombutton.cpp \
+    simple-soft/classwidget.cpp
 
 HEADERS  += softwindow.h \
     simple-soft/element.h \
-    simple-soft/sortwidget.h \
-    simple-soft/topsort.h \
-    simple-soft/mybutton.h \
     softthread.h \
     simple-soft/showmore.h \
-    jsonfunc.h
+    jsonfunc.h \
+    simple-soft/classtop.h \
+    simple-soft/custombutton.h \
+    simple-soft/classwidget.h
 
 RESOURCES += \
     iamge.qrc
