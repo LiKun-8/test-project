@@ -49,9 +49,6 @@ private:
     int jsonFlag;
     int categoryNum;
     QProcess *process ;
-    int flag;
-//    QStringList arg;
-
 };
 
 #endif // JSONFUNCH

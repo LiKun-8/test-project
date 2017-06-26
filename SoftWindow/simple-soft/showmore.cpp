@@ -74,7 +74,7 @@ void ShowMore::SetElementName(const int category, const CLASSSTRUCTMAP &classStr
 }
 
 //设置软件类名字
-void ShowMore::SetTopName(const int category, const CATEGORYMAP &cateGoryMap)
+void ShowMore::SetTopName(int category, const CATEGORYMAP &cateGoryMap)
 {
     categoryFlag = category;
     if(cateGoryMap.isEmpty())
@@ -160,7 +160,6 @@ bool ShowMore::eventFilter(QObject *watched, QEvent *event)
             {
                 for(int j=0;j<column;j++)
                 {
-
                     eleLayout->addWidget(moreElement[num].baseWidget,i,j,1,1,Qt::AlignLeft);
 
                     if(num<(elementNumber-1))
@@ -185,12 +184,10 @@ bool ShowMore::eventFilter(QObject *watched, QEvent *event)
             {
                 for(int i = elementNumber;i<MAXNUMBER;i++)
                 {
-
                     moreElement[i].baseWidget->hide();
                 }
                 for(int i = 0;i<elementNumber;i++)
                 {
-
                     moreElement[i].baseWidget->show();
                 }
             }

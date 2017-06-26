@@ -41,7 +41,7 @@ SoftWindow::SoftWindow(QWidget *parent)
     this->setLayout(vbLayout);
 
     connect(btnHome,SIGNAL(clicked(bool)),this,SLOT(OnBtnHome()));
-    connect(btnSort,SIGNAL(clicked(bool)),this,SLOT(OnBtnSort()));
+    connect(btnSort,SIGNAL(clicked(bool)),this,SLOT(OnBtnClass()));
     connect(btnUpdate,SIGNAL(clicked(bool)),this,SLOT(OnBtnUpdate()));
     connect(btnManager,SIGNAL(clicked(bool)),this,SLOT(OnBtnManager()));
 }
@@ -54,8 +54,11 @@ SoftWindow::~SoftWindow()
 void SoftWindow::SetCurrentPage(int page)
 {
     stwwindow->setCurrentIndex(page);
-    scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
-    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
+//    设置坐标位置
+//    scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
+//    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
+    scrollClass->resize(pageClass->size().width(),pageClass->size().height());
+    scrollMore->resize(pageMore->size().width(),pageMore->size().height());
 }
 
 void SoftWindow::InitMainWindow()
@@ -197,7 +200,7 @@ void SoftWindow::OnBtnHome()
     SetCurrentPage(HOMEPAGE);
 }
 
-void SoftWindow::OnBtnSort()
+void SoftWindow::OnBtnClass()
 {
     SetCurrentPage(CLASSPAGE);
     stwwindow->move((this->size().width()-pageClass->size().width())/2,72);
@@ -214,7 +217,7 @@ void SoftWindow::OnBtnManager()
 }
 
 //测试更多页面跳转
-void SoftWindow::SetMoreShow(const int i)
+void SoftWindow::SetMoreShow(int i)
 {
 //    qDebug()<<pageClass->size()<<endl;
     SetCurrentPage(MOREPAGE);
@@ -223,7 +226,6 @@ void SoftWindow::SetMoreShow(const int i)
     moreClassWidget->SetElementName(i,jsonFunc->classStrMap);
     moreClassWidget->SetElementImage(i,jsonFunc->classStrMap);
     stwwindow->move((this->size().width()-pageMore->size().width())/2,72);
-
 }
 
 //设置分类软件的属性

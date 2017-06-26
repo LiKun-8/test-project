@@ -2,30 +2,11 @@
 #define SOFTWINDOWH
 
 #include <QMainWindow>
-#include <QPushButton>
 #include <QStackedWidget>
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QSpacerItem>
-#include <QWidget>
 #include <QLineEdit>
-#include "simple-soft/classwidget.h"
 #include <QScrollArea>
-#include "softthread.h"
-#include "jsonfunc.h"
+#include "simple-soft/classwidget.h"
 #include "simple-soft/showmore.h"
-
-#include <QStringList>
-#include <QByteArray>
-#include <QJsonParseError>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-
-#include <QMap>
-
 
 #define HOMEPAGE 0
 #define CLASSPAGE 1
@@ -46,10 +27,10 @@ public:
 
 protected slots:
     void OnBtnHome();
-    void OnBtnSort();
+    void OnBtnClass();
     void OnBtnUpdate();
     void OnBtnManager();
-    void SetMoreShow(const int i);
+    void SetMoreShow(int i);
     void SetClassElementName();
 
 private:
@@ -81,7 +62,6 @@ private:
     QVBoxLayout *vbClasslayout;
     QVBoxLayout *vbClasslayoutMore;
 
-
     QSpacerItem *leftSpace;
     QSpacerItem *rightSpace;
 
@@ -95,7 +75,6 @@ private:
     QSpacerItem *pageClassSpacer;
     QSpacerItem *pageMoreSpacer;
 
-    SoftThread *softThread; //分类的线程
     JSONFUNC *jsonFunc;//数据读取
     ShowMore *moreClassWidget;
 

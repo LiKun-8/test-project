@@ -2,7 +2,6 @@
 #define SOFTTHREADH
 
 #include <QObject>
-#include "simple-soft/element.h"
 #include <QThread>
 #include <QProcess>
 #include <QByteArray>
@@ -10,6 +9,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "simple-soft/element.h"
 
 class SoftThread : public QThread
 {

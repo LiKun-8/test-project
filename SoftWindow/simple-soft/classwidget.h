@@ -1,15 +1,17 @@
 #ifndef CLASSWIDGETH
 #define CLASSWIDGETH
 #include <QMainWindow>
+#include <QLayoutItem>
+#include <QLabel>
+#include <QVector>
+#include <QDebug>
 #include "element.h"
 #include "classtop.h"
-#include <QLabel>
+#include "classwidget.h"
+#include "jsonfunc.h"
+
 #define MARGIN 32;
 #define SPACING 192;
-#include "../softthread.h"
-#include <QWidget>
-#include <QLayoutItem>
-#include "jsonfunc.h"
 
 class ClassWidget : public QWidget
 {
@@ -38,16 +40,11 @@ private:
     QVBoxLayout *mainLayout;
     //弹簧布局
     QSpacerItem *spacer;
-    //分类线程
-    SoftThread *softThread;
     //分类的标志
     int category;
     //空白widget
     QWidget *spaceWidget;
 
-    JSONFUNC *jsonFunc;
-    int index;
-    QLayoutItem *child;
 protected:
     //重写的窗口变化事件
     bool eventFilter(QObject *target, QEvent *event);

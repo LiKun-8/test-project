@@ -1,9 +1,5 @@
 #include "classwidget.h"
-#include <QVector>
-#include <QDebug>
-#include <QSpacerItem>
-#include <QEvent>
-#include "jsonfunc.h"
+
 #define SPACEWIDGET 5
 
 ClassWidget::ClassWidget(QWidget *parent) :
