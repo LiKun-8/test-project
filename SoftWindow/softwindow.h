@@ -24,6 +24,7 @@ public:
     void SetCurrentPage(int page);
     void InitMainWindow();
 
+    ShareData *shareDaba;
 
 protected slots:
     void OnBtnHome();
@@ -33,11 +34,14 @@ protected slots:
     void SetMoreShow(int i);
     void SetClassElementName();
 
+    void CreateClassWindow(int catenum);
+    void CreateMorewindow();
+
 private:
 
     int historyPage;
     int nowPage;
-    int catenum;
+    int cateNum;
     QPushButton *btnReturn;
     QPushButton *btnNext;
     QPushButton *btnRefresh;
@@ -78,8 +82,8 @@ private:
     JSONFUNC *jsonFunc;//数据读取
     ShowMore *moreClassWidget;
 
-    void CreateClassWindow();
-    void CreateMorewindow();
+//    void CreateClassWindow();
+//    void CreateMorewindow();
     bool event(QEvent *event);
 };
 

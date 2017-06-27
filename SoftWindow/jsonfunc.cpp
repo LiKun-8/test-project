@@ -1,76 +1,43 @@
 #include "jsonfunc.h"
 #include <QDebug>
 
-JSONFUNC::JSONFUNC()
+JSONFUNC::JSONFUNC(ShareData *shareData)
 {
-    process = new QProcess;
+    manager = new QNetworkAccessManager();
+    jsonData = shareData;
     jsonFlag = 0;
     categoryNum = 0;
-    connect(process,SIGNAL(readyRead()),this,SLOT(ReadProcess()));
-    connect(process,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(JsonAnalysis(int,QProcess::ExitStatus)));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(JsonAnalysis(QNetworkReply*)));
 }
 
 //获取分类数目
 int JSONFUNC::GetCategoryNum()
 {
     jsonFlag = CATEGORIES;
-    testArray.clear();
-
-    QStringList arg;
-    arg<<"http://127.0.0.1:8888/categories"<< "|"<< "jq"<< ".";
-    process->start("curl",arg);
-    process->waitForFinished();
-    return categoryNum;
+    manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/categories")));
 }
 
-
-//获取test分类数目
-int JSONFUNC::GetCategoryTest()
+int JSONFUNC::GetCategoryNumTest()
 {
     jsonFlag = PRODUCT;
-    testArray.clear();
-
-    QStringList arg;
-    arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
-    process->start("curl",arg);
-
+    manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/products")));
 }
 
 //设置软件名字
 void JSONFUNC::SetAppname()
 {
-//    qDebug()<<FUNCTION<<endl;
     jsonFlag = PRODUCTS;
-    testArray.clear();
-
-    QStringList arg;
-    arg<<"http://127.0.0.1:8888/products"<< "|"<< "jq"<< ".";
-    process->start("curl",arg);
-    process->waitForFinished();
+    manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/products")));
 }
 
-
-
-//获取数据槽函数
-void JSONFUNC::ReadProcess()
+void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
 {
+    qDebug()<<__FUNCTION__<<endl;
     QByteArray dataRead;
-    dataRead = process->readAll();
-    testArray += dataRead;
-    qDebug()<<testArray.size()<<endl;
-}
-
-void JSONFUNC::JsonAnalysis(int,QProcess::ExitStatus status )
-{
-//    qDebug()<<testArray<<endl;
-
-    if(status != QProcess::NotRunning)
-    {
-        qDebug()<<"the process is ruing"<<endl;
-        return;
-    }
+    dataRead = reply->readAll();
+    qDebug()<<dataRead.size()<<endl;
     QJsonParseError jsonerror;
-    QJsonDocument document = QJsonDocument::fromJson(testArray,&jsonerror);
+    QJsonDocument document = QJsonDocument::fromJson(dataRead,&jsonerror);
 
     if(jsonerror.error == QJsonParseError::NoError)
     {
@@ -112,12 +79,15 @@ void JSONFUNC::JsonAnalysis(int,QProcess::ExitStatus status )
                                     if(categoryname.isString())
                                     {
                                         name = categoryname.toString();
+//                                        qDebug()<<name<<endl;
                                     }
                                 }
-                                cateMap[cate] = name;
+                                jsonData->cateMap[cate] = name;
                             }
                         }
                     }
+                    qDebug()<<"categoryNum  ==  "<<categoryNum<<endl;
+                    emit NumIsOk(categoryNum);
                 }
             }
 
@@ -179,14 +149,14 @@ void JSONFUNC::JsonAnalysis(int,QProcess::ExitStatus status )
                                     {
                                         cateid = categoryid.toInt();
                                         //                                        qDebug()<<"categoryid : "<<cateid<<endl;
-                                        it = classElementNumMap.find(cateid);
-                                        if(it != classElementNumMap.end())
+                                        it = jsonData->classElementNumMap.find(cateid);
+                                        if(it != jsonData->classElementNumMap.end())
                                         {
-                                            classElementNumMap[cateid] = it.value()+1;
+                                            jsonData->classElementNumMap[cateid] = it.value()+1;
                                         }
                                         else
                                         {
-                                            classElementNumMap.insert(cateid,1);
+                                            jsonData->classElementNumMap.insert(cateid,1);
                                         }
                                     }
                                 }
@@ -262,12 +232,12 @@ void JSONFUNC::JsonAnalysis(int,QProcess::ExitStatus status )
 //                                                                qDebug()<<"cateid : "<<cateid<<endl;
 //                                                                qDebug()<<"icourl : "<<icourl<<endl;
 //                                                                qDebug()<<"proname : "<<proname<<endl;
-                                classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
+                                jsonData->classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
                             }
                         }
                     }
+                    emit CurlIsOk();
                 }
-                emit CurlIsOk();
             }
             if(jsonFlag == PRODUCT)
             {
@@ -327,14 +297,14 @@ void JSONFUNC::JsonAnalysis(int,QProcess::ExitStatus status )
                                     {
                                         cateid = categoryid.toInt();
                                         //                                        qDebug()<<"categoryid : "<<cateid<<endl;
-                                        it = classElementNumMap.find(cateid);
-                                        if(it != classElementNumMap.end())
+                                        it = jsonData->classElementNumMap.find(cateid);
+                                        if(it != jsonData->classElementNumMap.end())
                                         {
-                                            classElementNumMap[cateid] = it.value()+1;
+                                            jsonData->classElementNumMap[cateid] = it.value()+1;
                                         }
                                         else
                                         {
-                                            classElementNumMap.insert(cateid,1);
+                                            jsonData->classElementNumMap.insert(cateid,1);
                                         }
                                     }
                                 }
@@ -409,7 +379,7 @@ void JSONFUNC::JsonAnalysis(int,QProcess::ExitStatus status )
                                 }
 //                                                                qDebug()<<"cateid : "<<cateid<<endl;
 //                                                                qDebug()<<"icourl : "<<icourl<<endl;
-                                                                qDebug()<<"proname : "<<proname<<endl;
+//                                                                qDebug()<<"proname : "<<proname<<endl;
 //                                classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
                             }
                         }

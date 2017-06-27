@@ -2,10 +2,6 @@
 #include <QDebug>
 #include <QEvent>
 
-//extern QMap<int,QString> cateMap;
-//extern QMap<int,SORTSTRUCT>  sortStrMap;
-//extern QMap<int,int> sortElementNum;
-
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
 {
@@ -14,7 +10,6 @@ SoftWindow::SoftWindow(QWidget *parent)
     this->resize(960,640);
     hbLayout = new QHBoxLayout();
     vbLayout = new QVBoxLayout();
-    jsonFunc = new JSONFUNC();
 
     //初始化窗口
     InitMainWindow();
@@ -57,13 +52,21 @@ void SoftWindow::SetCurrentPage(int page)
 //    设置坐标位置
 //    scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
 //    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
-    scrollClass->resize(pageClass->size().width(),pageClass->size().height());
-    scrollMore->resize(pageMore->size().width(),pageMore->size().height());
+    scrollClass->resize(stwwindow->size().width(),stwwindow->size().height());
+    scrollMore->resize(stwwindow->size().width(),stwwindow->size().height());
 }
 
 void SoftWindow::InitMainWindow()
 {
-    jsonFunc = new JSONFUNC();
+    shareDaba = new ShareData();
+    jsonFunc = new JSONFUNC(shareDaba);
+
+    connect(jsonFunc,SIGNAL(NumIsOk(int)),this,SLOT(CreateClassWindow(int)),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(CreateMorewindow()),Qt::QueuedConnection);
+
+
+    jsonFunc->GetCategoryNum();
 
     btnReturn = new QPushButton();
     btnReturn->setStyleSheet("background-image:url(:/image/return.png);");
@@ -127,9 +130,6 @@ void SoftWindow::InitMainWindow()
     label4 = new QLabel(pageManager);
     label4->setText("MANAGER");
 
-    CreateClassWindow();
-    CreateMorewindow();
-
     btnHome->setFocusPolicy(Qt::NoFocus);
     btnManager->setFocusPolicy(Qt::NoFocus);
     btnNext->setFocusPolicy(Qt::NoFocus);
@@ -140,16 +140,11 @@ void SoftWindow::InitMainWindow()
 }
 
 //创建分类页
-void SoftWindow::CreateClassWindow()
+void SoftWindow::CreateClassWindow(int catenum)
 {
-    catenum = jsonFunc->GetCategoryNum();
+    qDebug()<<__FUNCTION__<<"catenum = "<<catenum<<endl;
 
-    jsonFunc->SetAppname();
-    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()));
-
-    jsonFunc->GetCategoryTest();
-    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()));
-
+    cateNum = catenum;
     classWidget = new ClassWidget[catenum];
     vbClasslayout = new QVBoxLayout();
     pageClassWidget = new QWidget();
@@ -162,7 +157,7 @@ void SoftWindow::CreateClassWindow()
     {
         connect(&classWidget[i],SIGNAL(moreShow(int)),this,SLOT(SetMoreShow(int)));
         classWidget[i].SetCategory(i);
-        classWidget[i].SetTopName(jsonFunc->cateMap);
+        classWidget[i].SetTopName(shareDaba->cateMap);
         vbClasslayout->addWidget(classWidget[i].widget);
     }
 
@@ -175,6 +170,9 @@ void SoftWindow::CreateClassWindow()
     scrollClass->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollClass->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollClass->setWidgetResizable(true);
+
+
+     jsonFunc->SetAppname();
 }
 
 void SoftWindow::CreateMorewindow()
@@ -225,27 +223,28 @@ void SoftWindow::SetMoreShow(int i)
 {
 //    qDebug()<<pageClass->size()<<endl;
     SetCurrentPage(MOREPAGE);
-    moreClassWidget->SetTopName(i,jsonFunc->cateMap);
-    moreClassWidget->SetElementNum(jsonFunc->classElementNumMap);
-    moreClassWidget->SetElementName(i,jsonFunc->classStrMap);
-    moreClassWidget->SetElementImage(i,jsonFunc->classStrMap);
+    moreClassWidget->SetTopName(i,shareDaba->cateMap);
+    moreClassWidget->SetElementNum(shareDaba->classElementNumMap);
+    moreClassWidget->SetElementName(i,shareDaba->classStrMap);
+    moreClassWidget->SetElementImage(i,shareDaba->classStrMap);
     stwwindow->move((this->size().width()-pageMore->size().width())/2,72);
 }
 
 //设置分类软件的属性
 void SoftWindow::SetClassElementName()
 {
-//    qDebug()<<__FUNCTION__<<endl;
-    if(jsonFunc->classStrMap.isEmpty())
+    qDebug()<<__FUNCTION__<<endl;
+    if(shareDaba->classStrMap.isEmpty())
     {
         qDebug()<<"classStrMap is Empty!"<<endl;
     }
+    qDebug()<<"i === "<<cateNum<<endl;
 
-    for(int i = 0;i<catenum;i++)
+    for(int i = 0;i<cateNum;i++)
     {
-        classWidget[i].InitElement(jsonFunc->classElementNumMap);
-        classWidget[i].SetElementName(jsonFunc->classStrMap);
-        classWidget[i].SetElementImage(jsonFunc->classStrMap);
+        classWidget[i].InitElement(shareDaba->classElementNumMap);
+        classWidget[i].SetElementName(shareDaba->classStrMap);
+        classWidget[i].SetElementImage(shareDaba->classStrMap);
     }
 }
 
@@ -254,12 +253,9 @@ bool SoftWindow::event(QEvent *event)
 {
     if(event->type() == QEvent::Resize)
     {
-        scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
-        scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
         stwwindow->move((this->size().width()-stwwindow->size().width())/2,72);
         return true;
     }
-
     return QWidget::event(event);
 }
 

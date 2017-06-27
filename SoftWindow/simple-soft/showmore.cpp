@@ -42,7 +42,6 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(moreClassTop->widget);
     mainLayout->addLayout(eleLayout);
     moreWidget->setLayout(mainLayout);
-    jsonFunc = new JSONFUNC();
 }
 
 //设置软件名字

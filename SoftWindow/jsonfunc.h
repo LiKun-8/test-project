@@ -9,49 +9,41 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMap>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
+#include "softthread.h"
 
 #define CATEGORIES  1
 #define PRODUCT     2
 #define PRODUCTS    3
 
-struct CLASSSTRUCT{
-    int category;
-    QString btnimage;
-    QString btnname;
-    int btnstar;
-    CLASSSTRUCT(int cate,const QString & image,const QString & name,int star):
-        category(cate),btnimage(image),btnname(name),btnstar(star){}
-};
 
-typedef QMap<int,QString> CATEGORYMAP;
-typedef QMap<int,CLASSSTRUCT> CLASSSTRUCTMAP;
-typedef QMap<int,int> ELEMENTNUMBERMAP;
 
 class JSONFUNC : public QObject
 {
     Q_OBJECT
 
 public:
-    JSONFUNC();
+    JSONFUNC(ShareData *shareData);
     int GetCategoryNum();
-    int GetCategoryTest();
+    int GetCategoryNumTest();
     void SetAppname();
-    CATEGORYMAP cateMap;
-    CLASSSTRUCTMAP classStrMap;
-    ELEMENTNUMBERMAP classElementNumMap;
+    ShareData *jsonData;
 
 protected slots:
-    void ReadProcess();
-    void JsonAnalysis(int, QProcess::ExitStatus status);
+    void JsonAnalysis(QNetworkReply *reply);
+
 signals:
     void CurlIsOk();
+    void NumIsOk(int num);
 
 
 private:
     int jsonFlag;
     int categoryNum;
-    QProcess *process;
     QByteArray testArray;
+    QNetworkAccessManager *manager;
 };
 
 #endif // JSONFUNCH

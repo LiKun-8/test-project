@@ -10,13 +10,15 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "simple-soft/element.h"
+#include "sharedata.h"
+
 
 class SoftThread : public QThread
 {
     Q_OBJECT
 
 public:
-    SoftThread();
+    SoftThread(int jsonFlag,ShareData *shareData);
     void setElement(Element *e);
 
 //protected:
@@ -27,9 +29,10 @@ private:
     QProcess *process ;
     int flag;
     QStringList arg;
+    ShareData *shareDataThread;
 
 protected slots:
-    void readprocess();
+//    void readprocess();
     void sta();
 };
 

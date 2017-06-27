@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     jsonfunc.cpp \
     simple-soft/classtop.cpp \
     simple-soft/custombutton.cpp \
-    simple-soft/classwidget.cpp
+    simple-soft/classwidget.cpp \
+    sharedata.cpp
 
 HEADERS  += softwindow.h \
     simple-soft/element.h \
@@ -29,7 +30,8 @@ HEADERS  += softwindow.h \
     jsonfunc.h \
     simple-soft/classtop.h \
     simple-soft/custombutton.h \
-    simple-soft/classwidget.h
+    simple-soft/classwidget.h \
+    sharedata.h
 
 RESOURCES += \
     iamge.qrc
