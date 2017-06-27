@@ -34,6 +34,7 @@ class JSONFUNC : public QObject
 public:
     JSONFUNC();
     int GetCategoryNum();
+    int GetCategoryTest();
     void SetAppname();
     CATEGORYMAP cateMap;
     CLASSSTRUCTMAP classStrMap;
@@ -41,14 +42,16 @@ public:
 
 protected slots:
     void ReadProcess();
-
+    void JsonAnalysis(int, QProcess::ExitStatus status);
 signals:
     void CurlIsOk();
+
 
 private:
     int jsonFlag;
     int categoryNum;
-    QProcess *process ;
+    QProcess *process;
+    QByteArray testArray;
 };
 
 #endif // JSONFUNCH

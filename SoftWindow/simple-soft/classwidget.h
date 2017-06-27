@@ -44,6 +44,7 @@ private:
     int category;
     //空白widget
     QWidget *spaceWidget;
+    int spaceWidgetNum;
 
 protected:
     //重写的窗口变化事件

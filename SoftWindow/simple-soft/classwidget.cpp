@@ -206,10 +206,7 @@ void ClassWidget::SetElementImage(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            //tt[i].setBtnImage(item.value().btnimage);
-
-            //test set image
-            tt[i].SetBtnImage("/usr/share/pixmaps/python3.5.xpm");
+            tt[i].SetBtnImage(item.value().btnimage);
             i++;
         }
     }

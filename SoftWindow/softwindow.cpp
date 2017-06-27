@@ -143,7 +143,11 @@ void SoftWindow::InitMainWindow()
 void SoftWindow::CreateClassWindow()
 {
     catenum = jsonFunc->GetCategoryNum();
+
     jsonFunc->SetAppname();
+    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()));
+
+    jsonFunc->GetCategoryTest();
     connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()));
 
     classWidget = new ClassWidget[catenum];
