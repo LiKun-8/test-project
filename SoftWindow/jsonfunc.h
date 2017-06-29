@@ -15,7 +15,7 @@
 #include "softthread.h"
 
 #define CATEGORIES  1
-#define PRODUCT     2
+#define RELEASE     2
 #define PRODUCTS    3
 
 
@@ -27,7 +27,7 @@ class JSONFUNC : public QObject
 public:
     JSONFUNC(ShareData *shareData);
     int GetCategoryNum();
-    int GetCategoryNumTest();
+    void GetRelease();
     void SetAppname();
     ShareData *jsonData;
 

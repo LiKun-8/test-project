@@ -52,6 +52,8 @@ private:
 
     QStackedWidget *stwwindow;
     ClassWidget *classWidget;//分类对象
+    JSONFUNC *jsonFunc;//数据读取
+    ShowMore *moreClassWidget;
 
     QLabel *label1;
     QLabel *label3;
@@ -79,11 +81,6 @@ private:
     QSpacerItem *pageClassSpacer;
     QSpacerItem *pageMoreSpacer;
 
-    JSONFUNC *jsonFunc;//数据读取
-    ShowMore *moreClassWidget;
-
-//    void CreateClassWindow();
-//    void CreateMorewindow();
     bool event(QEvent *event);
 };
 

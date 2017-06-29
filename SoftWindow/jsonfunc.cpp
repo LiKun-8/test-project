@@ -17,10 +17,10 @@ int JSONFUNC::GetCategoryNum()
     manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/categories")));
 }
 
-int JSONFUNC::GetCategoryNumTest()
+void JSONFUNC::GetRelease()
 {
-    jsonFlag = PRODUCT;
-    manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/products")));
+    jsonFlag = RELEASE;
+    manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/release")));
 }
 
 //设置软件名字
@@ -86,7 +86,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                             }
                         }
                     }
-                    qDebug()<<"categoryNum  ==  "<<categoryNum<<endl;
+//                    qDebug()<<"categoryNum  ==  "<<categoryNum<<endl;
                     emit NumIsOk(categoryNum);
                 }
             }
@@ -239,7 +239,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                     emit CurlIsOk();
                 }
             }
-            if(jsonFlag == PRODUCT)
+            if(jsonFlag == RELEASE)
             {
                 QString product = "products";
                 if(obj.contains(product))

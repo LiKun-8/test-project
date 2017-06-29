@@ -52,8 +52,6 @@ void SoftWindow::SetCurrentPage(int page)
 //    设置坐标位置
 //    scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
 //    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
-    scrollClass->resize(stwwindow->size().width(),stwwindow->size().height());
-    scrollMore->resize(stwwindow->size().width(),stwwindow->size().height());
 }
 
 void SoftWindow::InitMainWindow()
@@ -64,7 +62,6 @@ void SoftWindow::InitMainWindow()
     connect(jsonFunc,SIGNAL(NumIsOk(int)),this,SLOT(CreateClassWindow(int)),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(CreateMorewindow()),Qt::QueuedConnection);
-
 
     jsonFunc->GetCategoryNum();
 
@@ -137,20 +134,21 @@ void SoftWindow::InitMainWindow()
     btnReturn->setFocusPolicy(Qt::NoFocus);
     btnSort->setFocusPolicy(Qt::NoFocus);
     btnUpdate->setFocusPolicy(Qt::NoFocus);
+
+    scrollMore = new QScrollArea(pageMore);
+    scrollClass = new QScrollArea(pageClass);
+    moreClassWidget = new ShowMore();
 }
 
 //创建分类页
 void SoftWindow::CreateClassWindow(int catenum)
 {
-    qDebug()<<__FUNCTION__<<"catenum = "<<catenum<<endl;
-
     cateNum = catenum;
     classWidget = new ClassWidget[catenum];
     vbClasslayout = new QVBoxLayout();
     pageClassWidget = new QWidget();
 
     vbClasslayout = new QVBoxLayout();
-    scrollClass = new QScrollArea(pageClass);
     scrollClass->setFrameShape(QFrame::NoFrame); //去除窗口边框
 
     for(int i=0;i<catenum;i++)
@@ -171,17 +169,13 @@ void SoftWindow::CreateClassWindow(int catenum)
     scrollClass->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollClass->setWidgetResizable(true);
 
-
-     jsonFunc->SetAppname();
+    jsonFunc->SetAppname();
 }
 
 void SoftWindow::CreateMorewindow()
 {
-    moreClassWidget = new ShowMore();
     pageMoreWidget = new QWidget();
-
     vbClasslayoutMore = new QVBoxLayout();
-    scrollMore = new QScrollArea(pageMore);
     scrollMore->setFrameShape(QFrame::NoFrame); //去除窗口边框
     vbClasslayoutMore->addWidget(moreClassWidget->moreWidget);
 
@@ -205,6 +199,7 @@ void SoftWindow::OnBtnHome()
 void SoftWindow::OnBtnClass()
 {
     SetCurrentPage(CLASSPAGE);
+    scrollClass->resize(stwwindow->size().width(),stwwindow->size().height());
     stwwindow->move((this->size().width()-pageClass->size().width())/2,72);
 }
 
@@ -221,12 +216,12 @@ void SoftWindow::OnBtnManager()
 //测试更多页面跳转
 void SoftWindow::SetMoreShow(int i)
 {
-//    qDebug()<<pageClass->size()<<endl;
     SetCurrentPage(MOREPAGE);
     moreClassWidget->SetTopName(i,shareDaba->cateMap);
     moreClassWidget->SetElementNum(shareDaba->classElementNumMap);
     moreClassWidget->SetElementName(i,shareDaba->classStrMap);
     moreClassWidget->SetElementImage(i,shareDaba->classStrMap);
+    scrollMore->resize(stwwindow->size().width(),stwwindow->size().height());
     stwwindow->move((this->size().width()-pageMore->size().width())/2,72);
 }
 
@@ -238,7 +233,6 @@ void SoftWindow::SetClassElementName()
     {
         qDebug()<<"classStrMap is Empty!"<<endl;
     }
-    qDebug()<<"i === "<<cateNum<<endl;
 
     for(int i = 0;i<cateNum;i++)
     {
@@ -254,6 +248,8 @@ bool SoftWindow::event(QEvent *event)
     if(event->type() == QEvent::Resize)
     {
         stwwindow->move((this->size().width()-stwwindow->size().width())/2,72);
+        scrollClass->resize(stwwindow->size().width(),stwwindow->size().height());
+        scrollMore->resize(stwwindow->size().width(),stwwindow->size().height());
         return true;
     }
     return QWidget::event(event);
