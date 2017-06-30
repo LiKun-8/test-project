@@ -12,7 +12,7 @@ SoftWindow::SoftWindow(QWidget *parent)
     vbLayout = new QVBoxLayout();
 
     //初始化窗口
-    InitMainWindow();
+    initMainWindow();
 
     //上部布局
     hbLayout->addWidget(btnReturn);
@@ -35,10 +35,10 @@ SoftWindow::SoftWindow(QWidget *parent)
     vbLayout->setSpacing(0);
     this->setLayout(vbLayout);
 
-    connect(btnHome,SIGNAL(clicked(bool)),this,SLOT(OnBtnHome()));
-    connect(btnSort,SIGNAL(clicked(bool)),this,SLOT(OnBtnClass()));
-    connect(btnUpdate,SIGNAL(clicked(bool)),this,SLOT(OnBtnUpdate()));
-    connect(btnManager,SIGNAL(clicked(bool)),this,SLOT(OnBtnManager()));
+    connect(btnHome,SIGNAL(clicked(bool)),this,SLOT(onBtnHome()));
+    connect(btnSort,SIGNAL(clicked(bool)),this,SLOT(onBtnClass()));
+    connect(btnUpdate,SIGNAL(clicked(bool)),this,SLOT(onBtnUpdate()));
+    connect(btnManager,SIGNAL(clicked(bool)),this,SLOT(onBtnManager()));
 }
 
 SoftWindow::~SoftWindow()
@@ -46,7 +46,7 @@ SoftWindow::~SoftWindow()
 }
 
 //跳转指定页面
-void SoftWindow::SetCurrentPage(int page)
+void SoftWindow::setCurrentPage(int page)
 {
     stwwindow->setCurrentIndex(page);
 //    设置坐标位置
@@ -54,16 +54,16 @@ void SoftWindow::SetCurrentPage(int page)
 //    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
 }
 
-void SoftWindow::InitMainWindow()
+void SoftWindow::initMainWindow()
 {
     shareDaba = new ShareData();
     jsonFunc = new JSONFUNC(shareDaba);
 
-    connect(jsonFunc,SIGNAL(NumIsOk(int)),this,SLOT(CreateClassWindow(int)),Qt::QueuedConnection);
-    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(SetClassElementName()),Qt::QueuedConnection);
-    connect(jsonFunc,SIGNAL(CurlIsOk()),this,SLOT(CreateMorewindow()),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(numIsOk(int)),this,SLOT(createClassWindow(int)),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(curlIsOk()),this,SLOT(setClassElementName()),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(curlIsOk()),this,SLOT(createMorewindow()),Qt::QueuedConnection);
 
-    jsonFunc->GetCategoryNum();
+    jsonFunc->getCategoryNum();
 
     btnReturn = new QPushButton();
     btnReturn->setStyleSheet("background-image:url(:/image/return.png);");
@@ -138,7 +138,7 @@ void SoftWindow::InitMainWindow()
 }
 
 //创建分类页
-void SoftWindow::CreateClassWindow(int catenum)
+void SoftWindow::createClassWindow(int catenum)
 {
     cateNum = catenum;
     classWidget = new ClassWidget[catenum];
@@ -150,9 +150,9 @@ void SoftWindow::CreateClassWindow(int catenum)
 
     for(int i=0;i<catenum;i++)
     {
-        connect(&classWidget[i],SIGNAL(moreShow(int)),this,SLOT(SetMoreShow(int)));
-        classWidget[i].SetCategory(i);
-        classWidget[i].SetTopName(shareDaba->cateMap);
+        connect(&classWidget[i],SIGNAL(moreShow(int)),this,SLOT(setMoreShow(int)));
+        classWidget[i].setCategory(i);
+        classWidget[i].setTopName(shareDaba->cateMap);
         vbClasslayout->addWidget(classWidget[i].widget);
     }
 
@@ -166,10 +166,10 @@ void SoftWindow::CreateClassWindow(int catenum)
     scrollClass->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollClass->setWidgetResizable(true);
 
-    jsonFunc->SetAppname();
+    jsonFunc->setAppname();
 }
 
-void SoftWindow::CreateMorewindow()
+void SoftWindow::createMorewindow()
 {
     pageMoreWidget = new QWidget();
     vbClasslayoutMore = new QVBoxLayout();
@@ -188,42 +188,42 @@ void SoftWindow::CreateMorewindow()
 }
 
 
-void SoftWindow::OnBtnHome()
+void SoftWindow::onBtnHome()
 {
-    SetCurrentPage(HOMEPAGE);
+    setCurrentPage(HOMEPAGE);
 }
 
-void SoftWindow::OnBtnClass()
+void SoftWindow::onBtnClass()
 {
-    SetCurrentPage(CLASSPAGE);
+    setCurrentPage(CLASSPAGE);
     scrollClass->resize(stwwindow->size().width(),stwwindow->size().height());
     stwwindow->move((this->size().width()-pageClass->size().width())/2,72);
 }
 
-void SoftWindow::OnBtnUpdate()
+void SoftWindow::onBtnUpdate()
 {
-    SetCurrentPage(UPDATEPAGE);
+    setCurrentPage(UPDATEPAGE);
 }
 
-void SoftWindow::OnBtnManager()
+void SoftWindow::onBtnManager()
 {
-    SetCurrentPage(MANAGERPAGE);
+    setCurrentPage(MANAGERPAGE);
 }
 
 //测试更多页面跳转
-void SoftWindow::SetMoreShow(int i)
+void SoftWindow::setMoreShow(int i)
 {
-    SetCurrentPage(MOREPAGE);
-    moreClassWidget->SetTopName(i,shareDaba->cateMap);
-    moreClassWidget->SetElementNum(shareDaba->classElementNumMap);
-    moreClassWidget->SetElementName(i,shareDaba->classStrMap);
-    moreClassWidget->SetElementImage(i,shareDaba->classStrMap);
+    setCurrentPage(MOREPAGE);
+    moreClassWidget->setTopName(i,shareDaba->cateMap);
+    moreClassWidget->setElementNum(shareDaba->classElementNumMap);
+    moreClassWidget->setElementName(i,shareDaba->classStrMap);
+    moreClassWidget->setElementImage(i,shareDaba->classStrMap);
     scrollMore->resize(stwwindow->size().width(),stwwindow->size().height());
     stwwindow->move((this->size().width()-pageMore->size().width())/2,72);
 }
 
 //设置分类软件的属性
-void SoftWindow::SetClassElementName()
+void SoftWindow::setClassElementName()
 {
     qDebug()<<__FUNCTION__<<endl;
     if(shareDaba->classStrMap.isEmpty())
@@ -233,9 +233,9 @@ void SoftWindow::SetClassElementName()
 
     for(int i = 0;i<cateNum;i++)
     {
-        classWidget[i].InitElement(shareDaba->classElementNumMap);
-        classWidget[i].SetElementName(shareDaba->classStrMap);
-        classWidget[i].SetElementImage(shareDaba->classStrMap);
+        classWidget[i].initElement(shareDaba->classElementNumMap);
+        classWidget[i].setElementName(shareDaba->classStrMap);
+        classWidget[i].setElementImage(shareDaba->classStrMap);
     }
 }
 

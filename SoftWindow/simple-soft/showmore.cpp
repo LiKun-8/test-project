@@ -45,7 +45,7 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
 }
 
 //设置软件名字
-void ShowMore::SetElementName(const int category, const CLASSSTRUCTMAP &classStruct)
+void ShowMore::setElementName(const int category, const CLASSSTRUCTMAP &classStruct)
 {
 //    if(jsonFunc->classStrMap.isEmpty())
      if(classStruct.isEmpty())
@@ -60,7 +60,7 @@ void ShowMore::SetElementName(const int category, const CLASSSTRUCTMAP &classStr
     {
         if(item.value().category == (category+1))
         {
-            moreElement[showNum].SetBtnName(item.value().btnname);
+            moreElement[showNum].setBtnName(item.value().btnname);
             moreElement[showNum].baseWidget->show();
             showNum++;
         }
@@ -73,7 +73,7 @@ void ShowMore::SetElementName(const int category, const CLASSSTRUCTMAP &classStr
 }
 
 //设置软件类名字
-void ShowMore::SetTopName(int category, const CATEGORYMAP &cateGoryMap)
+void ShowMore::setTopName(int category, const CATEGORYMAP &cateGoryMap)
 {
     categoryFlag = category;
     if(cateGoryMap.isEmpty())
@@ -89,13 +89,13 @@ void ShowMore::SetTopName(int category, const CATEGORYMAP &cateGoryMap)
 
 }
 
-void ShowMore::SetElementNum(const ELEMENTNUMBERMAP &elementNum)
+void ShowMore::setElementNum(const ELEMENTNUMBERMAP &elementNum)
 {
     QMap<int,int>::const_iterator it = elementNum.find(categoryFlag+1);
     elementNumber = it.value();
 }
 
-void ShowMore::SetElementImage(int category, const CLASSSTRUCTMAP &classStructMap)
+void ShowMore::setElementImage(int category, const CLASSSTRUCTMAP &classStructMap)
 {
     if(classStructMap.isEmpty())
     {
@@ -108,7 +108,7 @@ void ShowMore::SetElementImage(int category, const CLASSSTRUCTMAP &classStructMa
     {
         if(item.value().category == (category+1))
         {
-            moreElement[showNum].SetBtnImage(item.value().btnimage);
+            moreElement[showNum].setBtnImage(item.value().btnimage);
             showNum++;
         }
     }

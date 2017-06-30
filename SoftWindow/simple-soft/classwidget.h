@@ -21,11 +21,11 @@ public:
     explicit ClassWidget(QWidget *parent = 0);
     ~ClassWidget();
     QWidget *widget;
-    void SetCategory(int cate);//设置分类标志
-    void SetTopName(const CATEGORYMAP &cateMap);//设置分类项的名字
-    void SetElementName(const CLASSSTRUCTMAP &classStructMap);//设置软件的名字
-    void InitElement(const ELEMENTNUMBERMAP &classElementNumMap);//初始化软件对象
-    void SetElementImage(const CLASSSTRUCTMAP &classStructMap);
+    void setCategory(int cate);//设置分类标志
+    void setTopName(const CATEGORYMAP &cateMap);//设置分类项的名字
+    void setElementName(const CLASSSTRUCTMAP &classStructMap);//设置软件的名字
+    void initElement(const ELEMENTNUMBERMAP &classElementNumMap);//初始化软件对象
+    void setElementImage(const CLASSSTRUCTMAP &classStructMap);
 
 private:
     //每一个软件项`
@@ -54,7 +54,7 @@ signals:
     void moreShow(int);
 
 protected slots:
-    void SendMoreShow(int i);
+    void sendMoreShow(int i);
 };
 
 #endif // CLASSWIDGETH

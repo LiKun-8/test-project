@@ -20,7 +20,7 @@ ClassWidget::ClassWidget(QWidget *parent) :
     widget->setLayout(mainLayout);
     widget->installEventFilter(this);
 
-    connect(classtop,SIGNAL(showAll(int)),this,SLOT(SendMoreShow(int)));
+    connect(classtop,SIGNAL(showAll(int)),this,SLOT(sendMoreShow(int)));
 
     spaceWidget = new QWidget[SPACEWIDGET];
     for(int i =0 ;i<5;i++)
@@ -33,7 +33,7 @@ ClassWidget::~ClassWidget()
 {
 }
 //设置分类标志
-void ClassWidget::SetCategory(int cate)
+void ClassWidget::setCategory(int cate)
 {
     //    tt->setcategory(cate);
     classtop->setcategory(cate);
@@ -140,14 +140,14 @@ bool ClassWidget::eventFilter(QObject *target, QEvent *event)
     return QWidget::eventFilter(target,event);
 }
 
-void ClassWidget::SendMoreShow(int i)
+void ClassWidget::sendMoreShow(int i)
 {
     emit moreShow(i);
     //    qDebug()<<" More  Show  !!!!!!!"<<endl;
 }
 
 //设置分类项名字
-void ClassWidget::SetTopName(const CATEGORYMAP &cateMap)
+void ClassWidget::setTopName(const CATEGORYMAP &cateMap)
 {
     if(cateMap.isEmpty())
     {
@@ -163,7 +163,7 @@ void ClassWidget::SetTopName(const CATEGORYMAP &cateMap)
 }
 
 //设置软件项名字
-void ClassWidget::SetElementName(const CLASSSTRUCTMAP &classStructMap)
+void ClassWidget::setElementName(const CLASSSTRUCTMAP &classStructMap)
 {
     if(classStructMap.isEmpty())
     {
@@ -175,14 +175,14 @@ void ClassWidget::SetElementName(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            tt[i].SetBtnName(item.value().btnname);
+            tt[i].setBtnName(item.value().btnname);
             i++;
         }
     }
 }
 
 //初始化软件项
-void ClassWidget::InitElement(const ELEMENTNUMBERMAP &classElementNumMap)
+void ClassWidget::initElement(const ELEMENTNUMBERMAP &classElementNumMap)
 {
 //    qDebug()<<__FUNCTION__<<endl;
     QMap<int,int>::const_iterator it = classElementNumMap.find(category+1);
@@ -194,7 +194,7 @@ void ClassWidget::InitElement(const ELEMENTNUMBERMAP &classElementNumMap)
     }
 }
 
-void ClassWidget::SetElementImage(const CLASSSTRUCTMAP &classStructMap)
+void ClassWidget::setElementImage(const CLASSSTRUCTMAP &classStructMap)
 {
     if(classStructMap.isEmpty())
     {
@@ -206,7 +206,7 @@ void ClassWidget::SetElementImage(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            tt[i].SetBtnImage(item.value().btnimage);
+            tt[i].setBtnImage(item.value().btnimage);
             i++;
         }
     }

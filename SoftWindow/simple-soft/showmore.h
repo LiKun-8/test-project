@@ -13,10 +13,10 @@ class ShowMore : public QWidget
 public:
     explicit ShowMore(QWidget *parent = 0);
     QWidget *moreWidget;
-    void SetElementName(int category,const CLASSSTRUCTMAP &classStruct);
-    void SetTopName(int category,const CATEGORYMAP &cateGoryMap);
-    void SetElementNum(const ELEMENTNUMBERMAP &elementNum);
-    void SetElementImage(int category,const CLASSSTRUCTMAP &classStructMap);
+    void setElementName(int category,const CLASSSTRUCTMAP &classStruct);
+    void setTopName(int category,const CATEGORYMAP &cateGoryMap);
+    void setElementNum(const ELEMENTNUMBERMAP &elementNum);
+    void setElementImage(int category,const CLASSSTRUCTMAP &classStructMap);
 
 private:
     ClassTop *moreClassTop;

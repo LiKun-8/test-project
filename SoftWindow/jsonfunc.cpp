@@ -7,30 +7,30 @@ JSONFUNC::JSONFUNC(ShareData *shareData)
     jsonData = shareData;
     jsonFlag = 0;
     categoryNum = 0;
-    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(JsonAnalysis(QNetworkReply*)));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(jsonAnalysis(QNetworkReply*)));
 }
 
 //获取分类数目
-int JSONFUNC::GetCategoryNum()
+int JSONFUNC::getCategoryNum()
 {
     jsonFlag = CATEGORIES;
     manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/categories")));
 }
 
-void JSONFUNC::GetRelease()
+void JSONFUNC::getRelease()
 {
     jsonFlag = RELEASE;
     manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/release")));
 }
 
 //设置软件名字
-void JSONFUNC::SetAppname()
+void JSONFUNC::setAppname()
 {
     jsonFlag = PRODUCTS;
     manager->get(QNetworkRequest(QUrl("http://127.0.0.1:8888/products")));
 }
 
-void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
+void JSONFUNC::jsonAnalysis(QNetworkReply *reply)
 {
 //    qDebug()<<__FUNCTION__<<endl;
     QByteArray dataRead;
@@ -85,7 +85,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                         }
                     }
                     //                    qDebug()<<"categoryNum  ==  "<<categoryNum<<endl;
-                    emit NumIsOk(categoryNum);
+                    emit numIsOk(categoryNum);
                 }
             }
 
@@ -245,7 +245,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                             }
                         }
                     }
-                    emit CurlIsOk();
+                    emit curlIsOk();
                 }
             }
             if(jsonFlag == RELEASE)

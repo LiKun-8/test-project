@@ -26,17 +26,17 @@ class JSONFUNC : public QObject
 
 public:
     JSONFUNC(ShareData *shareData);
-    int GetCategoryNum();
-    void GetRelease();
-    void SetAppname();
+    int getCategoryNum();
+    void getRelease();
+    void setAppname();
     ShareData *jsonData;
 
 protected slots:
-    void JsonAnalysis(QNetworkReply *reply);
+    void jsonAnalysis(QNetworkReply *reply);
 
 signals:
-    void CurlIsOk();
-    void NumIsOk(int num);
+    void curlIsOk();
+    void numIsOk(int num);
 
 
 private:

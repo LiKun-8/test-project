@@ -21,21 +21,21 @@ class SoftWindow : public QWidget
 public:
     SoftWindow(QWidget *parent = 0);
     ~SoftWindow();
-    void SetCurrentPage(int page);
-    void InitMainWindow();
+    void setCurrentPage(int page);
+    void initMainWindow();
 
     ShareData *shareDaba;
 
 protected slots:
-    void OnBtnHome();
-    void OnBtnClass();
-    void OnBtnUpdate();
-    void OnBtnManager();
-    void SetMoreShow(int i);
-    void SetClassElementName();
+    void onBtnHome();
+    void onBtnClass();
+    void onBtnUpdate();
+    void onBtnManager();
+    void setMoreShow(int i);
+    void setClassElementName();
 
-    void CreateClassWindow(int catenum);
-    void CreateMorewindow();
+    void createClassWindow(int catenum);
+    void createMorewindow();
 
 private:
 

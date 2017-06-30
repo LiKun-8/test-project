@@ -26,7 +26,7 @@ Element::Element()
     vbLayout->setSpacing(0);
 
     hbLayout->addWidget(btnImage);
-    Init();
+    init();
     hbLayout->addLayout(vbLayout);
     hbLayout->setMargin(0);
     hbLayout->setSpacing(0);
@@ -36,7 +36,7 @@ Element::Element()
     m_ImagePix = new QPixmap();
     m_Flag = 0;
     baseWidget->installEventFilter(this);
-    connect(m_ImageManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ReplyFinished(QNetworkReply*)),Qt::QueuedConnection);
+    connect(m_ImageManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)),Qt::QueuedConnection);
 }
 
 Element::~Element()
@@ -44,7 +44,7 @@ Element::~Element()
 
 }
 
-void Element::Init()
+void Element::init()
 {
     btnstar = new QPushButton();
     btnstar->setFixedSize(72,10);
@@ -55,8 +55,8 @@ void Element::Init()
     //        btnStatus->setFlat(true);
     vbLayout->addWidget(btnstar);
     vbLayout->addWidget(btnStatus);
-    SetBtnStatus("download");
-    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(BtnStatusSlot()));
+    setBtnStatus("download");
+    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(btnStatusSlot()));
 
     //去除矩形虚线框
     btnName->setFocusPolicy(Qt::NoFocus);
@@ -69,7 +69,7 @@ void Element::Init()
     btnImage->setCursor(Qt::PointingHandCursor);
 }
 
-void Element::SetBtnImage(QString imagePath)
+void Element::setBtnImage(QString imagePath)
 {
     m_ImagePath = imagePath;
     m_Flag = 1;
@@ -80,7 +80,7 @@ void Element::SetBtnImage(QString imagePath)
     ////    btnImage->setStyleSheet(imagePath);
 }
 
-void Element::SetBtnName(QString name)
+void Element::setBtnName(QString name)
 {
     //使文本生成省略号(...)
     QFontMetrics metrice(btnName->font());
@@ -89,35 +89,35 @@ void Element::SetBtnName(QString name)
     btnName->setToolTip(name);
 }
 
-void Element::SetBtnStart()
+void Element::setBtnStart()
 {
 
 }
 
-void Element::SetBtnStatus(QString status)
+void Element::setBtnStatus(QString status)
 {
     btnStatus->setText(status);
     btnStatus->setToolTip(status);
 }
 
-void Element::SetButton(bool)
+void Element::setButton(bool)
 {
 
 }
 
-void Element::BtnStatusSlot()
+void Element::btnStatusSlot()
 {
     btnStatus->setText("NULL");
     btnStatus->setEnabled(false);
     btnStatus->setToolTip(btnStatus->text());
 }
 
-void Element::Setcategory(int cate)
+void Element::setcategory(int cate)
 {
     category = cate;
 }
 
-void Element::ReplyFinished(QNetworkReply *reply)
+void Element::replyFinished(QNetworkReply *reply)
 {
 
     if(reply->error() == QNetworkReply::NoError)
