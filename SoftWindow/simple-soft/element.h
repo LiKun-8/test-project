@@ -6,6 +6,10 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include "custombutton.h"
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QPixmap>
+#include <QPaintEvent>
 
 class Element:public QObject
 {
@@ -27,6 +31,7 @@ public:
 
 private slots:
     void BtnStatusSlot();
+    void ReplyFinished(QNetworkReply *reply);
 
 private:
     QPushButton *btnImage;
@@ -35,6 +40,15 @@ private:
     CustomButton *btnStatus;//自定义的按钮
     QVBoxLayout *vbLayout;
     QHBoxLayout *hbLayout;
+
+    QNetworkAccessManager *m_ImageManager;
+    QPixmap *m_ImagePix;
+
+protected:
+//    void paintEvent(QPaintEvent *event);
+    bool eventFilter(QObject *target, QEvent *event);
+    int m_Flag;
+    QString m_ImagePath;
 };
 
 #endif // ELEMENTH

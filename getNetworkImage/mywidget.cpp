@@ -8,6 +8,7 @@ MyWidget::MyWidget()
     m_ImageManager = new QNetworkAccessManager();
     m_ImagePix = new QPixmap();
     m_Flag = 0;
+
     connect(m_ImageManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ReplyFinished(QNetworkReply*)),Qt::QueuedConnection);
 }
 

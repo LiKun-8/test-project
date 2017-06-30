@@ -32,10 +32,9 @@ void JSONFUNC::SetAppname()
 
 void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
 {
-    qDebug()<<__FUNCTION__<<endl;
+//    qDebug()<<__FUNCTION__<<endl;
     QByteArray dataRead;
     dataRead = reply->readAll();
-    qDebug()<<dataRead.size()<<endl;
     QJsonParseError jsonerror;
     QJsonDocument document = QJsonDocument::fromJson(dataRead,&jsonerror);
 
@@ -46,8 +45,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
             QJsonObject obj = document.object();
             if(jsonFlag == CATEGORIES)
             {
-                QString categor = "Categories";
-                if(obj.contains(categor))
+                if(obj.contains("Categories"))
                 {
                     QJsonValue test = obj.take("Categories");
                     if(test.isArray())
@@ -79,24 +77,23 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                                     if(categoryname.isString())
                                     {
                                         name = categoryname.toString();
-//                                        qDebug()<<name<<endl;
+                                        //                                        qDebug()<<name<<endl;
                                     }
                                 }
                                 jsonData->cateMap[cate] = name;
                             }
                         }
                     }
-//                    qDebug()<<"categoryNum  ==  "<<categoryNum<<endl;
+                    //                    qDebug()<<"categoryNum  ==  "<<categoryNum<<endl;
                     emit NumIsOk(categoryNum);
                 }
             }
 
             if(jsonFlag == PRODUCTS)
             {
-                QString product = "products";
-                if(obj.contains(product))
+                if(obj.contains("products"))
                 {
-                    QJsonValue pro = obj.take(product);
+                    QJsonValue pro = obj.take("products");
                     if(pro.isArray())
                     {
                         QJsonArray str = pro.toArray();
@@ -114,6 +111,8 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                         QString prourl;
                         QString prodesc;
                         QMap<int,int>::iterator it;
+                        int y = 0;
+
                         for(int i = 0;i < size;i++)
                         {
                             QJsonValue value = str.at(i);
@@ -186,7 +185,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                                     if(iconurl.isString())
                                     {
                                         icourl = iconurl.toString();
-//                                        qDebug()<<"icon_url : "<<icourl<<endl;
+                                        //                                        qDebug()<<"icon_url : "<<icourl<<endl;
                                     }
                                 }
 
@@ -229,9 +228,19 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                                         //                                        qDebug()<<"gradecount : "<<gracount<<endl;
                                     }
                                 }
-//                                                                qDebug()<<"cateid : "<<cateid<<endl;
-//                                                                qDebug()<<"icourl : "<<icourl<<endl;
-//                                                                qDebug()<<"proname : "<<proname<<endl;
+                                //                                                                qDebug()<<"cateid : "<<cateid<<endl;
+                                //                                                                qDebug()<<"icourl : "<<icourl<<endl;
+                                //                                                                qDebug()<<"proname : "<<proname<<endl;
+                                 if(y<10)
+                                {
+                                    icourl = QString("%1%2%3").arg("http://k2.jsqq.net/uploads/allimg/1705/7_170524143440_").arg(y+1).arg(".jpg");
+                                    y++;
+                                }
+                                else
+                                {
+                                    icourl = QString("%1%2%3").arg("http://k2.jsqq.net/uploads/allimg/1705/7_170524143440_").arg(1).arg(".jpg");
+                                    y = 1;
+                                }
                                 jsonData->classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
                             }
                         }
@@ -334,7 +343,7 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                                     if(iconurl.isString())
                                     {
                                         icourl = iconurl.toString();
-//                                        qDebug()<<"icon_url : "<<icourl<<endl;
+                                        //                                        qDebug()<<"icon_url : "<<icourl<<endl;
                                     }
                                 }
 
@@ -377,10 +386,10 @@ void JSONFUNC::JsonAnalysis(QNetworkReply *reply)
                                         //                                        qDebug()<<"gradecount : "<<gracount<<endl;
                                     }
                                 }
-//                                                                qDebug()<<"cateid : "<<cateid<<endl;
-//                                                                qDebug()<<"icourl : "<<icourl<<endl;
-//                                                                qDebug()<<"proname : "<<proname<<endl;
-//                                classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
+                                //                                                                qDebug()<<"cateid : "<<cateid<<endl;
+                                //                                                                qDebug()<<"icourl : "<<icourl<<endl;
+                                //                                                                qDebug()<<"proname : "<<proname<<endl;
+                                //                                classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,icourl,proname,0));
                             }
                         }
                     }

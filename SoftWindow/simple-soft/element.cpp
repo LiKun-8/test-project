@@ -12,7 +12,7 @@ Element::Element()
 
     btnImage = new QPushButton();
     btnImage->setFixedSize(64,64);
-//    btnImage->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
+    //    btnImage->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
     btnName = new QPushButton();
     btnName->setFixedSize(72,22);
     btnName->setStyleSheet("text-align: left;");//设置按钮文字显示位置-左对齐
@@ -31,6 +31,12 @@ Element::Element()
     hbLayout->setMargin(0);
     hbLayout->setSpacing(0);
     baseWidget->setLayout(hbLayout);
+
+    m_ImageManager = new QNetworkAccessManager();
+    m_ImagePix = new QPixmap();
+    m_Flag = 0;
+    baseWidget->installEventFilter(this);
+    connect(m_ImageManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(ReplyFinished(QNetworkReply*)),Qt::QueuedConnection);
 }
 
 Element::~Element()
@@ -46,7 +52,7 @@ void Element::Init()
     btnStatus = new CustomButton();
     btnStatus->setFixedSize(72,24);
     //    btnstar->setFlat(true);
-//        btnStatus->setFlat(true);
+    //        btnStatus->setFlat(true);
     vbLayout->addWidget(btnstar);
     vbLayout->addWidget(btnStatus);
     SetBtnStatus("download");
@@ -58,16 +64,20 @@ void Element::Init()
     btnstar->setFocusPolicy(Qt::NoFocus);
     btnStatus->setFocusPolicy(Qt::NoFocus);
     btnStatus->setCursor(Qt::PointingHandCursor);
+    btnStatus->setStyleSheet("border:1px groove;border-radius:2px;border-color:#c8c8c8");
     btnName->setCursor(Qt::PointingHandCursor);
     btnImage->setCursor(Qt::PointingHandCursor);
 }
 
 void Element::SetBtnImage(QString imagePath)
 {
-    QPixmap pix = QPixmap(imagePath);
-    btnImage->setIcon(pix);
-    btnImage->setIconSize(pix.size());
-//    btnImage->setStyleSheet(imagePath);
+    m_ImagePath = imagePath;
+    m_Flag = 1;
+
+    //    QPixmap pix = QPixmap(imagePath);
+    //    btnImage->setIcon(pix);
+    //    btnImage->setIconSize(pix.size());
+    ////    btnImage->setStyleSheet(imagePath);
 }
 
 void Element::SetBtnName(QString name)
@@ -106,3 +116,41 @@ void Element::Setcategory(int cate)
 {
     category = cate;
 }
+
+void Element::ReplyFinished(QNetworkReply *reply)
+{
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+
+        m_ImagePix->loadFromData(reply->readAll());
+        btnImage->setIcon(*m_ImagePix);
+        btnImage->setIconSize(btnImage->size());
+    }
+    else
+    {
+        qDebug()<<"reply is error!"<<endl;
+    }
+
+    reply->deleteLater();
+}
+
+
+bool Element::eventFilter(QObject *target, QEvent *event)
+{
+    if(target == baseWidget)
+    {
+        if(event->type() == QEvent::Paint)
+        {
+            if(m_Flag == 1)
+            {
+                m_Flag = 0;
+                m_ImageManager->get(QNetworkRequest(QUrl(m_ImagePath)));
+            }
+        }
+        return true;
+    }
+    return true;
+}
+
+

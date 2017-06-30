@@ -87,9 +87,6 @@ void SoftWindow::InitMainWindow()
     btnManager->setText("MANAGER");
     btnManager->setFixedSize(80,24);
 
-    //    btnManager->setStyleSheet("QPushButton{"
-    //                               "border:3px  ;"//solid black
-    //                               "border-radius:5px}");
     btnReturn->setFlat(true);
     btnNext->setFlat(true);
     btnRefresh->setFlat(true);

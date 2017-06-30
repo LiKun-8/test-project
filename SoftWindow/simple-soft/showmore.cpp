@@ -104,7 +104,7 @@ void ShowMore::SetElementImage(int category, const CLASSSTRUCTMAP &classStructMa
 
     int showNum = 0;
     QMap<int,CLASSSTRUCT>::const_iterator item = classStructMap.begin();
-    for(int i = 0;item != classStructMap.end() && i<18 ; ++item)
+    for(;item != classStructMap.end(); ++item)
     {
         if(item.value().category == (category+1))
         {
