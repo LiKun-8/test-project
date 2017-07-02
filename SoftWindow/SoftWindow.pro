@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     simple-soft/classtop.cpp \
     simple-soft/custombutton.cpp \
     simple-soft/classwidget.cpp \
-    sharedata.cpp
+    sharedata.cpp \
+    simple-soft/classpage.cpp \
+    simple-soft/morepage.cpp
 
 HEADERS  += softwindow.h \
     simple-soft/element.h \
@@ -31,7 +33,9 @@ HEADERS  += softwindow.h \
     simple-soft/classtop.h \
     simple-soft/custombutton.h \
     simple-soft/classwidget.h \
-    sharedata.h
+    sharedata.h \
+    simple-soft/classpage.h \
+    simple-soft/morepage.h
 
 RESOURCES += \
     iamge.qrc

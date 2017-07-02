@@ -4,9 +4,8 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QLineEdit>
-#include <QScrollArea>
-#include "simple-soft/classwidget.h"
-#include "simple-soft/showmore.h"
+#include "sharedata.h"
+#include "simple-soft/classpage.h"
 
 #define HOMEPAGE 0
 #define CLASSPAGE 1
@@ -24,24 +23,18 @@ public:
     void setCurrentPage(int page);
     void initMainWindow();
 
-    ShareData *shareDaba;
 
 protected slots:
     void onBtnHome();
     void onBtnClass();
     void onBtnUpdate();
     void onBtnManager();
-    void setMoreShow(int i);
-    void setClassElementName();
-
-    void createClassWindow(int catenum);
-    void createMorewindow();
+    void onBtnMore();
 
 private:
 
     int historyPage;
     int nowPage;
-    int cateNum;
     QPushButton *btnReturn;
     QPushButton *btnNext;
     QPushButton *btnRefresh;
@@ -51,35 +44,26 @@ private:
     QPushButton *btnManager;
 
     QStackedWidget *stwwindow;
-    ClassWidget *classWidget;//分类对象
-    JSONFUNC *jsonFunc;//数据读取
-    ShowMore *moreClassWidget;
+
 
     QLabel *label1;
     QLabel *label3;
     QLabel *label4;
 
     QLineEdit *lineSearch;
-    QScrollArea  *scrollClass;
-    QScrollArea  *scrollMore;
+
     QGridLayout *mainLayout;
     QVBoxLayout *vbLayout;
     QHBoxLayout *hbLayout;
-    QVBoxLayout *vbClasslayout;
-    QVBoxLayout *vbClasslayoutMore;
+
 
     QSpacerItem *leftSpace;
     QSpacerItem *rightSpace;
 
     QWidget *pageHome;
-    QWidget *pageClass;
+    ClassPage *pageClass;
     QWidget *pageUpdate;
     QWidget *pageManager;
-    QWidget *pageClassWidget;
-    QWidget *pageMoreWidget;
-    QWidget *pageMore;
-    QSpacerItem *pageClassSpacer;
-    QSpacerItem *pageMoreSpacer;
 
     bool event(QEvent *event);
 };
