@@ -12,13 +12,9 @@ Element::Element()
 
     btnImage = new QPushButton();
     btnImage->setFixedSize(64,64);
-    //    btnImage->setStyleSheet("background-image:url(:/image/gift.png);outline: none;");
     btnName = new QPushButton();
     btnName->setFixedSize(72,22);
     btnName->setStyleSheet("text-align: left;");//设置按钮文字显示位置-左对齐
-
-    //    QFont xx("Timer",12,QFont::Bold);
-    //    btnName->setFont(xx);
     btnImage->setFlat(true);
     btnName->setFlat(true);
     vbLayout->addWidget(btnName);
@@ -51,7 +47,7 @@ void Element::init()
     btnstar->setEnabled(false);
     btnStatus = new CustomButton();
     btnStatus->setFixedSize(72,24);
-    //    btnstar->setFlat(true);
+    btnstar->setFlat(true);
     //        btnStatus->setFlat(true);
     vbLayout->addWidget(btnstar);
     vbLayout->addWidget(btnStatus);
@@ -119,10 +115,8 @@ void Element::setcategory(int cate)
 
 void Element::replyFinished(QNetworkReply *reply)
 {
-
     if(reply->error() == QNetworkReply::NoError)
     {
-
         m_ImagePix->loadFromData(reply->readAll());
         btnImage->setIcon(*m_ImagePix);
         btnImage->setIconSize(btnImage->size());

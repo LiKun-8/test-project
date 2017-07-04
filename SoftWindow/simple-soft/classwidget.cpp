@@ -175,7 +175,7 @@ void ClassWidget::setElementName(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            tt[i].setBtnName(item.value().btnname);
+            tt[i].setBtnName(item.value().btnName);
             i++;
         }
     }
@@ -185,7 +185,9 @@ void ClassWidget::setElementName(const CLASSSTRUCTMAP &classStructMap)
 void ClassWidget::initElement(const ELEMENTNUMBERMAP &classElementNumMap)
 {
 //    qDebug()<<__FUNCTION__<<endl;
-    QMap<int,int>::const_iterator it = classElementNumMap.find(category+1);
+    QMap<int,int>::const_iterator it;
+
+    it = classElementNumMap.find(category+1);
     tt = new Element[it.value()];
 
     for(int i=0 ; i<it.value() && i<18 ; i++)
@@ -206,7 +208,7 @@ void ClassWidget::setElementImage(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            tt[i].setBtnImage(item.value().btnimage);
+            tt[i].setBtnImage(item.value().btnImage);
             i++;
         }
     }

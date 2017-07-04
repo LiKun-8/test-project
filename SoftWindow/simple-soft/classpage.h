@@ -23,7 +23,7 @@ private:
     QVBoxLayout *vbClasslayout;
     QWidget *pageClassWidget;
     int cateNum;
-
+    bool event(QEvent *event);
 
 signals:
     void setMore();

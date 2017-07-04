@@ -1,7 +1,7 @@
 #include "showmore.h"
 #include <QDebug>
-#define MAXNUMBER 180
-#define SHOWMOREROW 36
+#define MAXNUMBER 360
+#define SHOWMOREROW 72
 #define SHOWMORECOLUMN 5
 
 ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
@@ -60,7 +60,7 @@ void ShowMore::setElementName(const int category, const CLASSSTRUCTMAP &classStr
     {
         if(item.value().category == (category+1))
         {
-            moreElement[showNum].setBtnName(item.value().btnname);
+            moreElement[showNum].setBtnName(item.value().btnName);
             moreElement[showNum].baseWidget->show();
             showNum++;
         }
@@ -108,7 +108,7 @@ void ShowMore::setElementImage(int category, const CLASSSTRUCTMAP &classStructMa
     {
         if(item.value().category == (category+1))
         {
-            moreElement[showNum].setBtnImage(item.value().btnimage);
+            moreElement[showNum].setBtnImage(item.value().btnImage);
             showNum++;
         }
     }

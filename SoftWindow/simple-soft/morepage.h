@@ -18,6 +18,7 @@ private:
     QSpacerItem *pageMoreSpacer;
     QVBoxLayout *vbClasslayoutMore;
     QWidget *pageMoreWidget;
+    bool event(QEvent *event);
 
 protected slots:
     void createMorewindow();

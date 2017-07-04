@@ -12,13 +12,11 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
-#include "softthread.h"
+#include "sharedata.h"
 
 #define CATEGORIES  1
 #define RELEASE     2
 #define PRODUCTS    3
-
-
 
 class JSONFUNC : public QObject
 {
@@ -26,7 +24,7 @@ class JSONFUNC : public QObject
 
 public:
     JSONFUNC(ShareData *shareData);
-    int getCategoryNum();
+    void getCategoryNum();
     void getRelease();
     void setAppname();
     ShareData *jsonData;
@@ -38,12 +36,14 @@ signals:
     void curlIsOk();
     void numIsOk(int num);
 
-
 private:
     int jsonFlag;
     int categoryNum;
     QByteArray testArray;
     QNetworkAccessManager *manager;
+    void getCategoryNum(QJsonObject obj);
+    void getProducts(QJsonObject obj);
+    void getRelease(QJsonObject obj);
 };
 
 #endif // JSONFUNCH

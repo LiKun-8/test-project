@@ -9,8 +9,7 @@ ClassPage::ClassPage(QWidget *parent) : QWidget(parent)
     moreClassWidget = new MorePage();
     scrollClass->resize(QSize(960,640));
 
-//    connect(jsonFunc,SIGNAL(curlIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);
-    connect(jsonFunc,SIGNAL(curlIsOk()),MorePage,SLOT(createMorewindow()),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(curlIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(numIsOk(int)),this,SLOT(createClassWindow(int)),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(curlIsOk()),this,SLOT(setClassElementName()),Qt::QueuedConnection);
 }

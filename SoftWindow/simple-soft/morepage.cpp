@@ -6,6 +6,16 @@ MorePage::MorePage(QWidget *parent) : QWidget(parent)
         showMore = new ShowMore();
 }
 
+bool MorePage::event(QEvent *event)
+{
+    if(event->type() == QEvent::Resize)
+    {
+        scrollMore->resize(QSize(this->width(),this->height()));
+        return true;
+    }
+    return QWidget::event(event);
+}
+
 void MorePage::createMorewindow()
 {
     pageMoreWidget = new QWidget();

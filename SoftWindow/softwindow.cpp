@@ -50,10 +50,6 @@ void SoftWindow::setCurrentPage(int page)
 {
     stwwindow->setCurrentIndex(page);
     stwwindow->move((this->size().width()-pageClass->size().width())/2,72);
-
-//    设置坐标位置
-//    scrollClass->setGeometry(0,0,pageClass->size().width(),pageClass->size().height());
-//    scrollMore->setGeometry(0,0,pageMore->size().width(),pageMore->size().height());
 }
 
 void SoftWindow::initMainWindow()
@@ -152,15 +148,4 @@ void SoftWindow::onBtnMore()
     setCurrentPage(MOREPAGE);
 }
 
-//事件处理，改变分类页面大小和位置
-bool SoftWindow::event(QEvent *event)
-{
-    if(event->type() == QEvent::Resize)
-    {
-        stwwindow->move((this->size().width()-stwwindow->size().width())/2,72);
-        pageClass->scrollClass->resize(stwwindow->size().width(),stwwindow->size().height());
-        return true;
-    }
-    return QWidget::event(event);
-}
 

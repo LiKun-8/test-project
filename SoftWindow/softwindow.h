@@ -65,7 +65,7 @@ private:
     QWidget *pageUpdate;
     QWidget *pageManager;
 
-    bool event(QEvent *event);
+//    bool event(QEvent *event);
 };
 
 #endif // SOFTWINDOWH
