@@ -18,7 +18,7 @@ func AddReleaseApi(c *gin.Context) {
 		return
 	}
 
-	err := p.Save(db.SqlDB)
+	err := p.AddRelaseAndUpdateProduct(db.SqlDB)
 	if err != nil {
 		log.Println(err)
 		return
@@ -37,7 +37,7 @@ func GetReleaseApi(c *gin.Context) {
 		id = 0
 	}
 
-	p, err := models.ScReleasesByProductID(db.SqlDB, uint(id))
+	p, err := models.ScReleaseByID(db.SqlDB, uint(id))
 
 	if err != nil {
 		log.Println(err)

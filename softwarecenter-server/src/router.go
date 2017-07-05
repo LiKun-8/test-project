@@ -24,5 +24,7 @@ func initRouter() *gin.Engine {
 	router.GET("/category/:id", GetCategoryApi)
 	router.GET("/categories", GetCategoryAllApi)
 
+	router.GET("/product_release", GetProductAndReleaseAllApi)
+
 	return router
 }

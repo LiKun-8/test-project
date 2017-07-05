@@ -7,11 +7,11 @@
 | ProductID | ReleaseID |  CategoriesID | IconURL | ProductName | VendorName | URL | ProductDescription | ProductGrade | GradeCount |
 
 ### 产品发布表
-**sc_prelease**
+**sc_release**
 
 | 发布ID | 产品ID | 版本 | 图标URL | 下载URL | 更新记录 | 包类型 | 安装包大小 | 发布评分 |评分数量 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| ReleaseID | ProductID | Version | IconURL | DownloadURL | ChangeLog | PackageSize | PackageType | ReleaseGrade | GradeCount |
+| ReleaseID | ProductID | Version | IconURL | DownloadURL | ChangeLog | PackageType | PackageSize | ReleaseGrade | GradeCount |
 
 ### 用户评论表
 **sc_comment**
@@ -54,3 +54,17 @@
 | 用户ID | 用户名 | 用户头像URL | 用户邮件地址|
 | :--- | :--- | :--- | :--- |
 | UserID |  UserName| UserAvatarURL |  UserMailURL |
+
+
+### 更新所需数据
+**根据ProductID  ReleaseID 获取**
+
+IconURL + ChangeLog + PackageSize + Version + DownloadURL
+
+### 管理所需数据
+**根据 ProductID 和 Version 获取**
+PackageSize
+
+### 评分数量需要添加数据(目前为0)
+
+

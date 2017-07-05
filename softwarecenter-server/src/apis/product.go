@@ -111,3 +111,17 @@ func ModProductApi(c *gin.Context) {
 		"ID":   p.ID,
 	})
 }
+
+func GetProductAndReleaseAllApi(c *gin.Context) {
+
+	ra, err := models.GetScProductAndReleases(db.SqlDB)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"products_release": ra,
+	})
+}
+
