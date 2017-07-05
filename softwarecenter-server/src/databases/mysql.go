@@ -1,26 +1,27 @@
 package databases
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
+	"database/sql"
 	"log"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-var SqlDB *sqlx.DB
+var SqlDB *sql.DB
 
 func init() {
 	var err error
 
-	SqlDB, err = sqlx.Open("mysql", "emindsoftwarecenter:p#.!$!%(26i@tcp(127.0.0.1:3306)/EmindSoftwareCenter?charset=utf8&parseTime=True")
-	if err != nil {
+	if SqlDB, err = sql.Open("mysql",
+		//"emindsoftwarecenter:p#.!$!%(26i@tcp(127.0.0.1:3306)/EmindSoftwareCenter?charset=utf8&parseTime=True"); err != nil {
+		"emindsoftwarecenter:1@tcp(127.0.0.1:3306)/emind_software_center?charset=utf8&parseTime=True"); err != nil {
 		log.Fatal(err.Error())
 	}
 
 	SqlDB.SetMaxIdleConns(20)
 	SqlDB.SetMaxOpenConns(20)
 
-	err = SqlDB.Ping()
-	if err != nil {
+	if err = SqlDB.Ping(); err != nil {
 		log.Fatal(err.Error())
 	}
 

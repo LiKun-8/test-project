@@ -1,11 +1,13 @@
 package apis
 
 import (
-	"gopkg.in/gin-gonic/gin.v1"
+	db "databases"
 	"log"
-	. "models"
+	"models"
 	"net/http"
 	"strconv"
+
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 func IndexApi(c *gin.Context) {
@@ -14,30 +16,27 @@ func IndexApi(c *gin.Context) {
 
 func AddProductApi(c *gin.Context) {
 
-	var p Product
+	var p models.ScProduct
 	err := c.Bind(&p)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	ra, err := p.AddProduct()
+	err = p.Save(db.SqlDB)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	//msg := log.Sprintf("insert successful %d", ra)
 	c.JSON(http.StatusOK, gin.H{
-		"ID": ra,
+		"ID": p.ID,
 	})
 }
 
 func GetProductAllApi(c *gin.Context) {
 
-	var p Product
-	ra, err := p.GetProductAll()
-
+	ra, err := models.GetScProducts(db.SqlDB)
 	if err != nil {
 		log.Println(err)
 		return
@@ -50,14 +49,9 @@ func GetProductAllApi(c *gin.Context) {
 
 func GetProductFromNameApi(c *gin.Context) {
 
-	var p Product
-	err := c.Bind(&p)
-	if err != nil {
-		log.Println(err)
-		return
-	}
+	name := c.Query("product_name")
 
-	product, err := p.GetProductFromName()
+	product, err := models.ScProductsByProductName(db.SqlDB, name)
 
 	if err != nil {
 		log.Println(err)
@@ -77,10 +71,7 @@ func GetProductApi(c *gin.Context) {
 		id = 0
 	}
 
-	var p Product
-	p.ProductID = id
-
-	product, err := p.GetProduct()
+	p, err := models.ScProductByID(db.SqlDB, uint(id))
 
 	if err != nil {
 		log.Println(err)
@@ -88,7 +79,7 @@ func GetProductApi(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"product": product,
+		"product": p,
 	})
 }
 
@@ -100,15 +91,15 @@ func ModProductApi(c *gin.Context) {
 		id = 0
 	}
 
-	var p Product
+	var p models.ScProduct
 	err = c.Bind(&p)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	p.ProductID = id
-	ra, err := p.ModProduct()
+	p.ID = uint(id)
+	err = p.Save(db.SqlDB)
 
 	if err != nil {
 		log.Println(err)
@@ -117,7 +108,6 @@ func ModProductApi(c *gin.Context) {
 
 	//msg := log.Sprintf("Update product %d successful %d", p.ProductID, ra)
 	c.JSON(http.StatusOK, gin.H{
-		"ID":   p.ProductID,
-		"Rows": ra,
+		"ID":   p.ID,
 	})
 }

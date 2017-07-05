@@ -1,30 +1,31 @@
 package apis
 
 import (
-	"gopkg.in/gin-gonic/gin.v1"
+	db "databases"
 	"log"
-	. "models"
+	"models"
 	"net/http"
 	"strconv"
+
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 func AddReleaseApi(c *gin.Context) {
 
-	var p Release
-	err := c.Bind(&p)
-	if err != nil {
+	var p models.ScRelease
+	if err := c.Bind(&p); err != nil {
 		log.Println(err)
 		return
 	}
 
-	ra, err := p.AddRelease()
+	err := p.Save(db.SqlDB)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"ID": ra,
+		"ID": p.ID,
 	})
 }
 
@@ -36,10 +37,7 @@ func GetReleaseApi(c *gin.Context) {
 		id = 0
 	}
 
-	var p Release
-	p.ReleaseID = id
-
-	release, err := p.GetRelease()
+	p, err := models.ScReleasesByProductID(db.SqlDB, uint(id))
 
 	if err != nil {
 		log.Println(err)
@@ -47,6 +45,6 @@ func GetReleaseApi(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"release": release,
+		"release": p,
 	})
 }

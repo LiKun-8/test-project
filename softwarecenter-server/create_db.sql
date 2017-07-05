@@ -1,39 +1,41 @@
-DROP database IF EXISTS EmindSoftwareCenter;
-CREATE database EmindSoftwareCenter;
+DROP database IF EXISTS emind_software_center;
+CREATE database emind_software_center;
 
 --DROP USER IF EXISTS 'emindsoftwarecenter'@'localhost';
 GRANT USAGE ON *.* TO 'emindsoftwarecenter'@'localhost';
 DROP USER 'emindsoftwarecenter'@'localhost';
 
-CREATE USER 'emindsoftwarecenter'@'localhost' IDENTIFIED BY 'p#.!$!%(26i';
-GRANT SELECT,INSERT,UPDATE,DELETE ON EmindSoftwareCenter.* TO 'emindsoftwarecenter'@'localhost';
+--CREATE USER 'emindsoftwarecenter'@'localhost' IDENTIFIED BY 'p#.!$!%(26i';
+CREATE USER 'emindsoftwarecenter'@'localhost' IDENTIFIED BY '1';
+--GRANT SELECT,INSERT,UPDATE,DELETE ON emind_software_center.* TO 'emindsoftwarecenter'@'localhost';
+GRANT ALL PRIVILEGES ON emind_software_center.* TO 'emindsoftwarecenter'@'localhost';
 
-USE EmindSoftwareCenter;
+USE emind_software_center;
 
 --DROP TABLE IF EXISTS `sc_category`;
 CREATE TABLE `sc_category` (
-	`CategoryID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`CategoryName` varchar(255) NOT NULL,
-	PRIMARY KEY (`CategoryID`)  
+	`ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`category_name` varchar(255) NOT NULL,
+	PRIMARY KEY (`ID`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --DROP TABLE IF EXISTS `sc_product`;
 CREATE TABLE `sc_product` (
-	`ProductID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`CategoryID` int(11) unsigned DEFAULT 0,
-	`ReleaseID` int(11) unsigned DEFAULT 0,
-	`ProductName` varchar(255) DEFAULT NULL,
-	`VendorName` varchar(255) DEFAULT NULL,
-	`IconUrl` varchar(255) DEFAULT '',
-	`Url` varchar(255) DEFAULT NULL,
-	`ProductDescription` text DEFAULT NULL,
-	`ProductGrade` int(11) unsigned DEFAULT 0,
-	`GradeCount` int(11) unsigned DEFAULT 0,
-	PRIMARY KEY (`ProductID`),
-	INDEX (`CategoryID`),
-	INDEX (`ProductName`),
-	INDEX (`VendorName`),
-	CONSTRAINT `sc_product_ibfk_1` FOREIGN KEY (`CategoryID`) REFERENCES `sc_category` (`CategoryID`)
+	`ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`category_ID` int(11) unsigned NOT NULL,
+	`release_ID` int(11) unsigned NOT NULL,
+	`product_name` varchar(255) NOT NULL,
+	`vendor_name` varchar(255) NOT NULL,
+	`icon_url` varchar(255) NOT NULL,
+	`url` varchar(255) NOT NULL,
+	`product_description` text NOT NULL,
+	`product_grade` int(11) unsigned NOT NULL,
+	`grade_count` int(11) unsigned NOT NULL,
+	PRIMARY KEY (`ID`),
+	INDEX (`category_ID`),
+	INDEX (`product_name`),
+	INDEX (`vendor_name`),
+	CONSTRAINT `sc_product_ibfk_1` FOREIGN KEY (`category_ID`) REFERENCES `sc_category` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --ALTER TABLE `sc_product` ADD INDEX (
@@ -42,69 +44,69 @@ CREATE TABLE `sc_product` (
 
 --DROP TABLE IF EXISTS `sc_release`;
 CREATE TABLE `sc_release` (
-	`ReleaseID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`ProductID` int(11) unsigned DEFAULT 0,
-	`Version` varchar(255) DEFAULT NULL,
-	`IconUrl` varchar(255) DEFAULT NULL,
-	`DownloadUrl` text DEFAULT NULL,
-	`Changelog` text DEFAULT NULL,
-	`PackageSize` int(11) unsigned DEFAULT 0,
-	`PackageType` tinyint unsigned DEFAULT 0,
-	`ReleaseGrade` int(11) unsigned DEFAULT 0,
-	`GradeCount` int(11) unsigned DEFAULT 0,
-	`ReleaseDate` datetime DEFAULT NOW(),
-	PRIMARY KEY (`ReleaseID`),
-	CONSTRAINT	`sc_release_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `sc_product` (`ProductID`)
+	`ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`product_ID` int(11) unsigned NOT NULL,
+	`version` varchar(255) NOT NULL,
+	`icon_url` varchar(255) NOT NULL,
+	`download_url` text NOT NULL,
+	`changelog` text NOT NULL,
+	`package_size` int(11) unsigned NOT NULL,
+	`package_type` tinyint unsigned NOT NULL,
+	`release_grade` int(11) unsigned NOT NULL,
+	`grade_count` int(11) unsigned NOT NULL,
+	`release_date` datetime DEFAULT NOW(),
+	PRIMARY KEY (`ID`),
+	CONSTRAINT	`sc_release_ibfk_1` FOREIGN KEY (`product_ID`) REFERENCES `sc_product` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --DROP TABLE IF EXISTS `sc_user`;
 CREATE TABLE `sc_user` (
-	`UserID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`UserName` varchar(255) DEFAULT NULL,
-	`UserAvatarURL` varchar(255) DEFAULT NULL,
-	`UserMailURL` varchar(255) DEFAULT NULL,
-	PRIMARY KEY (`UserID`)  
+	`ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`user_name` varchar(255) NOT NULL,
+	`avatar_url` varchar(255) NOT NULL,
+	`mail` varchar(255) NOT NULL,
+	PRIMARY KEY (`ID`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --DROP TABLE IF EXISTS `sc_banners`;
 CREATE TABLE `sc_banners` (
-	`ProductID` int(11) unsigned NOT NULL,
-	`Priority` tinyint unsigned NOT NULL,
-	PRIMARY KEY (`ProductID`),
-	CONSTRAINT	`sc_banners_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `sc_product` (`ProductID`)
+	`ID` int(11) unsigned NOT NULL,
+	`priority` tinyint unsigned NOT NULL,
+	PRIMARY KEY (`ID`),
+	CONSTRAINT	`sc_banners_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `sc_product` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --DROP TABLE IF EXISTS `sc_comment`;
 CREATE TABLE `sc_comment` (
-	`CommentID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`ProductID` int(11) unsigned DEFAULT 0,
-	`ReleaseID` int(11) unsigned DEFAULT 0,
-	`UserID` int(11) unsigned DEFAULT 0,
-	`CommentText` text DEFAULT NULL,
-	`CommentGrade` tinyint unsigned DEFAULT 0,
-	`CommentDate` datetime DEFAULT NOW(),
-	PRIMARY KEY (`CommentID`), 
-	CONSTRAINT	`sc_comment_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `sc_product` (`ProductID`),
-	CONSTRAINT	`sc_comment_ibfk_2` FOREIGN KEY (`ReleaseID`) REFERENCES `sc_release` (`ReleaseID`),
-	CONSTRAINT	`sc_comment_ibfk_3` FOREIGN KEY (`UserID`) REFERENCES `sc_user` (`UserID`)
+	`ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`product_ID` int(11) unsigned NOT NULL,
+	`release_ID` int(11) unsigned NOT NULL,
+	`user_ID` int(11) unsigned NOT NULL,
+	`comment_text` text NOT NULL,
+	`comment_grade` tinyint unsigned NOT NULL,
+	`comment_Date` datetime DEFAULT NOW(),
+	PRIMARY KEY (`ID`), 
+	CONSTRAINT	`sc_comment_ibfk_1` FOREIGN KEY (`product_ID`) REFERENCES `sc_product` (`ID`),
+	CONSTRAINT	`sc_comment_ibfk_2` FOREIGN KEY (`release_ID`) REFERENCES `sc_release` (`ID`),
+	CONSTRAINT	`sc_comment_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `sc_user` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --DROP TABLE IF EXISTS `sc_recommend`;
 CREATE TABLE `sc_recommend` (
-	`ProductID` int(11) unsigned NOT NULL,
-	`Priority` tinyint unsigned NOT NULL,
-	PRIMARY KEY (`ProductID`),
-	CONSTRAINT	`sc_recommend_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `sc_product` (`ProductID`)
+	`ID` int(11) unsigned NOT NULL,
+	`priority` tinyint unsigned NOT NULL,
+	PRIMARY KEY (`ID`),
+	CONSTRAINT	`sc_recommend_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `sc_product` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --DROP TABLE IF EXISTS `sc_screen_image`;
 CREATE TABLE `sc_screen_image` (
-	`ScreenImageID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`ProductID` int(11) unsigned DEFAULT 0,
-	`ReleaseID` int(11) unsigned DEFAULT 0,
-	`ScreenImageURL` varchar(255) DEFAULT NULL,
-	PRIMARY KEY (`ScreenImageID`),
-	CONSTRAINT	`sc_screen_image_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `sc_product` (`ProductID`),
-	CONSTRAINT	`sc_screen_image_ibfk_2` FOREIGN KEY (`ReleaseID`) REFERENCES `sc_release` (`ReleaseID`)
+	`ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`product_ID` int(11) unsigned NOT NULL,
+	`release_ID` int(11) unsigned NOT NULL,
+	`image_url` varchar(255) NOT NULL,
+	PRIMARY KEY (`ID`),
+	CONSTRAINT	`sc_screen_image_ibfk_1` FOREIGN KEY (`product_ID`) REFERENCES `sc_product` (`ID`),
+	CONSTRAINT	`sc_screen_image_ibfk_2` FOREIGN KEY (`release_ID`) REFERENCES `sc_release` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

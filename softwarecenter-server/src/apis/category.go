@@ -3,35 +3,35 @@ package apis
 import (
 	"gopkg.in/gin-gonic/gin.v1"
 	"log"
-	. "models"
+	"models"
+    db "databases"
 	"net/http"
 	"strconv"
 )
 
 func AddCategoryApi(c *gin.Context) {
 
-	var p Category
+	var p models.ScCategory
 	err := c.Bind(&p)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	ra, err := p.AddCategory()
+	err = p.Save(db.SqlDB)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"ID": ra,
+		"ID": p.ID,
 	})
 }
 
 func GetCategoryAllApi(c *gin.Context) {
 
-	var p Category
-	ra, err := p.GetCategoryAll()
+	ra, err := models.GetScCategories(db.SqlDB)
 
 	if err != nil {
 		log.Println(err)
@@ -51,10 +51,7 @@ func GetCategoryApi(c *gin.Context) {
 		id = 0
 	}
 
-	var p Category
-	p.CategoryID = id
-
-	category, err := p.GetCategory()
+	p, err := models.ScCategoryByID(db.SqlDB, uint(id))
 
 	if err != nil {
 		log.Println(err)
@@ -62,7 +59,7 @@ func GetCategoryApi(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"Category": category,
+		"Category": p,
 	})
 }
 
@@ -74,16 +71,16 @@ func ModCategoryApi(c *gin.Context) {
 		id = 0
 	}
 
-	var p Category
+	var p models.ScCategory
 	err = c.Bind(&p)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	p.CategoryID = id
+	p.ID = uint(id)
 
-	ra, err := p.ModCategory()
+	err = p.Save(db.SqlDB)
 
 	if err != nil {
 		log.Println(err)
@@ -91,7 +88,7 @@ func ModCategoryApi(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"ID":   p.CategoryID,
-		"Rows": ra,
+		"ID":   p.ID,
 	})
 }
+
