@@ -12,7 +12,7 @@ class ClassPage : public QWidget
 
 public:
     explicit ClassPage(QWidget *parent = 0);
-    ShareData *shareDaba;
+    ShareData *shareData;
     JSONFUNC *jsonFunc;//数据读取
     QScrollArea  *scrollClass;
     MorePage *moreClassWidget;
@@ -32,6 +32,7 @@ public slots:
     void setClassElementName();
     void createClassWindow(int catenum);
     void setMoreShow(int i);
+    void testUpdateMap();
 };
 
 #endif // CLASSPAGE_H

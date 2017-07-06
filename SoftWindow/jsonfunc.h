@@ -25,7 +25,7 @@ class JSONFUNC : public QObject
 public:
     JSONFUNC(ShareData *shareData);
     void getCategoryNum();
-    void getRelease();
+    void getRelease(int array, int size);
     void setAppname();
     ShareData *jsonData;
 
@@ -35,6 +35,7 @@ protected slots:
 signals:
     void curlIsOk();
     void numIsOk(int num);
+    void updateIsOk();
 
 private:
     int jsonFlag;
@@ -44,6 +45,7 @@ private:
     void getCategoryNum(QJsonObject obj);
     void getProducts(QJsonObject obj);
     void getRelease(QJsonObject obj);
+    QString releaseStr;
 };
 
 #endif // JSONFUNCH

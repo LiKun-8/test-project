@@ -3,16 +3,16 @@
 ClassPage::ClassPage(QWidget *parent) : QWidget(parent)
 {
     scrollClass = new QScrollArea(this);
-    shareDaba = new ShareData();
-    jsonFunc = new JSONFUNC(shareDaba);
+    shareData = new ShareData();
+    jsonFunc = new JSONFUNC(shareData);
     jsonFunc->getCategoryNum();
     moreClassWidget = new MorePage();
     scrollClass->resize(QSize(960,640));
 
-//    connect(jsonFunc,SIGNAL(curlIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);
-    connect(jsonFunc,SIGNAL(curlIsOk()),MorePage,SLOT(createMorewindow()),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(curlIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(numIsOk(int)),this,SLOT(createClassWindow(int)),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(curlIsOk()),this,SLOT(setClassElementName()),Qt::QueuedConnection);
+    connect(jsonFunc,SIGNAL(updateIsOk()),this,SLOT(testUpdateMap()));
 }
 
 bool ClassPage::event(QEvent *event)
@@ -40,7 +40,7 @@ void ClassPage::createClassWindow(int catenum)
     {
         connect(&classWidget[i],SIGNAL(moreShow(int)),this,SLOT(setMoreShow(int)));
         classWidget[i].setCategory(i);
-        classWidget[i].setTopName(shareDaba->cateMap);
+        classWidget[i].setTopName(shareData->cateMap);
         vbClasslayout->addWidget(classWidget[i].widget);
     }
 
@@ -61,26 +61,40 @@ void ClassPage::createClassWindow(int catenum)
 void ClassPage::setClassElementName()
 {
     qDebug()<<__FUNCTION__<<endl;
-    if(shareDaba->classStrMap.isEmpty())
+    if(shareData->classStrMap.isEmpty())
     {
         qDebug()<<"classStrMap is Empty!"<<endl;
     }
 
     for(int i = 0;i<cateNum;i++)
     {
-        classWidget[i].initElement(shareDaba->classElementNumMap);
-        classWidget[i].setElementName(shareDaba->classStrMap);
-        classWidget[i].setElementImage(shareDaba->classStrMap);
+        classWidget[i].initElement(shareData->classElementNumMap);
+        classWidget[i].setElementName(shareData->classStrMap);
+        classWidget[i].setElementImage(shareData->classStrMap);
     }
+    jsonFunc->getRelease(1,2);
 }
 
 //测试更多页面跳转
 void ClassPage::setMoreShow(int i)
 {
-    moreClassWidget->showMore->setTopName(i,shareDaba->cateMap);
-    moreClassWidget->showMore->setElementNum(shareDaba->classElementNumMap);
-    moreClassWidget->showMore->setElementName(i,shareDaba->classStrMap);
-    moreClassWidget->showMore->setElementImage(i,shareDaba->classStrMap);
+    moreClassWidget->showMore->setTopName(i,shareData->cateMap);
+    moreClassWidget->showMore->setElementNum(shareData->classElementNumMap);
+    moreClassWidget->showMore->setElementName(i,shareData->classStrMap);
+    moreClassWidget->showMore->setElementImage(i,shareData->classStrMap);
     moreClassWidget->scrollMore->resize(this->size().width(),this->size().height());
     emit setMore();
+}
+
+void ClassPage::testUpdateMap()
+{
+    if(!shareData->updateStrMap.isEmpty())
+    {
+        UPDATESTRUCTMAP::iterator it = shareData->updateStrMap.begin();
+
+        for(;it!=shareData->updateStrMap.end();++it)
+        {
+            qDebug()<<"release id = "<<it.key()<<"  version = "<<it.value().version<<"  packsize = "<<it.value().packageSize;
+        }
+    }
 }

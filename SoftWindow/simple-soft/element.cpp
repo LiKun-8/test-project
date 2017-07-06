@@ -1,4 +1,5 @@
 #include "element.h"
+#include "qreplytimeout.h"
 #include <QFont>
 #include <QDebug>
 
@@ -22,7 +23,23 @@ Element::Element()
     vbLayout->setSpacing(0);
 
     hbLayout->addWidget(btnImage);
-    init();
+    initStar();
+    btnStatus = new CustomButton();
+    btnStatus->setFixedSize(72,24);
+    //        btnStatus->setFlat(true);
+    vbLayout->addLayout(hbStartLayout);
+    vbLayout->addWidget(btnStatus);
+    setBtnStatus("download");
+    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(btnStatusSlot()));
+
+    //去除矩形虚线框
+    btnName->setFocusPolicy(Qt::NoFocus);
+    btnImage->setFocusPolicy(Qt::NoFocus);
+    btnStatus->setFocusPolicy(Qt::NoFocus);
+    btnStatus->setCursor(Qt::PointingHandCursor);
+    btnStatus->setStyleSheet("border:1px groove;border-radius:2px;border-color:#c8c8c8");
+    btnName->setCursor(Qt::PointingHandCursor);
+    btnImage->setCursor(Qt::PointingHandCursor);
     hbLayout->addLayout(vbLayout);
     hbLayout->setMargin(0);
     hbLayout->setSpacing(0);
@@ -38,31 +55,6 @@ Element::Element()
 Element::~Element()
 {
 
-}
-
-void Element::init()
-{
-    btnstar = new QPushButton();
-    btnstar->setFixedSize(72,10);
-    btnstar->setEnabled(false);
-    btnStatus = new CustomButton();
-    btnStatus->setFixedSize(72,24);
-    btnstar->setFlat(true);
-    //        btnStatus->setFlat(true);
-    vbLayout->addWidget(btnstar);
-    vbLayout->addWidget(btnStatus);
-    setBtnStatus("download");
-    connect(btnStatus,SIGNAL(clicked(bool)),this,SLOT(btnStatusSlot()));
-
-    //去除矩形虚线框
-    btnName->setFocusPolicy(Qt::NoFocus);
-    btnImage->setFocusPolicy(Qt::NoFocus);
-    btnstar->setFocusPolicy(Qt::NoFocus);
-    btnStatus->setFocusPolicy(Qt::NoFocus);
-    btnStatus->setCursor(Qt::PointingHandCursor);
-    btnStatus->setStyleSheet("border:1px groove;border-radius:2px;border-color:#c8c8c8");
-    btnName->setCursor(Qt::PointingHandCursor);
-    btnImage->setCursor(Qt::PointingHandCursor);
 }
 
 void Element::setBtnImage(QString imagePath)
@@ -115,6 +107,12 @@ void Element::setcategory(int cate)
 
 void Element::replyFinished(QNetworkReply *reply)
 {
+    QReplyTimeout *pTimeout = new QReplyTimeout(reply, 1000);
+    // 超时进一步处理
+    connect(pTimeout, &QReplyTimeout::timeout, [=]() {
+        qDebug() << "Timeout";
+    });
+
     if(reply->error() == QNetworkReply::NoError)
     {
         m_ImagePix->loadFromData(reply->readAll());
@@ -127,6 +125,20 @@ void Element::replyFinished(QNetworkReply *reply)
     }
 
     reply->deleteLater();
+}
+
+void Element::initStar()
+{
+    labelStar = new QLabel[5];
+    hbStartLayout = new QHBoxLayout();
+    hbStartLayout->setContentsMargins(0,0,0,0);
+
+    for(int i= 0;i<5;i++)
+    {
+        labelStar[i].setFixedSize(10,10);
+        labelStar[i].setPixmap(QPixmap(":/image/gift.png"));
+        hbStartLayout->addWidget(&labelStar[i]);
+    }
 }
 
 

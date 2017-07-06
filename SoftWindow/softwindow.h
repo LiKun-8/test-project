@@ -65,6 +65,8 @@ private:
     QWidget *pageUpdate;
     QWidget *pageManager;
 
+    QLabel *test;
+
 //    bool event(QEvent *event);
 };
 

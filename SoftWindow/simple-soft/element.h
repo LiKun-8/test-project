@@ -10,6 +10,7 @@
 #include <QNetworkReply>
 #include <QPixmap>
 #include <QPaintEvent>
+#include <QLabel>
 
 class Element:public QObject
 {
@@ -20,7 +21,6 @@ public:
     ~Element();
 
     QWidget *baseWidget;
-    void init();//初始化布局
     void setBtnImage(QString imagePath);//设置应用图标
     void setBtnName(QString name);//设置应用名字
     void setBtnStart();//设置应用评分
@@ -36,13 +36,16 @@ private slots:
 private:
     QPushButton *btnImage;
     QPushButton *btnName;
-    QPushButton *btnstar;
+    QLabel *labelStar;
+
     CustomButton *btnStatus;//自定义的按钮
     QVBoxLayout *vbLayout;
     QHBoxLayout *hbLayout;
+    QHBoxLayout *hbStartLayout;
 
     QNetworkAccessManager *m_ImageManager;
     QPixmap *m_ImagePix;
+    void initStar();
 
 protected:
 //    void paintEvent(QPaintEvent *event);

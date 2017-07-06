@@ -35,7 +35,8 @@ HEADERS  += softwindow.h \
     simple-soft/classwidget.h \
     sharedata.h \
     simple-soft/classpage.h \
-    simple-soft/morepage.h
+    simple-soft/morepage.h \
+    qreplytimeout.h
 
 RESOURCES += \
     iamge.qrc

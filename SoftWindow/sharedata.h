@@ -14,15 +14,15 @@ struct CLASSSTRUCT{
 
 struct UPDATESTRUCT{
     int productId;
-    int releaseId;
-    double version;
+//    int releaseId;
+    QString version;
     QString btnImage;
-    QString btnName;
+//    QString btnName;
     QString changeLog;
     QString downloadUrl;
     double packageSize;
-    UPDATESTRUCT(int id,int relid,double ver,const QString &image,const QString & btnname,const QString & changelog,const QString & downloadurl,double packagesize):
-        productId(id),releaseId(relid),version(ver),btnImage(image),btnName(btnname),changeLog(changelog),downloadUrl(downloadurl),packageSize(packagesize){}
+    UPDATESTRUCT(int id,QString ver,const QString &image,const QString & changelog,const QString & downloadurl,double packagesize):
+        productId(id),version(ver),btnImage(image),changeLog(changelog),downloadUrl(downloadurl),packageSize(packagesize){}
 };
 
 typedef QMap<int,QString> CATEGORYMAP;
