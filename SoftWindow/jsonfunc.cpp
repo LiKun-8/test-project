@@ -49,7 +49,7 @@ void JSONFUNC::getRelease(int array,int size)
     dataStr += "]";
 
     dataArr = dataStr.toLatin1();
-    qDebug()<<"dataArr == "<<dataArr<<endl;
+//    qDebug()<<"dataArr == "<<dataArr<<endl;
 
     QString baseUrl = "http://127.0.0.1:8888/releases";
     QUrl url(baseUrl);
@@ -405,12 +405,12 @@ void JSONFUNC::getRelease(QJsonObject obj)
                     }
 
                     //                                qDebug()<<"relid : "<<relid<<endl;
-                    qDebug()<<"proid : "<<proid<<endl;
-                    qDebug()<<"chaglog : "<<chaglog<<endl;
-                    qDebug()<<"packsize : "<<packsize<<endl;
-                    qDebug()<<"icourl : "<<icourl<<endl;
-                    qDebug()<<"downurl : "<<downurl<<endl;
-                    qDebug()<<"ver : "<<ver<<endl;
+//                    qDebug()<<"proid : "<<proid<<endl;
+//                    qDebug()<<"chaglog : "<<chaglog<<endl;
+//                    qDebug()<<"packsize : "<<packsize<<endl;
+//                    qDebug()<<"icourl : "<<icourl<<endl;
+//                    qDebug()<<"downurl : "<<downurl<<endl;
+//                    qDebug()<<"ver : "<<ver<<endl;
                     jsonData->updateStrMap.insert(proid,UPDATESTRUCT(proid,ver,icourl,chaglog,downurl,packsize));
                 }
             }
@@ -418,8 +418,6 @@ void JSONFUNC::getRelease(QJsonObject obj)
         }
     }
 }
-
-
 
 
 

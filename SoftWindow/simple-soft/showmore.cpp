@@ -47,7 +47,6 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
 //设置软件名字
 void ShowMore::setElementName(const int category, const CLASSSTRUCTMAP &classStruct)
 {
-//    if(jsonFunc->classStrMap.isEmpty())
      if(classStruct.isEmpty())
     {
         qDebug()<<"the sortstr is empty!"<<endl;

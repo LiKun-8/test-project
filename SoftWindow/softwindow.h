@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include "sharedata.h"
 #include "simple-soft/classpage.h"
+#include "simple-soft/recommendwidget.h"
 
 #define HOMEPAGE 0
 #define CLASSPAGE 1
@@ -45,8 +46,6 @@ private:
 
     QStackedWidget *stwwindow;
 
-
-    QLabel *label1;
     QLabel *label3;
     QLabel *label4;
 
@@ -60,13 +59,14 @@ private:
     QSpacerItem *leftSpace;
     QSpacerItem *rightSpace;
 
-    QWidget *pageHome;
+    RecommendWidget *pageHome;
     ClassPage *pageClass;
     QWidget *pageUpdate;
     QWidget *pageManager;
 
     QLabel *test;
 
+    void loadStyle();
 //    bool event(QEvent *event);
 };
 

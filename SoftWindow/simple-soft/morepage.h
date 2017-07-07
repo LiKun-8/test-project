@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "showmore.h"
-#include <QScrollArea>
 
 class MorePage: public QWidget
 {

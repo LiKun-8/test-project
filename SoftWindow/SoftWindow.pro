@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     simple-soft/classwidget.cpp \
     sharedata.cpp \
     simple-soft/classpage.cpp \
-    simple-soft/morepage.cpp
+    simple-soft/morepage.cpp \
+    simple-soft/recommendwidget.cpp
 
 HEADERS  += softwindow.h \
     simple-soft/element.h \
@@ -36,7 +37,8 @@ HEADERS  += softwindow.h \
     sharedata.h \
     simple-soft/classpage.h \
     simple-soft/morepage.h \
-    qreplytimeout.h
+    qreplytimeout.h \
+    simple-soft/recommendwidget.h
 
 RESOURCES += \
     iamge.qrc

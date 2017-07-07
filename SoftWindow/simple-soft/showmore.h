@@ -24,7 +24,6 @@ private:
     Element *moreElement;
     QGridLayout *eleLayout;
     QWidget  *spaceWidget;
-    JSONFUNC *jsonFunc;
 
     bool eventFilter(QObject *watched, QEvent *event);
     int categoryFlag;

@@ -1,6 +1,7 @@
 #include "softwindow.h"
 #include <QDebug>
 #include <QEvent>
+#include <QFile>
 
 SoftWindow::SoftWindow(QWidget *parent)
     : QWidget(parent)
@@ -11,6 +12,7 @@ SoftWindow::SoftWindow(QWidget *parent)
     hbLayout = new QHBoxLayout();
     vbLayout = new QVBoxLayout();
 
+    loadStyle();
     //初始化窗口
     initMainWindow();
 
@@ -94,7 +96,7 @@ void SoftWindow::initMainWindow()
     stwwindow = new QStackedWidget(this);
     stwwindow->setMaximumWidth(1200);
 
-    pageHome = new QWidget();
+    pageHome = new RecommendWidget();
     pageClass = new ClassPage();
     //    pageClass->setAcceptDrops();
     pageUpdate = new QWidget();
@@ -105,8 +107,6 @@ void SoftWindow::initMainWindow()
     stwwindow->addWidget(pageUpdate);
     stwwindow->addWidget(pageManager);
     stwwindow->addWidget(pageClass->moreClassWidget);
-    label1 = new QLabel(pageHome);
-    label1->setText("HOME");
     label3 = new QLabel(pageUpdate);
     label3->setText("UPDATE");
     label4 = new QLabel(pageManager);
@@ -146,6 +146,14 @@ void SoftWindow::onBtnManager()
 void SoftWindow::onBtnMore()
 {
     setCurrentPage(MOREPAGE);
+}
+
+void SoftWindow::loadStyle()
+{
+    QFile file(":/style.qss");
+    file.open(QFile::ReadOnly);
+    QString style = QLatin1String(file.readAll());
+    this->setStyleSheet(style);
 }
 
 

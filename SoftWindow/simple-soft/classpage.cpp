@@ -8,6 +8,7 @@ ClassPage::ClassPage(QWidget *parent) : QWidget(parent)
     jsonFunc->getCategoryNum();
     moreClassWidget = new MorePage();
     scrollClass->resize(QSize(960,640));
+    pageClassWidget = new QWidget();
 
     connect(jsonFunc,SIGNAL(curlIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(numIsOk(int)),this,SLOT(createClassWindow(int)),Qt::QueuedConnection);
@@ -31,7 +32,7 @@ void ClassPage::createClassWindow(int catenum)
     cateNum = catenum;
     classWidget = new ClassWidget[catenum];
     vbClasslayout = new QVBoxLayout();
-    pageClassWidget = new QWidget();
+//    pageClassWidget = new QWidget();
 
     vbClasslayout = new QVBoxLayout();
     scrollClass->setFrameShape(QFrame::NoFrame); //去除窗口边框
@@ -50,7 +51,6 @@ void ClassPage::createClassWindow(int catenum)
     vbClasslayout->setMargin(0);
     pageClassWidget->setLayout(vbClasslayout);
     //滚动条不可见，只能通过鼠标滑动
-    scrollClass->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollClass->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollClass->setWidgetResizable(true);
     jsonFunc->setAppname();
@@ -72,7 +72,6 @@ void ClassPage::setClassElementName()
         classWidget[i].setElementName(shareData->classStrMap);
         classWidget[i].setElementImage(shareData->classStrMap);
     }
-    jsonFunc->getRelease(1,2);
 }
 
 //测试更多页面跳转

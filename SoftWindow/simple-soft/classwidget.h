@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QVector>
 #include <QDebug>
+#include <QScrollArea>
+
 #include "element.h"
 #include "classtop.h"
 #include "classwidget.h"
