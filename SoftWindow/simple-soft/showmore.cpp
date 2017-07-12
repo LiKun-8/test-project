@@ -45,7 +45,7 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
 }
 
 //设置软件名字
-void ShowMore::setElementName(const int category, const CLASSSTRUCTMAP &classStruct)
+void ShowMore::setElementName(int category, const CLASSSTRUCTMAP &classStruct)
 {
      if(classStruct.isEmpty())
     {
@@ -59,8 +59,9 @@ void ShowMore::setElementName(const int category, const CLASSSTRUCTMAP &classStr
     {
         if(item.value().category == (category+1))
         {
-            moreElement[showNum].setBtnName(item.value().btnName);
+            moreElement[showNum].setBtnName(item.value().proName);
             moreElement[showNum].baseWidget->show();
+            moreElement[showNum].setProductId(item.key());
             showNum++;
         }
     }
@@ -107,7 +108,7 @@ void ShowMore::setElementImage(int category, const CLASSSTRUCTMAP &classStructMa
     {
         if(item.value().category == (category+1))
         {
-            moreElement[showNum].setBtnImage(item.value().btnImage);
+            moreElement[showNum].setBtnImage(item.value().proImage);
             showNum++;
         }
     }

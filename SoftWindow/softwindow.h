@@ -67,7 +67,7 @@ private:
     QLabel *test;
 
     void loadStyle();
-//    bool event(QEvent *event);
+    bool event(QEvent *event);
 };
 
 #endif // SOFTWINDOWH

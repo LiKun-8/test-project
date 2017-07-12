@@ -12,7 +12,7 @@
 #include <QPaintEvent>
 #include <QLabel>
 
-class Element:public QObject
+class Element:public QWidget
 {
     Q_OBJECT
 
@@ -28,6 +28,8 @@ public:
     void setButton(bool);
     int category;//应用的分类
     void setcategory(int cate);//设置应用分类
+    int productId;
+    void setProductId(int id);
 
 private slots:
     void btnStatusSlot();

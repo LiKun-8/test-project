@@ -2,13 +2,8 @@ QPushButton{
     border-radius:2px;
 }
 
-QPushButton#btnTop{
-    text-align: right;
-    //background:red;
-}
 
-
-QPushButton:pressed {
+QPushButton::pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
 }
@@ -33,3 +28,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{
     background:#F2F2F2;
 }
 
+QPushButton#btnTop{
+    text-align: right;
+    //background:red;
+}

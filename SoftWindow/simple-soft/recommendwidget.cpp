@@ -32,7 +32,6 @@ RecommendWidget::RecommendWidget(QWidget *parent) : QWidget(parent)
         }
     }
 
-    categoryFlag = -1;
     mainLayout->addWidget(classTop->widget);
     mainLayout->addLayout(eleLayout);
     mainLayout->addItem(spacer);
@@ -53,15 +52,15 @@ void RecommendWidget::setElementName(const CLASSSTRUCTMAP &classStruct)
 
     for(int i = 0;i < MAXNUMBER && item != classStruct.end();++item,i++)
     {
-            element[i].setBtnName(item.value().btnName);
+            element[i].setBtnName(item.value().proName);
             element[i].baseWidget->show();
+            element[i].setProductId(item.key());
     }
 
     for(int hideNum = 30;hideNum < MAXNUMBER;hideNum++)
     {
         element[hideNum].baseWidget->hide();
     }
-    categoryFlag = 1;
 }
 
 //设置软件类名字
@@ -80,7 +79,7 @@ void RecommendWidget::setElementImage(const CLASSSTRUCTMAP &classStructMap)
     QMap<int,CLASSSTRUCT>::const_iterator item = classStructMap.begin();
     for(int i = 0;i < MAXNUMBER && item != classStructMap.end(); ++item,i++)
     {
-        element[i].setBtnImage(item.value().btnImage);
+        element[i].setBtnImage(item.value().proImage);
     }
 }
 
@@ -88,11 +87,6 @@ bool RecommendWidget::eventFilter(QObject *watched, QEvent *event)
 {
     if(event->type() == QEvent::Resize)
     {
-//        if(categoryFlag == -1)
-//        {
-//            return true;
-//        }
-
         int column = (this->size().width()+48)/192;
         int row = 6;
 
@@ -121,7 +115,6 @@ bool RecommendWidget::eventFilter(QObject *watched, QEvent *event)
             }
         }
 
-
         //隐藏多余的控件
         if((row*column) <= MAXNUMBER)
         {
@@ -142,3 +135,4 @@ bool RecommendWidget::eventFilter(QObject *watched, QEvent *event)
     }
     return QWidget::eventFilter(watched,event);
 }
+

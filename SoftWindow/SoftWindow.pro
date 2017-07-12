@@ -15,20 +15,17 @@ TEMPLATE = app
 SOURCES += main.cpp\
         softwindow.cpp \
     simple-soft/element.cpp \
-    softthread.cpp \
     simple-soft/showmore.cpp \
     jsonfunc.cpp \
     simple-soft/classtop.cpp \
     simple-soft/custombutton.cpp \
     simple-soft/classwidget.cpp \
-    sharedata.cpp \
     simple-soft/classpage.cpp \
     simple-soft/morepage.cpp \
     simple-soft/recommendwidget.cpp
 
 HEADERS  += softwindow.h \
     simple-soft/element.h \
-    softthread.h \
     simple-soft/showmore.h \
     jsonfunc.h \
     simple-soft/classtop.h \

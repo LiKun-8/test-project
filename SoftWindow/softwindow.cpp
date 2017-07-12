@@ -51,7 +51,7 @@ SoftWindow::~SoftWindow()
 void SoftWindow::setCurrentPage(int page)
 {
     stwwindow->setCurrentIndex(page);
-    stwwindow->move((this->size().width()-pageClass->size().width())/2,72);
+    stwwindow->move((this->width()-stwwindow->width())/2,72);
 }
 
 void SoftWindow::initMainWindow()
@@ -154,6 +154,17 @@ void SoftWindow::loadStyle()
     file.open(QFile::ReadOnly);
     QString style = QLatin1String(file.readAll());
     this->setStyleSheet(style);
+}
+
+bool SoftWindow::event(QEvent *event)
+{
+    if(event->type() == QEvent::Resize)
+    {
+//        stwwindow->move((this->width()-stwwindow->width())/2,72);
+//        qDebug()<<"this size is  ==  "<<this->size().width()<<"  stwwindow size is  ==  "<<stwwindow->size().width()<<endl;
+        return true;
+    }
+    return QWidget::event(event);
 }
 
 

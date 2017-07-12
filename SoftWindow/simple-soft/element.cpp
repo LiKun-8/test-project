@@ -105,6 +105,11 @@ void Element::setcategory(int cate)
     category = cate;
 }
 
+void Element::setProductId(int id)
+{
+    productId = id;
+}
+
 void Element::replyFinished(QNetworkReply *reply)
 {
     QReplyTimeout *pTimeout = new QReplyTimeout(reply, 1000);
@@ -156,7 +161,7 @@ bool Element::eventFilter(QObject *target, QEvent *event)
         }
         return true;
     }
-    return true;
+    return QWidget::eventFilter(target,event);
 }
 
 

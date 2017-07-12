@@ -17,6 +17,8 @@
 #define CATEGORIES  1
 #define RELEASE     2
 #define PRODUCTS    3
+#define RECOMMEND   4
+#define SCRIMAGE    5
 
 class JSONFUNC : public QObject
 {
@@ -25,17 +27,21 @@ class JSONFUNC : public QObject
 public:
     JSONFUNC(ShareData *shareData);
     void getCategoryNum();
-    void getRelease(int array, int size);
+    void getUpdateRelease(int array, int size);
     void setAppname();
+    void getRecommend();
+    void getScreenImage();
+
     ShareData *jsonData;
 
 protected slots:
     void jsonAnalysis(QNetworkReply *reply);
 
 signals:
-    void curlIsOk();
-    void numIsOk(int num);
+    void productIsOk();
+    void categoryIsOk(int num);
     void updateIsOk();
+    void recommendIsOk();
 
 private:
     int jsonFlag;
@@ -44,7 +50,10 @@ private:
     QNetworkAccessManager *manager;
     void getCategoryNum(QJsonObject obj);
     void getProducts(QJsonObject obj);
-    void getRelease(QJsonObject obj);
+    void getUpdateRelease(QJsonObject obj);
+    void getRecommend(QJsonObject obj);
+    void getScreenImage(QJsonObject obj);
+
     QString releaseStr;
 };
 

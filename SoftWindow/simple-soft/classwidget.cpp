@@ -175,7 +175,8 @@ void ClassWidget::setElementName(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            tt[i].setBtnName(item.value().btnName);
+            tt[i].setBtnName(item.value().proName);
+            tt[i].setProductId(item.key());
             i++;
         }
     }
@@ -208,7 +209,7 @@ void ClassWidget::setElementImage(const CLASSSTRUCTMAP &classStructMap)
     {
         if(item.value().category == (category+1))
         {
-            tt[i].setBtnImage(item.value().btnImage);
+            tt[i].setBtnImage(item.value().proImage);
             i++;
         }
     }
