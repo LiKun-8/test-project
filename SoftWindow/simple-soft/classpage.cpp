@@ -41,7 +41,7 @@ void ClassPage::createClassWindow(int catenum)
     {
         connect(&classWidget[i],SIGNAL(moreShow(int)),this,SLOT(setMoreShow(int)));
         classWidget[i].setCategory(i);
-        classWidget[i].setTopName(shareData->cateMap);
+        classWidget[i].setTopName(shareData->categoryMap);
         vbClasslayout->addWidget(classWidget[i].widget);
     }
 
@@ -77,7 +77,7 @@ void ClassPage::setClassElementName()
 //测试更多页面跳转
 void ClassPage::setMoreShow(int i)
 {
-    moreClassWidget->showMore->setTopName(i,shareData->cateMap);
+    moreClassWidget->showMore->setTopName(i,shareData->categoryMap);
     moreClassWidget->showMore->setElementNum(shareData->classElementNumMap);
     moreClassWidget->showMore->setElementName(i,shareData->classStrMap);
     moreClassWidget->showMore->setElementImage(i,shareData->classStrMap);
