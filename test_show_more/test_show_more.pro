@@ -13,6 +13,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        testshowmore.cpp
+        testshowmore.cpp \
+    testvirtual.cpp
 
-HEADERS  += testshowmore.h
+HEADERS  += testshowmore.h \
+    testvirtual.h

@@ -2,6 +2,7 @@
 #define TESTSHOWMORE_H
 
 #include <QMainWindow>
+#include <QDebug>
 
 class TestShowMore : public QMainWindow
 {
@@ -9,7 +10,15 @@ class TestShowMore : public QMainWindow
 
 public:
     TestShowMore(QWidget *parent = 0);
+    TestShowMore(const TestShowMore& other);
+    TestShowMore& operator = (const TestShowMore& other);
+    virtual void testPrint() const;
     ~TestShowMore();
+    void setNum(int x);
+
+private:
+    int num;
 };
+
 
 #endif // TESTSHOWMORE_H
