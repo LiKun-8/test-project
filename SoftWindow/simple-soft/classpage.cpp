@@ -13,7 +13,7 @@ ClassPage::ClassPage(QWidget *parent) : QWidget(parent)
     connect(jsonFunc,SIGNAL(productIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(categoryIsOk(int)),this,SLOT(createClassWindow(int)),Qt::QueuedConnection);
     connect(jsonFunc,SIGNAL(productIsOk()),this,SLOT(setClassElementName()),Qt::QueuedConnection);
-    connect(jsonFunc,SIGNAL(updateIsOk()),this,SLOT(testUpdateMap()));
+//    connect(jsonFunc,SIGNAL(updateIsOk()),this,SLOT(testUpdateMap()));
 }
 
 bool ClassPage::event(QEvent *event)
@@ -72,6 +72,9 @@ void ClassPage::setClassElementName()
         classWidget[i].setElementName(shareData->classStrMap);
         classWidget[i].setElementImage(shareData->classStrMap);
     }
+
+    int a[5] = {1,2,33,44,55};
+    jsonFunc->getUpdateRelease(a,5);
 }
 
 //测试更多页面跳转

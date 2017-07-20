@@ -152,8 +152,8 @@ void SoftWindow::loadStyle()
 {
     QFile file(":/style.qss");
     file.open(QFile::ReadOnly);
-    QString style = QLatin1String(file.readAll());
-    this->setStyleSheet(style);
+    this->setStyleSheet(file.readAll());
+    file.close();
 }
 
 bool SoftWindow::event(QEvent *event)

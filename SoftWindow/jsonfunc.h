@@ -19,6 +19,7 @@
 #define PRODUCTS    3
 #define RECOMMEND   4
 #define SCRIMAGE    5
+#define COMMENTDATA 6
 
 class JSONFUNC : public QObject
 {
@@ -27,10 +28,11 @@ class JSONFUNC : public QObject
 public:
     JSONFUNC(ShareData *shareData);
     void getCategoryNum();
-    void getUpdateRelease(int array, int size);
+    void getUpdateRelease(int *array, int size);
     void setAppname();
     void getRecommend();
     void getScreenImage();
+    void getComment();
 
     ShareData *jsonData;
 
@@ -53,6 +55,7 @@ private:
     void getUpdateRelease(QJsonObject obj);
     void getRecommend(QJsonObject obj);
     void getScreenImage(QJsonObject obj);
+    void getComment(QJsonObject obj);
 
     QString releaseStr;
 };
