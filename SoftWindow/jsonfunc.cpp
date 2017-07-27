@@ -183,7 +183,8 @@ void JSONFUNC::getCategoryNum(QJsonObject obj)
                         name = "";
                     }
 
-                    jsonData->categoryMap[cate] = name;
+                    if(cate != 0 && name != "")
+                        jsonData->categoryMap[cate] = name;
                 }
             }
         }
@@ -206,8 +207,8 @@ void JSONFUNC::getProducts(QJsonObject obj)
             int lnProductId = 0;
             int relid = 0;
             int cateid = 0;
-            int procate = 0;
-            int gracount = 0;
+            int relcate = 0;
+            double gracount = 0;
             QString proname;
             QString venname;
             QString icourl;
@@ -344,39 +345,38 @@ void JSONFUNC::getProducts(QJsonObject obj)
                         prodesc = "";
                     }
 
-                    if(obj2.contains("product_grade"))
+                    if(obj2.contains("release_grade"))
                     {
-                        QJsonValue productgrade = obj2.take("product_grade");
-                        if(productgrade.isDouble())
+                        QJsonValue releasegrade = obj2.take("release_grade");
+                        if(releasegrade.isDouble())
                         {
-                            procate = productgrade.toInt();
-                            //                                        qDebug()<<"productgrade : "<<procate<<endl;
+                            relcate = releasegrade.toInt();
+                            //                                        qDebug()<<"productgrade : "<<relcate<<endl;
                         }
                     }
                     else
                     {
-                        procate = 0;
+                        relcate = 0;
                     }
 
                     if(obj2.contains("grade_count"))
                     {
                         QJsonValue gradecount = obj2.take("grade_count");
-                        qDebug()<<"xxxxxx"<<gracount<<endl;
                         if(gradecount.isDouble())
                         {
-                            gracount = gradecount.toInt();
+                            gracount = gradecount.toDouble();
                         }
+
                         if(gracount >5 || gracount <0)
                         {
                             gracount = 0;
-                            qDebug()<<"gradecount star  is error !"<<endl;
                         }
                     }
                     else
                     {
                         gracount = 0;
                     }
-//                    qDebug()<<"cateid : "<<relid<<endl;
+//                    qDebug()<<"gracount : "<<gracount<<endl;
 //                    qDebug()<<"icourl : "<<gracount<<endl;
 //                    qDebug()<<"proname : "<<prodesc<<endl;
                     if(y<10)
@@ -389,7 +389,9 @@ void JSONFUNC::getProducts(QJsonObject obj)
                         icourl = QString("%1%2%3").arg("http://k2.jsqq.net/uploads/allimg/1705/7_170524143440_").arg(1).arg(".jpg");
                         y = 1;
                     }
-                    jsonData->classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,relid,icourl,proname,0,prodesc));
+
+                    if(lnProductId != 0 && cateid != 0)
+                        jsonData->classStrMap.insert(lnProductId,CLASSSTRUCT(cateid,relid,icourl,proname,gracount,prodesc));
                 }
             }
         }
@@ -523,7 +525,9 @@ void JSONFUNC::getUpdateRelease(QJsonObject obj)
 //                    qDebug()<<"icourl : "<<icourl<<endl;
 //                    qDebug()<<"downurl : "<<downurl<<endl;
 //                    qDebug()<<"ver : "<<ver<<endl;
-                    jsonData->updateStrMap.insert(proid,UPDATESTRUCT(proid,ver,icourl,name,chaglog,downurl,packsize));
+
+                    if(proid != 0)
+                        jsonData->updateStrMap.insert(proid,UPDATESTRUCT(proid,ver,icourl,name,chaglog,downurl,packsize));
                 }
             }
             emit updateIsOk();
@@ -576,7 +580,9 @@ void JSONFUNC::getRecommend(QJsonObject obj)
                     {
                         priority = 0;
                     }
-                    jsonData->recommendMap[id] = priority;
+
+                    if(id != 0)
+                        jsonData->recommendMap[id] = priority;
                 }
             }
         }
@@ -659,7 +665,8 @@ void JSONFUNC::getScreenImage(QJsonObject obj)
                         imageUrl = "";
                     }
 
-                    jsonData->screenImageMap.insert(proId,SCREENIMAGE(id,relId,imageUrl));
+                    if(proId != 0 && id != 0)
+                        jsonData->screenImageMap.insert(proId,SCREENIMAGE(id,relId,imageUrl));
                 }
             }
         }
@@ -782,6 +789,7 @@ void JSONFUNC::getComment(QJsonObject obj)
                         commentDate = "";
                     }
 
+                    if(proId != 0 && id != 0)
                     jsonData->commentMap.insert(proId,COMMENT(id,relId,userId,commentText,commentGrade,commentDate));
                 }
             }

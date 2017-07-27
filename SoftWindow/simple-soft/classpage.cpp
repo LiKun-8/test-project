@@ -8,6 +8,7 @@ ClassPage::ClassPage(QWidget *parent) : QWidget(parent)
     jsonFunc->getCategoryNum();
     moreClassWidget = new MorePage();
     scrollClass->resize(QSize(960,640));
+//    scrollClass->setMaximumWidth(1200);
     pageClassWidget = new QWidget();
 
     connect(jsonFunc,SIGNAL(productIsOk()),moreClassWidget,SLOT(createMorewindow()),Qt::QueuedConnection);

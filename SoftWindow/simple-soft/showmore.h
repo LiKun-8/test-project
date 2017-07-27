@@ -28,6 +28,7 @@ private:
     bool eventFilter(QObject *watched, QEvent *event);
     int categoryFlag;
     int elementNumber;
+    int starIsOK;
 };
 
 #endif // SHOWMOREH

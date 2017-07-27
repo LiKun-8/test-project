@@ -9,9 +9,9 @@ struct CLASSSTRUCT{
     int releaseId;
     QString proImage;
     QString proName;
-    int proStar;
+    double proStar;
     QString proDescription;
-    CLASSSTRUCT(int cate,int releaseid,const QString & image,const QString & name,int star,const QString & desc):
+    CLASSSTRUCT(int cate,int releaseid,const QString & image,const QString & name,double star,const QString & desc):
         category(cate),releaseId(releaseid),proImage(image),proName(name),proStar(star),proDescription(desc){}
 };
 

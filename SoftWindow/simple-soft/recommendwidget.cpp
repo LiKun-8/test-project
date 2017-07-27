@@ -55,6 +55,7 @@ void RecommendWidget::setElementName(const CLASSSTRUCTMAP &classStruct)
             element[i].setBtnName(item.value().proName);
             element[i].baseWidget->show();
             element[i].setProductId(item.key());
+            element[i].initStar(item.value().proStar);
     }
 
     for(int hideNum = 30;hideNum < MAXNUMBER;hideNum++)
@@ -93,6 +94,11 @@ bool RecommendWidget::eventFilter(QObject *watched, QEvent *event)
         if(column < 0)
         {
             qDebug()<<"column or row is error!"<<endl;
+        }
+
+        if(column > 6)
+        {
+            column = 6;
         }
 
 

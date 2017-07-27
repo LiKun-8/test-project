@@ -30,6 +30,8 @@ public:
     void setcategory(int cate);//设置应用分类
     int productId;
     void setProductId(int id);
+    void initStar(double num);
+
 
 private slots:
     void btnStatusSlot();
@@ -47,7 +49,6 @@ private:
 
     QNetworkAccessManager *m_ImageManager;
     QPixmap *m_ImagePix;
-    void initStar();
 
 protected:
 //    void paintEvent(QPaintEvent *event);

@@ -3,6 +3,7 @@
 MorePage::MorePage(QWidget *parent) : QWidget(parent)
 {
         scrollMore = new QScrollArea(this);
+        scrollMore->setMaximumWidth(1200);
         showMore = new ShowMore();
 }
 

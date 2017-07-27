@@ -37,6 +37,7 @@ ShowMore::ShowMore(QWidget *parent) : QWidget(parent)
         }
     }
 
+    starIsOK = 0;
     categoryFlag = -1;
     spaceWidget = new QWidget[5];
     mainLayout->addWidget(moreClassTop->widget);
@@ -62,6 +63,11 @@ void ShowMore::setElementName(int category, const CLASSSTRUCTMAP &classStruct)
             moreElement[showNum].setBtnName(item.value().proName);
             moreElement[showNum].baseWidget->show();
             moreElement[showNum].setProductId(item.key());
+            if(starIsOK < classStruct.count())
+            {
+                moreElement[showNum].initStar(item.value().proStar);
+                starIsOK++;
+            }
             showNum++;
         }
     }
@@ -127,6 +133,11 @@ bool ShowMore::eventFilter(QObject *watched, QEvent *event)
 
             int column = (moreWidget->size().width()+48)/192;
             int row;
+
+            if(column > 6)
+            {
+                column = 6;
+            }
 
             if(elementNumber%column == 0)
             {

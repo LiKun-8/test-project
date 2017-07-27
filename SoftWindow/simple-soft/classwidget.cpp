@@ -71,6 +71,11 @@ bool ClassWidget::eventFilter(QObject *target, QEvent *event)
                 row = 3;
             }
 
+            if(column > 6)
+            {
+                column = 6;
+            }
+
             if(column < 0 || row < 0)
             {
                 qDebug()<<"column or row is error!"<<endl;
@@ -177,6 +182,7 @@ void ClassWidget::setElementName(const CLASSSTRUCTMAP &classStructMap)
         {
             tt[i].setBtnName(item.value().proName);
             tt[i].setProductId(item.key());
+            tt[i].initStar(item.value().proStar);
             i++;
         }
     }

@@ -23,10 +23,19 @@ Element::Element()
     vbLayout->setSpacing(0);
 
     hbLayout->addWidget(btnImage);
-    initStar();
     btnStatus = new CustomButton();
     btnStatus->setFixedSize(72,24);
     //        btnStatus->setFlat(true);
+
+    hbStartLayout = new QHBoxLayout();
+    hbStartLayout->setContentsMargins(0,0,0,0);
+
+    labelStar = new QLabel[5];
+    for(int i=0;i<5;i++)
+    {
+        hbStartLayout->addWidget(&labelStar[i]);
+    }
+
     vbLayout->addLayout(hbStartLayout);
     vbLayout->addWidget(btnStatus);
     setBtnStatus("download");
@@ -132,20 +141,24 @@ void Element::replyFinished(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void Element::initStar()
-{
-    labelStar = new QLabel[5];
-    hbStartLayout = new QHBoxLayout();
-    hbStartLayout->setContentsMargins(0,0,0,0);
-
-    for(int i= 0;i<5;i++)
+void Element::initStar(double num)
+{ 
+    for(int i = 0;i < 5;i++)
     {
         labelStar[i].setFixedSize(10,10);
+        labelStar[i].setPixmap(QPixmap(""));
+    }
+
+    for(int i = 0;i < (int)num;i++)
+    {
         labelStar[i].setPixmap(QPixmap(":/image/gift.png"));
-        hbStartLayout->addWidget(&labelStar[i]);
+    }
+
+    if(num - (int)num > 0)
+    {
+        labelStar[(int)num].setPixmap(QPixmap(":/image/gift.png"));
     }
 }
-
 
 bool Element::eventFilter(QObject *target, QEvent *event)
 {

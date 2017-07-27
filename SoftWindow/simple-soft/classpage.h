@@ -13,7 +13,6 @@ public:
     explicit ClassPage(QWidget *parent = 0);
     ShareData *shareData;
     JSONFUNC *jsonFunc;//数据读取
-    QScrollArea  *scrollClass;
     MorePage *moreClassWidget;
 
 private:
@@ -23,6 +22,7 @@ private:
     QWidget *pageClassWidget;
     int cateNum;
     bool event(QEvent *event);
+    QScrollArea  *scrollClass;
 
 signals:
     void setMore();
