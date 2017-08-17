@@ -1,0 +1,81 @@
+/*
+QPushButton[width="24"] {
+
+}
+*/
+/*
+QPushButton#minBtn {
+    border-image: url(:/image/return.png);
+}
+QPushButton#maxBtn {
+    border-image: url(:/image/next.png);
+}
+QPushButton#closeBtn {
+    border-image: url(:/image/refresh.png);
+}
+*/
+
+QPushButton#backBtn {
+    border-image: url(:/image/return.png);
+}
+QPushButton#nextBtn {
+    border-image: url(:/image/next.png);
+}
+QPushButton#refreshBtn {
+    border-image: url(:/image/refresh.png);
+}
+QPushButton#btnStatus {
+    border:1px groove;
+    border-radius:2px;
+    border-color:#c8c8c8
+
+}
+/*QPushButton#btnStatus:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #dadbde, stop: 1 #f6f7fa);
+}*/
+QPushButton#btnStatus:hover{
+    background: #1E90FF;
+}
+
+QLineEdit#searchBox{
+    background-color:transparent;
+}
+
+
+QFrame#searchFrm{
+    background-color: rgb(255, 255, 255);
+    border: 0px solid;
+}
+
+QWidget#mainWindow{
+    background-color:rgb(255, 255, 255);
+}
+QWidget#stackWidget{
+    background-color:rgb(255, 255, 255);
+}
+
+/*
+QPushButton[width="80"] {
+   background-color:"red";
+}
+*/
+
+QScrollArea{
+    background:transparent;
+}
+
+QScrollBar::vertical{
+    border:0px solid grey;width:6px;margin-bottom:5px;
+}
+
+QScrollBar::handle:vertical{
+    border-radius:3px;background:#D0D0D0;
+}
+
+QScrollBar::handle:vertical:hover{
+    background:#969696;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{
+    background:#F2F2F2;
+}
