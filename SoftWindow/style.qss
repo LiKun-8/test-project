@@ -1,12 +1,58 @@
-QPushButton{
+
+QPushButton#backBtn {
+    border-image: url(:/image/return.png);
+}
+QPushButton#nextBtn {
+    border-image: url(:/image/next.png);
+}
+QPushButton#refreshBtn {
+    border-image: url(:/image/refresh.png);
+}
+
+QWidget#pageClassWidget {
+    background-color:rgb(255, 255, 255);
+}
+
+QWidget#pageMoreWidget {
+    background-color:rgb(255, 255, 255);
+}
+
+QPushButton#btnStatus {
+    border:1px groove;
     border-radius:2px;
+    border-color:#c8c8c8
+}
+
+QPushButton#btnStatus:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QPushButton#btnStatus:hover{
+    background: #1E90FF;
+}
+
+QLineEdit#searchBox{
+    background-color:transparent;
 }
 
 
-QPushButton::pressed {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+QFrame#searchFrm{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid;
 }
+
+QWidget#mainWindow{
+    background-color:rgb(255, 255, 255);
+}
+QWidget#stackWidget{
+    background-color:rgb(255, 255, 255);
+}
+
+/*
+QPushButton[width="80"] {
+   background-color:"red";
+}
+*/
 
 QScrollArea{
     background:transparent;
@@ -28,7 +74,9 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{
     background:#F2F2F2;
 }
 
-QPushButton#btnTop{
-    text-align: right;
-    //background:red;
+
+/* detail page stylesheet */
+
+QLabel#lbUserCommMark{
+    font:50px
 }

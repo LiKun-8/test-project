@@ -13,6 +13,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include "sharedata.h"
+#include <QMutex>
 
 #define CATEGORIES  1
 #define RELEASE     2
@@ -32,9 +33,7 @@ public:
     void setAppname();
     void getRecommend();
     void getScreenImage();
-    void getComment();
-
-    ShareData *jsonData;
+    void getComment(int *array);
 
 protected slots:
     void jsonAnalysis(QNetworkReply *reply);
@@ -56,8 +55,13 @@ private:
     void getRecommend(QJsonObject obj);
     void getScreenImage(QJsonObject obj);
     void getComment(QJsonObject obj);
+    ShareData *jsonData;
+    int a = 0;
 
     QString releaseStr;
+    QMutex clock;
+    QString ipString;
+    QString iconString;
 };
 
 #endif // JSONFUNCH
